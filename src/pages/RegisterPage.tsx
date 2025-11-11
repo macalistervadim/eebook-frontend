@@ -1,4 +1,5 @@
 import { useState } from "react";
+import {EmeraldBtn} from "../components/Buttons/EmeraldBtn.tsx";
 
 export default function RegisterPage() {
     const [email, setEmail] = useState("");
@@ -22,6 +23,7 @@ export default function RegisterPage() {
 
     return (
         <div className="flex items-center justify-center h-screen bg-gray-50">
+            <EmeraldBtn>Кнопка</EmeraldBtn>
             <form onSubmit={handleSubmit} className="bg-white p-6 rounded-2xl shadow-md w-80">
                 <h1 className="text-xl font-bold mb-4 text-center">Регистрация</h1>
                 <input
