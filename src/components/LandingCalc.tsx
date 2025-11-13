@@ -6,6 +6,7 @@ import type { JSX } from "react";
 import { TrendingUp, Percent, Sparkles } from "lucide-react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import Button from "./Button.tsx";
+import Badge from "./Badge.tsx";
 
 export default function LandingCalc(): JSX.Element {
     const [portfolioValue, setPortfolioValue] = useState(1000000);
@@ -47,15 +48,7 @@ export default function LandingCalc(): JSX.Element {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-20"
                 >
-                    <div
-                        className="inline-flex items-center gap-2 px-4 py-2
-                     bg-emerald-50 rounded-full border border-emerald-100 mb-6"
-                    >
-                        <Sparkles className="w-4 h-4 text-emerald-600" />
-                        <span className="text-sm text-emerald-700">
-                            Калькулятор выгоды
-                        </span>
-                    </div>
+                    <Badge>Калькулятор выгоды</Badge>
                     <h2 className="text-5xl md:text-6xl mb-6 text-slate-900">
                         Посчитайте вашу выгоду
                     </h2>

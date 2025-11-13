@@ -12,7 +12,8 @@ const typeBtn: Record<string, string> = {
         "hover:bg-slate-200 transition hover:text-slate-700",
     noBg:
         "text-slate-900 rounded-2xl bg-transparent hover:bg-slate-200 " +
-        "transition hover:text-slate-700 border-2 border-slate-200 text-sm",
+        "transition hover:text-slate-700 border-1 border-slate-300 text-sm",
+    slate: "bg-slate-900 hover:bg-slate-800 text-white",
 };
 
 export default function Button({

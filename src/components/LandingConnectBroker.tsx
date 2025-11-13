@@ -1,5 +1,7 @@
 import Button from "./Button.tsx";
 import type { JSX } from "react";
+import { Check, ArrowRight, Shield, Zap, Lock } from "lucide-react";
+import Badge from "./Badge.tsx";
 
 export default function LandingConnectBroker(): JSX.Element {
     return (
@@ -20,13 +22,17 @@ export default function LandingConnectBroker(): JSX.Element {
                     <div className="grid grid-cols-2 gap-20 text-left items-center">
                         <div>
                             <div
-                                className="mb-10 max-w-fit px-4 max-h-fit text-sm
-                            rounded-full py-2 bg-emerald-50 border
-                            border-emerald-100 text-emerald-600 items-center
-                            justify-center flex gap-2"
+                                className="max-w-fit text-sm rounded-full
+                                items-center
+                                justify-center flex gap-2"
                             >
-                                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
-                                <p>Активно 15+ интеграций</p>
+                                <Badge
+                                    icon={
+                                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                                    }
+                                >
+                                    Активно 15+ интеграций
+                                </Badge>
                             </div>
                             <h3 className="text-3xl md:text-4xl text-slate-900 mb-6">
                                 Все ваши инвестиции
@@ -43,7 +49,8 @@ export default function LandingConnectBroker(): JSX.Element {
                                 px="px-2"
                                 rounded="rounded-xl"
                             >
-                                Подключить брокера
+                                Подключить брокера{" "}
+                                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </Button>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
@@ -57,21 +64,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -100,21 +93,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -143,21 +122,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -186,21 +151,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -228,21 +179,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -271,21 +208,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -314,21 +237,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -357,21 +266,7 @@ export default function LandingConnectBroker(): JSX.Element {
                                 <div className="pt-2 relative">
                                     <div className="absolute top-0 right-0">
                                         <div className="p-1 bg-emerald-100 rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                                stroke="currentColor"
-                                                stroke-width="2"
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                className="lucide lucide-check w-3 h-3 text-emerald-600"
-                                                aria-hidden="true"
-                                            >
-                                                <path d="M20 6 9 17l-5-5"></path>
-                                            </svg>
+                                            <Check className="w-3 h-3 text-emerald-600" />
                                         </div>
                                     </div>
                                     <div
@@ -421,21 +316,7 @@ export default function LandingConnectBroker(): JSX.Element {
                          to-teal-100 rounded-xl group-hover:scale-110
                           transition-transform"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                className="lucide lucide-shield w-5 h-5 text-emerald-600"
-                                aria-hidden="true"
-                            >
-                                <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path>
-                            </svg>
+                            <Shield className="w-5 h-5 text-emerald-600" />
                         </div>
                         <div className="text-left">
                             <h4 className="text-slate-900 mb-2">
@@ -456,21 +337,7 @@ export default function LandingConnectBroker(): JSX.Element {
                          to-teal-100 rounded-xl group-hover:scale-110
                           transition-transform"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                className="lucide lucide-zap w-5 h-5 text-emerald-600"
-                                aria-hidden="true"
-                            >
-                                <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
-                            </svg>
+                            <Zap className="w-5 h-5 text-emerald-600" />
                         </div>
                         <div className="text-left">
                             <h4 className="text-slate-900 mb-2">
@@ -491,29 +358,7 @@ export default function LandingConnectBroker(): JSX.Element {
                         to-teal-100 rounded-xl group-hover:scale-110
                          transition-transform"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                className="lucide lucide-lock w-5 h-5 text-emerald-600"
-                                aria-hidden="true"
-                            >
-                                <rect
-                                    width="18"
-                                    height="11"
-                                    x="3"
-                                    y="11"
-                                    rx="2"
-                                    ry="2"
-                                ></rect>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                            </svg>
+                            <Lock className="w-5 h-5 text-emerald-600" />
                         </div>
                         <div className="text-left">
                             <h4 className="text-slate-900 mb-2">

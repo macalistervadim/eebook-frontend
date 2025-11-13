@@ -1,15 +1,18 @@
 import LandingPortfolioCharts from "./LandingPortfolioCharts.tsx";
-import { JSX } from "react";
+import type { JSX } from "react";
 
-export default function LandingInterface(): JSX {
+export default function LandingInterface(): JSX.Element {
     return (
         <section
             id="interface"
             className="max-w-full text-center mx-auto p-6 mt-10 py-45 bg-slate-50 relative"
         >
-            <h1 className="text-5xl md:text-6xl mb-6 text-slate-900">Красота в каждой детали</h1>
+            <h1 className="text-5xl md:text-6xl mb-6 text-slate-900">
+                Красота в каждой детали
+            </h1>
             <p className="text-slate-600 text-xl mb-25">
-                Интерфейс, разработанный для инвесторов. Все данные под рукой, ничего лишнего.
+                Интерфейс, разработанный для инвесторов. Все данные под рукой, ничего
+                лишнего.
             </p>
             <div className="max-w-7xl mx-auto relative">
                 <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 rounded-t-3xl p-3 flex items-center gap-2 shadow-xl">

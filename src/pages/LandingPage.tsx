@@ -5,8 +5,15 @@ import LandingAdvantages from "../components/LandingAdvantages.tsx";
 import LandingInterface from "../components/LandingInterface.tsx";
 import LandingHowItWork from "../components/LandingHowItWork.tsx";
 import LandingConnectBroker from "../components/LandingConnectBroker.tsx";
+import type { JSX } from "react";
+import LandingCases from "../components/LandingCases.tsx";
+import LandingComparsion from "../components/LandingComparsion.tsx";
+import LandingSecurity from "../components/LandingSecurity.tsx";
+import LandingStats from "../components/LandingStats.tsx";
+import LandingReviews from "../components/LandingReviews.tsx";
+import Pricing from "../components/Pricing.tsx";
 
-export default function LandingPage() {
+export default function LandingPage(): JSX.Element {
     return (
         <main>
             <LandingHeader />
@@ -16,6 +23,12 @@ export default function LandingPage() {
             <LandingHowItWork />
             <LandingConnectBroker />
             <LandingCalc />
+            <LandingCases />
+            <LandingComparsion />
+            <LandingSecurity />
+            <LandingStats />
+            <LandingReviews />
+            <Pricing />
         </main>
     );
 }
