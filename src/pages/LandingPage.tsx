@@ -12,6 +12,9 @@ import LandingSecurity from "../components/LandingSecurity.tsx";
 import LandingStats from "../components/LandingStats.tsx";
 import LandingReviews from "../components/LandingReviews.tsx";
 import Pricing from "../components/Pricing.tsx";
+import FAQ from "../components/FAQ.tsx";
+import CTA from "../components/CTA.tsx";
+import Footer from "../components/Footer.tsx";
 
 export default function LandingPage(): JSX.Element {
     return (
@@ -29,6 +32,9 @@ export default function LandingPage(): JSX.Element {
             <LandingStats />
             <LandingReviews />
             <Pricing />
+            <FAQ />
+            <CTA />
+            <Footer />
         </main>
     );
 }
