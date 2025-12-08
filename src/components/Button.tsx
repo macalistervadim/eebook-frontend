@@ -9,28 +9,27 @@ const typeBtn: Record<string, string> = {
         "items-center justify-center",
     ghost:
         "text-slate-900 rounded-xl bg-transparent " +
-        "hover:bg-slate-200 transition hover:text-slate-700",
+        "hover:bg-slate-200 transition hover:text-slate-700 dark:text-slate-200 dark:hover:bg-slate-800",
     noBg:
         "text-slate-900 rounded-2xl bg-transparent hover:bg-slate-200 " +
-        "transition hover:text-slate-700 border-1 border-slate-300 text-sm",
+        "transition hover:text-slate-700 border-1 border-slate-300 text-sm " +
+        "dark:hover:border-slate-600 dark:hover:bg-slate-700 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200",
     slate: "bg-slate-900 hover:bg-slate-800 text-white",
 };
 
 export default function Button({
     children,
     typeButton,
-    rounded = "rounded-2xl",
-    py = "py-4",
-    px = "px-4",
+    className,
+    onClick,
 }: {
     children: React.ReactNode;
     typeButton: keyof typeof typeBtn;
-    rounded?: string;
-    py?: string;
-    px?: string;
+    className?: string;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }): JSX.Element {
     return (
-        <button className={`${typeBtn[typeButton]} ${py} ${px} ${rounded}`}>
+        <button className={`${typeBtn[typeButton]} ${className}`} onClick={onClick}>
             {children}
         </button>
     );

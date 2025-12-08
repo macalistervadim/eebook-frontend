@@ -3,7 +3,7 @@
 import { motion } from "motion/react";
 import { useState } from "react";
 import type { JSX } from "react";
-import { TrendingUp, Percent, Sparkles } from "lucide-react";
+import { TrendingUp, Percent } from "lucide-react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
 import Button from "./Button.tsx";
 import Badge from "./Badge.tsx";
@@ -325,12 +325,7 @@ export default function LandingCalc(): JSX.Element {
                             <p className="text-slate-300 mb-6">
                                 Первые 30 дней — бесплатно. Отмените в любой момент.
                             </p>
-                            <Button
-                                typeButton="emerald"
-                                px="px-3"
-                                py="py-2"
-                                rounded="rounded-xl"
-                            >
+                            <Button typeButton="emerald" className="px-3 py-2 rounded-xl">
                                 Начать бесплатно
                             </Button>
                         </div>

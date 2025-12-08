@@ -59,7 +59,10 @@ const plans = [
 
 export default function Pricing() {
     return (
-        <section className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden">
+        <section
+            id="price"
+            className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden"
+        >
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-100 rounded-full blur-3xl opacity-20" />
@@ -108,7 +111,7 @@ export default function Pricing() {
                                     className={`relative p-8 h-full rounded-3xl transition-all duration-300 ${
                                         plan.popular
                                             ? "bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 shadow-2xl shadow-emerald-100/50 scale-105"
-                                            : "bg-white border-slate-200 hover:border-emerald-200 hover:shadow-xl hover:-translate-y-1"
+                                            : "bg-white border-slate-200 hover:border-emerald-200 hover:shadow-xl hover:-translate-y-1 border"
                                     }`}
                                 >
                                     <div className="mb-6">
@@ -142,9 +145,7 @@ export default function Pricing() {
 
                                     <Button
                                         typeButton={buttonVariant}
-                                        px="px-6"
-                                        py="py-2"
-                                        rounded="rounded-xl"
+                                        className="px-2 py-2 w-full rounded-xl"
                                     >
                                         {plan.price === "0"
                                             ? "Начать бесплатно"
@@ -198,9 +199,7 @@ export default function Pricing() {
                                 </p>
                                 <Button
                                     typeButton="noBg"
-                                    px="px-4"
-                                    py="py-2 text-white"
-                                    rounded="rounded-xl"
+                                    className="px-4 py-2 text-white rounded-xl"
                                 >
                                     Связаться с отделом продаж
                                 </Button>
