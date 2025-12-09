@@ -1,8 +1,38 @@
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Mail } from "lucide-react";
 import Button from "./Button.tsx";
+import { useState } from "react";
 
 export default function CTA() {
+    const [errors, setErrors] = useState<{ email?: string }>({});
+    const [email, setEmail] = useState("");
+    const [debounceTimer, setDebounceTimer] = useState<any>(null);
+    const [touched, setTouched] = useState(false);
+
+    const validateEmail = (value: string) => {
+        setEmail(value);
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!emailRegex.test(value)) {
+            setErrors({ email: "Некорректный email адрес" });
+        } else {
+            setErrors({ email: "" });
+        }
+    };
+
+    const handleEmailChange = (value: string) => {
+        setEmail(value);
+
+        if (debounceTimer) clearTimeout(debounceTimer);
+
+        setDebounceTimer(
+            setTimeout(() => {
+                if (touched) validateEmail(value);
+            }, 200)
+        );
+    };
+
     return (
         <section className="py-32 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
             <div className="absolute inset-0">
@@ -32,7 +62,7 @@ export default function CTA() {
                 />
             </div>
 
-            <div className="max-w-5xl mx-auto px-6 relative z-10">
+            <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -57,22 +87,79 @@ export default function CTA() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 max-w-xl mx-auto"
+                        className="flex flex-col sm:flex-row gap-4 justify-center items-start mb-8 max-w-xl mx-auto w-full"
                     >
-                        <div className="relative flex-1 w-full">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                            <input
-                                type="email"
-                                placeholder="Ваш email"
-                                className="w-full outline-none pl-12 pr-4 py-3 bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder:text-slate-400 rounded-2xl focus:border-emerald-400 focus:bg-white/15"
-                            />
+                        <div className="flex flex-col w-full sm:w-auto flex-1">
+                            <div className="relative flex-1 w-full">
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                                <input
+                                    type="email"
+                                    value={email}
+                                    placeholder="Ваш email"
+                                    className={`border w-full outline-none pl-12 pr-4 py-3 bg-white/10 backdrop-blur-sm rounded-2xl
+                                        ${
+                                            errors.email
+                                                ? "border-red-400 focus:border-red-400"
+                                                : "border-white/20 focus:border-emerald-400 focus:bg-white/15"
+                                        }
+                                    `}
+                                    onChange={(e) => handleEmailChange(e.target.value)}
+                                    onBlur={() => {
+                                        setTouched(true);
+                                        validateEmail(email);
+                                    }}
+                                />
+                            </div>
+                            <div className="min-h-[20px] mt-1">
+                                <AnimatePresence>
+                                    {errors.email && (
+                                        <motion.p
+                                            initial={{ opacity: 0, y: -5 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -5 }}
+                                            className="text-red-400 text-sm"
+                                        >
+                                            {errors.email}
+                                        </motion.p>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                         </div>
-                        <a href="/register">
-                            <Button typeButton="emerald">
-                                Получить доступ
-                                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </Button>
-                        </a>
+
+                        <Button
+                            typeButton="emerald"
+                            className={`px-4 py-3 rounded-2xl w-full sm:w-auto ${
+                                errors.email ? "opacity-10 pointer-events-none" : ""
+                            }`}
+                        >
+                            Получить доступ
+                            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        </Button>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.6, delay: 0.3 }}
+                        className="text-sm text-slate-500"
+                    >
+                        <p className="mb-4">
+                            *Отправляя заявку, вы соглашаетесь с{" "}
+                            <a
+                                href="#"
+                                className="text-emerald-500 hover:text-emerald-300 transition-all"
+                            >
+                                условиями использования
+                            </a>{" "}
+                            и{" "}
+                            <a
+                                href="#"
+                                className="text-emerald-500 hover:text-emerald-300 transition-all"
+                            >
+                                политикой конфиденциальности
+                            </a>
+                        </p>
                     </motion.div>
 
                     <motion.div

@@ -1,17 +1,19 @@
 import { motion } from "motion/react";
 import { Twitter, Linkedin, Mail, Github } from "lucide-react";
+import { Link } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
 const footerLinks = {
     product: [
-        { name: "Функции", href: "#" },
-        { name: "Интеграции", href: "#" },
-        { name: "Цены", href: "#" },
+        { name: "Функции", href: "/#comparsion" },
+        { name: "Интеграции", href: "/#integrations" },
+        { name: "Цены", href: "/#price" },
         { name: "Обновления", href: "#" },
     ],
     company: [
-        { name: "О нас", href: "#" },
+        { name: "О нас", href: "/about" },
         { name: "Блог", href: "#" },
-        { name: "Карьера", href: "#" },
+        { name: "Карьера", href: "/career" },
         { name: "Контакты", href: "#" },
     ],
     resources: [
@@ -35,9 +37,34 @@ const socialLinks = [
     { icon: Mail, href: "#", label: "Email" },
 ];
 
+const FooterLink = ({ href, children }: { href: string; children: React.ReactNode }) => {
+    const isHash = href.startsWith("/#");
+
+    if (isHash) {
+        return (
+            <HashLink
+                smooth
+                to={href}
+                className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            >
+                {children}
+            </HashLink>
+        );
+    }
+
+    return (
+        <Link
+            to={href}
+            className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+        >
+            {children}
+        </Link>
+    );
+};
+
 export default function Footer() {
     return (
-        <footer className="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800">
+        <footer className="bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 w-full">
             <div className="max-w-7xl mx-auto px-6 py-16">
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-8 mb-12">
                     <div className="col-span-2">
@@ -69,12 +96,7 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {footerLinks.product.map((link, index) => (
                                 <li key={index}>
-                                    <a
-                                        href={link.href}
-                                        className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-                                    >
-                                        {link.name}
-                                    </a>
+                                    <FooterLink href={link.href}>{link.name}</FooterLink>
                                 </li>
                             ))}
                         </ul>
@@ -85,12 +107,7 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {footerLinks.company.map((link, index) => (
                                 <li key={index}>
-                                    <a
-                                        href={link.href}
-                                        className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-                                    >
-                                        {link.name}
-                                    </a>
+                                    <FooterLink href={link.href}>{link.name}</FooterLink>
                                 </li>
                             ))}
                         </ul>
@@ -101,12 +118,7 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {footerLinks.resources.map((link, index) => (
                                 <li key={index}>
-                                    <a
-                                        href={link.href}
-                                        className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-                                    >
-                                        {link.name}
-                                    </a>
+                                    <FooterLink href={link.href}>{link.name}</FooterLink>
                                 </li>
                             ))}
                         </ul>
@@ -119,12 +131,12 @@ export default function Footer() {
                         <ul className="space-y-3">
                             {footerLinks.legal.map((link, index) => (
                                 <li key={index}>
-                                    <a
-                                        href={link.href}
+                                    <Link
+                                        to={link.href}
                                         className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
                                     >
                                         {link.name}
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

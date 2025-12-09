@@ -3,24 +3,19 @@ import { Sparkles } from "lucide-react";
 
 export default function Badge({
     children,
-    bgColor = "bg-emerald-50",
-    border = "border border-emerald-100",
-    textColor = "text-emerald-600",
-    icon = <Sparkles className="w-4 h-4 text-emerald-600" />,
+    className = "",
+    icon = <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
 }: {
     children: React.ReactNode;
-    bgColor?: string;
-    border?: string;
-    textColor?: string;
-    icon: React.ReactNode;
+    className?: string;
+    icon?: React.ReactNode;
 }): JSX.Element {
     return (
         <div
-            className={`inline-flex items-center gap-2 px-4 py-2 
-                   ${bgColor} rounded-full ${border} mb-6`}
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full ${className}`}
         >
             {icon}
-            <span className={`text-sm ${textColor}`}>{children}</span>
+            <span className="text-sm">{children}</span>
         </div>
     );
 }

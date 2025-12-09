@@ -53,7 +53,10 @@ const FeatureIcon = ({ status }: { status: boolean | "partial" }) => {
 
 export default function Comparison() {
     return (
-        <section className="py-32 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-800">
+        <section
+            id="comparsion"
+            className="py-32 bg-gradient-to-b from-white to-slate-50 dark:from-slate-900 dark:to-slate-800"
+        >
             <div className="max-w-7xl mx-auto px-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}

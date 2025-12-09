@@ -1,162 +1,126 @@
-import type { JSX } from "react";
+import { motion } from "motion/react";
+import { Check } from "lucide-react";
 
-export default function HowItWork(): JSX.Element {
+const steps = [
+    {
+        number: "01",
+        title: "Подключите брокеров",
+        description:
+            "Добавьте все свои брокерские счета в один клик. Безопасное подключение через API.",
+        image: "🔗",
+        color: "from-emerald-500 to-teal-500",
+    },
+    {
+        number: "02",
+        title: "Агрегируйте данные",
+        description:
+            "eebook автоматически соберет данные со всех счетов и построит единый портфель.",
+        image: "📊",
+        color: "from-teal-500 to-cyan-500",
+    },
+    {
+        number: "03",
+        title: "Анализируйте с AI",
+        description:
+            "Получайте умные прогнозы, рекомендации по ребалансировке и оптимизации налогов.",
+        image: "🤖",
+        color: "from-cyan-500 to-blue-500",
+    },
+    {
+        number: "04",
+        title: "Принимайте решения",
+        description: "Используйте детальную аналитику и инсайты для успешных инвестиций.",
+        image: "✨",
+        color: "from-blue-500 to-emerald-500",
+    },
+];
+
+export default function HowItWorks() {
     return (
-        <section
-            id="how-it-work"
-            className="max-w-full text-center mx-auto p-6 bg-slate-50"
-        >
-            <div className="max-w-7xl mx-auto">
-                <h1 className="text-5xl md:text-6xl mb-6 text-slate-900">
-                    Как это работает
-                </h1>
-                <p className="text-slate-600 text-xl mb-25">
-                    Четыре простых шага от подключения до профессионального управления
-                    портфелем
-                </p>
-                <div className="grid grid-cols-4 gap-8 z-[1]">
-                    <div className="flex flex-col flex-start">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 shadow-lg">
-                                <span className="text-2xl text-white font-bold">01</span>
-                            </div>
-                            <div className="bg-white rounded-full p-1 shadow-lg translate-y-4">
-                                <div className="bg-emerald-500 rounded-full p-1">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="w-3 h-3 text-white"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="3"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
+        <section className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden">
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-100 dark:bg-emerald-900/20 rounded-full blur-3xl opacity-20" />
+            </div>
+
+            <div className="max-w-7xl mx-auto px-6 relative z-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-20"
+                >
+                    <h2 className="text-5xl md:text-6xl mb-6 text-slate-900 dark:text-white">
+                        Как это работает
+                    </h2>
+                    <p className="text-xl text-slate-600 dark:text-slate-400 max-w-3xl mx-auto">
+                        Четыре простых шага от подключения до профессионального управления
+                        портфелем
+                    </p>
+                </motion.div>
+
+                <div className="relative">
+                    <div className="hidden lg:block absolute top-24 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-200 via-teal-200 to-emerald-200 dark:from-emerald-800 dark:via-teal-800 dark:to-emerald-800" />
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        {steps.map((step, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className="relative"
+                            >
+                                <div className="relative z-10 mb-6">
+                                    <div
+                                        className={`inline-flex items-center justify-center w-16 h-16  rounded-2xl bg-gradient-to-br ${step.color} shadow-lg mx-auto`}
                                     >
-                                        <path d="M20 6 9 17l-5-5"></path>
-                                    </svg>
+                                        <span className="text-2xl text-white font-bold">
+                                            {step.number}
+                                        </span>
+                                    </div>
+                                    <div className="absolute -bottom-2 -right-2 bg-white dark:bg-slate-800 rounded-full p-1 shadow-lg">
+                                        <div className="bg-emerald-500 rounded-full p-1">
+                                            <Check
+                                                className="w-3 h-3 text-white"
+                                                strokeWidth={3}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="shadow-lg flex flex-col border group p-8 h-full  gap-5 border-slate-200 transition-all duration-300 hover:shadow-emerald-100/50 hover:translate-y-1 rounded-3xl text-left group  hover:border-emerald-200 hover:shadow-sm hover:bg-emerald-100/20 cursor-pointer">
-                            <div className="text-5xl mb-4 text-center">🔗</div>
-                            <p className="text-xl text-slate-900 mb-3 text-center">
-                                Подключите брокеров
-                            </p>
-                            <p className="text-slate-600 text-center leading-relaxed">
-                                Добавьте все свои брокерские счета в один клик. Безопасное
-                                подключение через API.
-                            </p>
-                        </div>
-                    </div>
-                    <div className="flex flex-col flex-start">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="inline-flex items-center gap-5 justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-teal-500 to-cyan-500 shadow-lg">
-                                <span className="text-2xl text-white font-bold">02</span>
-                            </div>
-                            <div className="bg-white rounded-full p-1 shadow-lg translate-y-4">
-                                <div className="bg-emerald-500 rounded-full p-1">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="w-3 h-3 text-white"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="3"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path d="M20 6 9 17l-5-5"></path>
-                                    </svg>
+
+                                <div className="border p-6 h-70 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 rounded-2xl">
+                                    <div className="text-5xl mb-4 text-center">
+                                        {step.image}
+                                    </div>
+
+                                    <h3 className="text-xl text-slate-900 dark:text-white mb-3 text-center">
+                                        {step.title}
+                                    </h3>
+                                    <p className="text-slate-600 dark:text-slate-400 text-center leading-relaxed">
+                                        {step.description}
+                                    </p>
                                 </div>
-                            </div>
-                        </div>
-                        <div className="shadow-lg flex flex-col border group p-8 h-full  gap-5 border-slate-200 transition-all duration-300 hover:shadow-emerald-100/50 hover:translate-y-1 rounded-3xl text-left group  hover:border-emerald-200 hover:shadow-sm hover:bg-emerald-100/20 cursor-pointer">
-                            <div className="text-5xl mb-4 text-center">📊</div>
-                            <h3 className="text-xl text-slate-900 mb-3 text-center">
-                                Агрегируйте данные
-                            </h3>
-                            <p className="text-slate-600  text-center leading-relaxed">
-                                eebook автоматически соберет данные со всех счетов и
-                                построит единый портфель.
-                            </p>{" "}
-                        </div>
-                    </div>
-                    <div className="flex flex-col flex-start">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-500 shadow-lg">
-                                <span className="text-2xl text-white font-bold">03</span>
-                            </div>
-                            <div className="bg-white rounded-full p-1 shadow-lg translate-y-4">
-                                <div className="bg-emerald-500 rounded-full p-1">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="w-3 h-3 text-white"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="3"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path d="M20 6 9 17l-5-5"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="shadow-lg flex flex-col gap-5 border group p-8 h-full gap-5 border-slate-200 transition-all duration-300 hover:shadow-emerald-100/50 hover:translate-y-1 rounded-3xl text-left group  hover:border-emerald-200 hover:shadow-sm hover:bg-emerald-100/20 cursor-pointer">
-                            <div className="text-5xl mb-4 text-center">🤖</div>
-                            <h3 className="text-xl text-slate-900 mb-3 text-center">
-                                Анализируйте с AI
-                            </h3>
-                            <p className="text-slate-600 text-center leading-relaxed">
-                                Получайте умные прогнозы, рекомендации по ребалансировке и
-                                оптимизации налогов.
-                            </p>{" "}
-                        </div>
-                    </div>
-                    <div className="flex flex-col flex-start">
-                        <div className="flex items-center justify-between mb-4">
-                            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-emerald-500 shadow-lg">
-                                <span className="text-2xl text-white font-bold">04</span>
-                            </div>
-                            <div className="bg-white rounded-full p-1 shadow-lg translate-y-4">
-                                <div className="bg-emerald-500 rounded-full p-1">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="w-3 h-3 text-white"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="3"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <path d="M20 6 9 17l-5-5"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="shadow-lg flex flex-col border group p-8 h-full  border-slate-200 transition-all duration-300 hover:shadow-emerald-100/50 hover:translate-y-1 rounded-3xl text-left group  hover:border-emerald-200 hover:shadow-sm hover:bg-emerald-100/20 cursor-pointer gap-5">
-                            <div className="text-5xl mb-4 text-center">✨</div>
-                            <h3 className="text-xl text-slate-900 mb-3 text-center">
-                                Принимайте решения
-                            </h3>
-                            <p className="text-slate-600 text-center leading-relaxed">
-                                Используйте детальную аналитику и инсайты для успешных
-                                инвестиций.
-                            </p>
-                        </div>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
-                <div className="mt-20">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="mt-16 text-center"
+                >
                     <p className="text-slate-600 dark:text-slate-400 mb-4">
                         Готовы начать?
                     </p>
-                    <div className="inline-flex items-center gap-2 text-emerald-600 ">
+                    <div className="inline-flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
                         <span>Весь процесс занимает менее 5 минут</span>
-                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

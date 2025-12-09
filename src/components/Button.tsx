@@ -6,31 +6,30 @@ const typeBtn: Record<string, string> = {
         "text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700" +
         "hover:to-teal-700 shadow-lg shadow-emerald-500/25 hover:shadow-xl " +
         "hover:shadow-emerald-500/30 transition-all text-sm text-center inline-flex " +
-        "items-center justify-center",
+        "items-center justify-center cursor-pointer",
     ghost:
         "text-slate-900 rounded-xl bg-transparent " +
-        "hover:bg-slate-200 transition hover:text-slate-700",
+        "hover:bg-slate-200 transition hover:text-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 cursor-pointer",
     noBg:
         "text-slate-900 rounded-2xl bg-transparent hover:bg-slate-200 " +
-        "transition hover:text-slate-700 border-1 border-slate-300 text-sm",
-    slate: "bg-slate-900 hover:bg-slate-800 text-white",
+        "transition hover:text-slate-700 border-1 border-slate-300 text-sm " +
+        "dark:hover:border-slate-600 dark:hover:bg-slate-700 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200 cursor-pointer",
+    slate: "bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer",
 };
 
 export default function Button({
     children,
     typeButton,
-    rounded = "rounded-2xl",
-    py = "py-4",
-    px = "px-4",
+    className,
+    onClick,
 }: {
     children: React.ReactNode;
     typeButton: keyof typeof typeBtn;
-    rounded?: string;
-    py?: string;
-    px?: string;
+    className?: string;
+    onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }): JSX.Element {
     return (
-        <button className={`${typeBtn[typeButton]} ${py} ${px} ${rounded}`}>
+        <button className={`${typeBtn[typeButton]} ${className}`} onClick={onClick}>
             {children}
         </button>
     );

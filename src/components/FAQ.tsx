@@ -72,7 +72,7 @@ export default function FAQ(): JSX.Element {
     return (
         <section
             id="faq"
-            className="max-w-full text-center mx-auto p-6 bg-slate-50 py-45"
+            className="max-w-full text-center mx-auto p-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-800 dark:to-slate-900 py-30"
         >
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -81,10 +81,10 @@ export default function FAQ(): JSX.Element {
                 viewport={{ once: true }}
             >
                 <div className="max-w-7xl mx-auto">
-                    <h1 className="text-5xl md:text-6xl mb-6 text-slate-900">
+                    <h1 className="text-5xl md:text-6xl mb-6 text-slate-900 dark:text-white">
                         Частые вопросы
                     </h1>
-                    <p className="text-slate-600 text-xl mb-25">
+                    <p className="text-slate-600 text-xl mb-25 dark:text-slate-400">
                         Ответы на самые популярные вопросы о eebook
                     </p>
                 </div>
@@ -98,7 +98,7 @@ export default function FAQ(): JSX.Element {
                 <Accordion.Root
                     type="single"
                     collapsible
-                    className="w-full max-w-3xl mx-auto text-left border border-slate-200 rounded-3xl p-10 shadow-xl bg-white"
+                    className="w-full max-w-3xl mx-auto text-left border border-slate-200 rounded-3xl p-10 shadow-xl bg-white dark:bg-slate-800 dark:border-slate-700"
                 >
                     {faqs.map((faq, index) => (
                         <AccordionUI
@@ -118,16 +118,18 @@ export default function FAQ(): JSX.Element {
             >
                 <div
                     className="bg-gradient-to-br from-emerald-50 to-teal-50 border
-                 border-emerald-100 rounded-2xl flex text-left gap-6 p-4 py-6 items-center max-w-xl mx-auto mt-10"
+                 border-emerald-100 rounded-2xl flex text-left gap-6 p-4 py-6 items-center max-w-xl mx-auto mt-10 dark:from-emerald-950 dark:to-teal-950 dark:border-emerald-900"
                 >
-                    <div className="bg-white p-3 rounded-xl shadow-sm">
-                        <LucideMessageCircle className="text-emerald-600" />
+                    <div className="bg-white p-3 rounded-xl shadow-sm dark:bg-slate-800">
+                        <LucideMessageCircle className="text-emerald-600 dark:text-emerald-400" />
                     </div>
                     <div className="flex flex-col">
-                        <p className="text-slate-900 mb-1">Не нашли ответ?</p>
-                        <p className="text-slate-600 text-sm">
+                        <p className="text-slate-900 mb-1 dark:text-white">
+                            Не нашли ответ?
+                        </p>
+                        <p className="text-slate-600 text-sm dark:text-slate-400">
                             Наша поддержка работает 24/7.{" "}
-                            <span className="text-emerald-600 hover:text-emerald-900 hover:cursor-pointer">
+                            <span className="text-emerald-600 hover:text-emerald-900 hover:cursor-pointer dark:text-emerald-400 dark:hover:text-emerald-800 transition-all">
                                 Напишите нам →
                             </span>
                         </p>
