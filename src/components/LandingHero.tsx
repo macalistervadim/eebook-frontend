@@ -4,7 +4,7 @@ import type { JSX } from "react";
 import { motion } from "framer-motion";
 import Button from "./Button";
 import Badge from "./Badge";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function LandingHero(): JSX.Element {
@@ -24,7 +24,10 @@ export default function LandingHero(): JSX.Element {
                 >
                     <Badge
                         className="bg-white border border-slate-200
-                    text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:bg-slate-800/80"
+                    text-slate-900 dark:border-slate-700 dark:text-slate-300 dark:bg-slate-800/80 rounded-full px-5 py-2"
+                        icon={
+                            <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mr-1" />
+                        }
                     >
                         Новое поколение инвестиционных инструментов
                     </Badge>

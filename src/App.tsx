@@ -16,6 +16,15 @@ import JobDetailPage from "@/components/JobDetailPage";
 import AboutPage from "@/pages/AboutPage.tsx";
 import CareersPage from "@/pages/CareersPage.tsx";
 import PortfolioDashboard from "@/components/PortfolioDashboard.tsx";
+import ProtectedRoute from "@/auth/ProtectedRoute.tsx";
+import LogoutPage from "@/pages/LogoutPage.tsx";
+import DocumentationPage from "@/pages/DocumentationPage.tsx";
+import LegalPage from "@/pages/LegalPage.tsx";
+import PortfoliosPage from "@/pages/PortfoliosPage.tsx";
+import SupportPage from "@/pages/SupportPage.tsx";
+import UpdatesPage from "@/pages/UpdatesPage.tsx";
+import PasswordResetPage from "@/pages/PasswordResetPage.tsx";
+import ChangePasswordPage from "@/pages/ChangePassword.tsx";
 
 export default function App() {
     return (
@@ -26,9 +35,38 @@ export default function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/career" element={<CareersPage />} />
+            <Route path="/docs" element={<DocumentationPage />} />
+            <Route path="/legal" element={<LegalPage />} />
+            <Route path="/support" element={<SupportPage />} />
+            <Route path="/updates" element={<UpdatesPage />} />
+            <Route path="/password-reset" element={<PasswordResetPage />} />
+            <Route path="/password-change" element={<ChangePasswordPage />} />
 
             {/* Защищенные страницы */}
-            <Route path="/dashboard" element={<PortfolioDashboard />} />
+            <Route
+                path="/dashboard"
+                element={
+                    <ProtectedRoute>
+                        <PortfolioDashboard />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/portfolio"
+                element={
+                    <ProtectedRoute>
+                        <PortfoliosPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/logout"
+                element={
+                    <ProtectedRoute>
+                        <LogoutPage />
+                    </ProtectedRoute>
+                }
+            />
 
             {/* Динамический роут для вакансии */}
             <Route path="/jobs/:id" element={<JobDetailPage />} />

@@ -8,25 +8,25 @@ const footerLinks = {
         { name: "Функции", href: "/#comparsion" },
         { name: "Интеграции", href: "/#integrations" },
         { name: "Цены", href: "/#price" },
-        { name: "Обновления", href: "#" },
+        { name: "Обновления", href: "/updates" },
     ],
     company: [
         { name: "О нас", href: "/about" },
         { name: "Блог", href: "#" },
         { name: "Карьера", href: "/career" },
-        { name: "Контакты", href: "#" },
+        { name: "Контакты", href: "/password-change" },
     ],
     resources: [
-        { name: "Документация", href: "#" },
+        { name: "Документация", href: "/docs" },
         { name: "API", href: "#" },
-        { name: "Поддержка", href: "#" },
+        { name: "Поддержка", href: "/support" },
         { name: "Статус", href: "#" },
     ],
     legal: [
-        { name: "Конфиденциальность", href: "#" },
-        { name: "Условия", href: "#" },
-        { name: "Безопасность", href: "#" },
-        { name: "Cookies", href: "#" },
+        { name: "Конфиденциальность", href: "/legal" },
+        { name: "Условия", href: "/legal" },
+        { name: "Безопасность", href: "/legal" },
+        { name: "Cookies", href: "/legal" },
     ],
 };
 

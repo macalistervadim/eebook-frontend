@@ -18,6 +18,8 @@ import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
+import { loginRequest } from "@/auth/authApi.ts";
+import { useAuth } from "@/auth/AuthProvider.tsx";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -46,35 +48,20 @@ export default function Login() {
 
     const isEmailValid = email && !emailError;
     const navigate = useNavigate();
+    const { setAccessToken } = useAuth();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    async function handleSubmit(e) {
         e.preventDefault();
-        setLoginError("");
-        setIsSubmitting(true);
 
-        try {
-            const response = await fetch("http://localhost:8000/api/v1/users/login/", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({ email, password }),
-            });
-
-            if (!response.ok) {
-                if (response.status === 401) setLoginError("Неверный логин или пароль");
-                else setLoginError("Ошибка сервера, попробуйте позже");
-
-                setIsSubmitting(false);
-                return;
-            }
-            navigate("/dashboard");
-        } catch {
-            setLoginError("Сетевая ошибка, попробуйте позже");
-        } finally {
-            setIsSubmitting(false);
+        const token = await loginRequest(email, password);
+        if (!token) {
+            setLoginError("Неверный логин или пароль");
+            return;
         }
-    };
 
+        setAccessToken(token);
+        navigate("/dashboard");
+    }
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 via-emerald-50/30 to-gray-100 dark:from-gray-950 dark:via-emerald-950/20 dark:to-gray-900">
             <LandingHeader />
@@ -243,12 +230,12 @@ export default function Login() {
                                         Запомнить меня
                                     </label>
                                 </div>
-                                <a
-                                    href="/forgot-password"
+                                <Link
+                                    to="/password-reset"
                                     className="text-emerald-600 dark:text-emerald-400"
                                 >
                                     Забыли пароль?
-                                </a>
+                                </Link>
                             </div>
 
                             {/* BUTTON — with spinner */}

@@ -6,11 +6,13 @@ import { motion } from "motion/react";
 import { useTheme } from "@/components/ThemeProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { HashLink } from "react-router-hash-link";
+import { useAuth } from "@/auth/AuthProvider.tsx";
 
 export function LandingHeader() {
     const [open, setOpen] = useState(false);
     const { theme, toggleTheme } = useTheme();
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
 
     return (
         <header
@@ -29,13 +31,12 @@ export function LandingHeader() {
                 {/* Desktop nav */}
                 <ul className="hidden gap-8 text-md md:flex">
                     <li>
-                        <HashLink
-                            smooth
-                            to="/#comparsion"
+                        <Link
+                            to="/support"
                             className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
                         >
-                            Функции
-                        </HashLink>
+                            Поддержка
+                        </Link>
                     </li>
                     <li>
                         <Link
@@ -55,9 +56,20 @@ export function LandingHeader() {
                         </HashLink>
                     </li>
                     <li>
-                        <a className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer">
+                        <Link
+                            to="/career"
+                            className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                        >
+                            Карьера
+                        </Link>
+                    </li>
+                    <li>
+                        <Link
+                            to="/docs"
+                            className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                        >
                             Документация
-                        </a>
+                        </Link>
                     </li>
                 </ul>
                 {/* Desktop buttons */}
@@ -74,21 +86,41 @@ export function LandingHeader() {
                             <Moon className="w-5 h-5 text-slate-700 dark:text-slate-300" />
                         )}
                     </button>
-
-                    <Button
-                        typeButton="ghost"
-                        className="px-3 py-2 cursor-pointer"
-                        onClick={() => navigate("/login")}
-                    >
-                        Войти
-                    </Button>
-                    <Button
-                        typeButton="emerald"
-                        className="px-3 py-2 rounded-xl cursor-pointer"
-                        onClick={() => navigate("/register")}
-                    >
-                        Начать бесплатно
-                    </Button>
+                    {isAuthenticated ? (
+                        <>
+                            <Button
+                                typeButton="emerald"
+                                className="px-5 py-2 rounded-xl"
+                                onClick={() => navigate("/dashboard")}
+                            >
+                                Личный кабинет
+                            </Button>
+                            <Button
+                                typeButton="noBg"
+                                className="px-5 py-2 rounded-xl"
+                                onClick={() => navigate("/logout")}
+                            >
+                                Выйти
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <Button
+                                typeButton="ghost"
+                                className="px-3 py-2 cursor-pointer"
+                                onClick={() => navigate("/login")}
+                            >
+                                Войти
+                            </Button>
+                            <Button
+                                typeButton="emerald"
+                                className="px-3 py-2 rounded-xl cursor-pointer"
+                                onClick={() => navigate("/register")}
+                            >
+                                Начать бесплатно
+                            </Button>
+                        </>
+                    )}
                 </div>
                 {/* Mobile */}
                 <Sheet open={open} onOpenChange={setOpen}>
@@ -132,6 +164,12 @@ export function LandingHeader() {
                                         Цены
                                     </HashLink>
                                 </li>
+                                <Link
+                                    to="/career"
+                                    className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                                >
+                                    Карьера
+                                </Link>
                                 <li>
                                     <a className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer">
                                         Документация
@@ -139,20 +177,41 @@ export function LandingHeader() {
                                 </li>
                             </ul>
                             <div className="flex flex-col gap-3 pt-4 border-t">
-                                <Button
-                                    typeButton="noBg"
-                                    onClick={() => navigate("/login")}
-                                    className="px-2 py-2 rounded-xl"
-                                >
-                                    Войти
-                                </Button>
-                                <Button
-                                    typeButton="emerald"
-                                    onClick={() => navigate("/register")}
-                                    className="px-2 py-2 rounded-xl"
-                                >
-                                    Начать бесплатно
-                                </Button>
+                                {isAuthenticated ? (
+                                    <>
+                                        <Button
+                                            typeButton="emerald"
+                                            className="px-5 py-2 rounded-xl"
+                                            onClick={() => navigate("/dashboard")}
+                                        >
+                                            Личный кабинет
+                                        </Button>
+                                        <Button
+                                            typeButton="noBg"
+                                            className="px-5 py-2 rounded-xl"
+                                            onClick={() => navigate("/logout")}
+                                        >
+                                            Выйти
+                                        </Button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Button
+                                            typeButton="ghost"
+                                            className="px-3 py-2 cursor-pointer"
+                                            onClick={() => navigate("/login")}
+                                        >
+                                            Войти
+                                        </Button>
+                                        <Button
+                                            typeButton="emerald"
+                                            className="px-3 py-2 rounded-xl cursor-pointer"
+                                            onClick={() => navigate("/register")}
+                                        >
+                                            Начать бесплатно
+                                        </Button>
+                                    </>
+                                )}
                             </div>
                         </motion.div>
                     </SheetContent>

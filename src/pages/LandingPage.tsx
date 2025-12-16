@@ -18,7 +18,7 @@ import Footer from "../components/Footer.tsx";
 
 export default function LandingPage(): JSX.Element {
     return (
-        <main className="bg-white dark:bg-slate-900">
+        <main className="bg-white dark:bg-slate-900 overflow-hidden">
             <LandingHeader />
             <LandingHero />
             <LandingAdvantages />

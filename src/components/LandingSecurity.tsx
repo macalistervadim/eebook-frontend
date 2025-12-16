@@ -1,6 +1,13 @@
 import type { JSX } from "react";
 import { motion } from "motion/react";
-import { CircleCheck, FileCheck, Shield, TriangleAlert, LucideLock } from "lucide-react";
+import {
+    CircleCheck,
+    FileCheck,
+    Shield,
+    TriangleAlert,
+    LucideLock,
+    Sparkles,
+} from "lucide-react";
 import Badge from "@/components/Badge.tsx";
 
 export default function LandingSecurity(): JSX.Element {
@@ -18,7 +25,13 @@ export default function LandingSecurity(): JSX.Element {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16 sm:mb-20"
                 >
-                    <Badge className="dark:text-emerald-300 border dark:border-emerald-800 dark:bg-emerald-900/30 mb-6 sm:mb-10">
+                    <Badge
+                        className="bg-emerald-100/60 border border-emerald-200
+                  dark:border-emerald-700 dark:text-slate-300 dark:bg-emerald-800/20 rounded-full px-5 py-2 mb-10 "
+                        icon={
+                            <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mr-1" />
+                        }
+                    >
                         Безопасность и доверие
                     </Badge>
                     <h2 className="text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6 text-slate-900 dark:text-white">

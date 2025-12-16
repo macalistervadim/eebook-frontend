@@ -18,7 +18,7 @@ import Button from "@/components/Button.tsx";
 import { Checkbox } from "@/components/Checkbox.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
@@ -27,6 +27,7 @@ export default function Register() {
         firstName: "",
         lastName: "",
         email: "",
+        username: "",
         password: "",
         confirmPassword: "",
         agreeToTerms: false,
@@ -36,6 +37,7 @@ export default function Register() {
     const [errors, setErrors] = useState({
         email: "",
         password: "",
+        username: "",
         confirmPassword: "",
     });
 
@@ -106,24 +108,87 @@ export default function Register() {
             validateConfirmPassword(value);
         }
     };
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
         setRegisterError("");
+        setErrors({ email: "", password: "", confirmPassword: "", username: "" });
 
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        try {
+            const payload = {
+                first_name: formData.firstName,
+                last_name: formData.lastName,
+                email: formData.email,
+                username: formData.username,
+                password: formData.password,
+            };
 
-        // Simulate email already exists error
-        if (formData.email === "test@example.com") {
-            setRegisterError("Этот email уже зарегистрирован");
+            const response = await fetch("http://localhost:8000/api/v1/users/register/", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                credentials: "include",
+                body: JSON.stringify(payload),
+            });
+
+            if (response.status === 201) {
+                navigate("/dashboard");
+                return;
+            }
+
+            let errorData: { code: string; message: string; details?: any } | null = null;
+            try {
+                errorData = await response.json();
+            } catch (jsonError) {
+                errorData = null;
+            }
+
+            if (response.status === 400 && errorData) {
+                setRegisterError(errorData.message || "Ошибка регистрации");
+
+                switch (errorData.code) {
+                    case "EMAIL_ALREADY_REGISTERED":
+                        setErrors((prev) => ({
+                            ...prev,
+                            email: "Этот email уже используется",
+                        }));
+                        break;
+                    case "USERNAME_ALREADY_TAKEN":
+                        setErrors((prev) => ({
+                            ...prev,
+                            username: "Это Имя пользователя уже занято",
+                        }));
+                        break;
+                }
+                return;
+            }
+
+            if (response.status === 422 && errorData?.details) {
+                setRegisterError("Проверьте правильность заполнения полей");
+                return;
+            }
+
+            if (response.status >= 500) {
+                setRegisterError(
+                    "Внутренняя ошибка сервера. Мы уже работаем над исправлением."
+                );
+                navigate("/500");
+                return;
+            }
+            if (response.status === 503) {
+                navigate("/503");
+                return;
+            }
+
+            setRegisterError(
+                errorData?.message || "Ошибка при регистрации. Попробуйте позже."
+            );
+        } catch (networkError) {
+            setRegisterError("Сетевая ошибка. Проверьте подключение и попробуйте снова.");
+        } finally {
             setIsSubmitting(false);
-            return;
         }
-
-        console.log("Registration successful:", formData);
-        setIsSubmitting(false);
     };
 
     const handleSocialRegister = (provider: string) => {
@@ -133,6 +198,8 @@ export default function Register() {
     const isEmailValid = formData.email && !errors.email;
     const isPasswordValid = formData.password && passwordStrength >= 3;
     const isConfirmPasswordValid = formData.confirmPassword && !errors.confirmPassword;
+    const isFNameValid = formData.firstName;
+    const isLNameValid = formData.lastName;
 
     return (
         <section className="bg-gradient-to-br from-gray-50 via-emerald-50/30 to-gray-100 dark:from-gray-950 dark:via-emerald-950/20 dark:to-gray-900">
@@ -185,14 +252,14 @@ export default function Register() {
                         </AnimatePresence>
 
                         {/* Social register buttons */}
-                        <div className="space-y-3 mb-6">
+                        <div className="space-y-3 space-x-4 mb-6 flex">
                             <Button
                                 typeButton="noBg"
                                 className="w-full h-12 rounded-xl border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center"
                                 onClick={() => handleSocialRegister("Google")}
                             >
                                 <Chrome className="w-5 h-5 mr-2" />
-                                Зарегистрироваться через Google
+                                Google
                             </Button>
                             <Button
                                 typeButton="noBg"
@@ -200,7 +267,7 @@ export default function Register() {
                                 onClick={() => handleSocialRegister("Apple")}
                             >
                                 <AppleIcon className="w-5 h-5 mr-2" />
-                                Зарегистрироваться через Apple
+                                Apple
                             </Button>
                             <Button
                                 typeButton="noBg"
@@ -208,7 +275,7 @@ export default function Register() {
                                 onClick={() => handleSocialRegister("LinkedIn")}
                             >
                                 <Linkedin className="w-5 h-5 mr-2" />
-                                Зарегистрироваться через LinkedIn
+                                LinkedIn
                             </Button>
                         </div>
 
@@ -248,7 +315,11 @@ export default function Register() {
                                                     e.target.value
                                                 )
                                             }
-                                            className="w-full outline-none border pl-11 h-12 rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50 focus:border-emerald-500 dark:focus:border-emerald-500 focus:ring-emerald-500/20"
+                                            className={`outline-none border w-full pl-11 pr-11 h-12 rounded-xl bg-white dark:bg-gray-800/50 transition-all ${
+                                                isFNameValid
+                                                    ? "border-emerald-500 dark:border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    : "border-gray-300 dark:border-gray-700 focus:border-emerald-500 dark:focus:border-emerald-500 focus:ring-emerald-500/20"
+                                            }`}
                                             required
                                         />
                                     </div>
@@ -273,13 +344,51 @@ export default function Register() {
                                                     e.target.value
                                                 )
                                             }
-                                            className="w-full outline-none border pl-11 h-12 rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50 focus:border-emerald-500 dark:focus:border-emerald-500 focus:ring-emerald-500/20"
+                                            className={`outline-none border w-full pl-11 pr-11 h-12 rounded-xl bg-white dark:bg-gray-800/50 transition-all ${
+                                                isLNameValid
+                                                    ? "border-emerald-500 dark:border-emerald-500 focus:border-emerald-500 focus:ring-emerald-500/20"
+                                                    : "border-gray-300 dark:border-gray-700 focus:border-emerald-500 dark:focus:border-emerald-500 focus:ring-emerald-500/20"
+                                            }`}
                                             required
                                         />
                                     </div>
                                 </div>
                             </div>
-
+                            <div>
+                                <label
+                                    htmlFor="register-firstName"
+                                    className="text-gray-700 dark:text-gray-300 mb-2 block"
+                                >
+                                    Имя пользователя
+                                </label>
+                                <div className="relative">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                    <input
+                                        id="register-username"
+                                        type="text"
+                                        placeholder="ivanov111"
+                                        value={formData.username}
+                                        onChange={(e) =>
+                                            handleInputChange("username", e.target.value)
+                                        }
+                                        className="w-full outline-none border pl-11 h-12 rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50 focus:border-emerald-500 dark:focus:border-emerald-500 focus:ring-emerald-500/20"
+                                        required
+                                    />
+                                </div>
+                                <AnimatePresence>
+                                    {errors.username && (
+                                        <motion.p
+                                            initial={{ opacity: 0, y: -5 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -5 }}
+                                            className="text-red-600 dark:text-red-400 mt-2 flex items-center gap-1"
+                                        >
+                                            <XCircle className="w-4 h-4" />
+                                            {errors.username}
+                                        </motion.p>
+                                    )}
+                                </AnimatePresence>
+                            </div>
                             {/* Email */}
                             <div>
                                 <label
