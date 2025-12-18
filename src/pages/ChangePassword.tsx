@@ -3,9 +3,10 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { Lock, Eye, EyeOff, CheckCircle2, Shield, AlertCircle } from "lucide-react";
-import Button from "@/components/Button.tsx";
-import Footer from "@/components/Footer.tsx";
-import PortfolioHeader from "@/components/PortfolioHeader.tsx";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
+import { Card } from "../components/Card";
+import { Label } from "@/components/Label.tsx";
 
 export default function ChangePasswordPage() {
     const [step, setStep] = useState<"form" | "success">("form");
@@ -62,11 +63,9 @@ export default function ChangePasswordPage() {
     };
 
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
-            <div className="w-full">
-                <PortfolioHeader />
-            </div>
-            <div className="w-full max-w-md mb-30 mt-20">
+        <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-12 px-4">
+            <div className="w-full max-w-md">
+                {/* Logo */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -83,7 +82,7 @@ export default function ChangePasswordPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <div className="flex items-center justify-center w-16 h-16 bg-emerald-100 dark:bg-emerald-500/10 rounded-2xl mx-auto mb-6">
                                 <Lock className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                             </div>
@@ -107,11 +106,11 @@ export default function ChangePasswordPage() {
                             <form onSubmit={handleSubmit} className="space-y-6">
                                 {/* Current Password */}
                                 <div>
-                                    <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                    <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                         Текущий пароль
-                                    </label>
+                                    </Label>
                                     <div className="relative">
-                                        <input
+                                        <Input
                                             type={
                                                 showCurrentPassword ? "text" : "password"
                                             }
@@ -121,7 +120,7 @@ export default function ChangePasswordPage() {
                                                 setCurrentPassword(e.target.value)
                                             }
                                             required
-                                            className="border rounded-md p-3 w-full pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                            className="pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                         />
                                         <button
                                             type="button"
@@ -143,11 +142,11 @@ export default function ChangePasswordPage() {
 
                                 {/* New Password */}
                                 <div>
-                                    <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                    <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                         Новый пароль
-                                    </label>
+                                    </Label>
                                     <div className="relative">
-                                        <input
+                                        <Input
                                             type={showNewPassword ? "text" : "password"}
                                             placeholder="Минимум 8 символов"
                                             value={newPassword}
@@ -155,7 +154,7 @@ export default function ChangePasswordPage() {
                                                 setNewPassword(e.target.value)
                                             }
                                             required
-                                            className="border rounded-md p-3 w-full  pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                            className="pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                         />
                                         <button
                                             type="button"
@@ -238,11 +237,11 @@ export default function ChangePasswordPage() {
 
                                 {/* Confirm Password */}
                                 <div>
-                                    <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                    <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                         Подтвердите пароль
-                                    </label>
+                                    </Label>
                                     <div className="relative">
-                                        <input
+                                        <Input
                                             type={
                                                 showConfirmPassword ? "text" : "password"
                                             }
@@ -252,7 +251,7 @@ export default function ChangePasswordPage() {
                                                 setConfirmPassword(e.target.value)
                                             }
                                             required
-                                            className="border rounded-md p-3 w-full pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                            className="pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                         />
                                         <button
                                             type="button"
@@ -279,8 +278,16 @@ export default function ChangePasswordPage() {
                                 </div>
 
                                 <Button
-                                    typeButton="emerald"
-                                    className="rounded-xl w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                    type="submit"
+                                    className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                    disabled={
+                                        isLoading ||
+                                        !currentPassword ||
+                                        !newPassword ||
+                                        !confirmPassword ||
+                                        newPassword !== confirmPassword ||
+                                        passwordStrength() < 50
+                                    }
                                 >
                                     {isLoading ? "Сохранение..." : "Изменить пароль"}
                                 </Button>
@@ -301,7 +308,7 @@ export default function ChangePasswordPage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
                 )}
 
@@ -310,7 +317,7 @@ export default function ChangePasswordPage() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
+                        <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -330,26 +337,24 @@ export default function ChangePasswordPage() {
 
                             <div className="space-y-3">
                                 <Button
-                                    typeButton="emerald"
                                     onClick={() => (window.location.href = "#profile")}
-                                    className="rounded-xl w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                    className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
                                 >
                                     Вернуться в профиль
                                 </Button>
 
                                 <Button
-                                    typeButton="noBg"
+                                    variant="outline"
                                     onClick={() => (window.location.href = "#logout")}
                                     className="w-full h-12"
                                 >
                                     Выйти из аккаунта
                                 </Button>
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
                 )}
             </div>
-            <Footer />
         </section>
     );
 }

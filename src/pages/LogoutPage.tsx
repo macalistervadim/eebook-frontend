@@ -1,9 +1,12 @@
-import { useLogout } from "@/components/Logout.tsx";
-import { useState, useEffect } from "react";
+"use client";
+
+import { useState } from "react";
 import { motion } from "motion/react";
 import { LogOut, CheckCircle2, Loader2, ArrowRight, Shield } from "lucide-react";
-import Button from "@/components/Button.tsx";
+import { Card } from "@/components/Card.tsx";
+import { Button } from "@/components/Button.tsx";
 import { useNavigate } from "react-router-dom";
+import { useLogout } from "@/components/Logout.tsx";
 
 export default function LogoutPage() {
     const logout = useLogout();
@@ -35,7 +38,7 @@ export default function LogoutPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <div className="flex items-center justify-center w-16 h-16 bg-amber-100 dark:bg-amber-500/10 rounded-2xl mx-auto mb-6">
                                 <LogOut className="w-8 h-8 text-amber-600 dark:text-amber-400" />
                             </div>
@@ -49,18 +52,17 @@ export default function LogoutPage() {
 
                             <div className="space-y-3">
                                 <Button
-                                    typeButton="emerald"
                                     onClick={handleLogout}
-                                    className="rounded-xl  w-full bg-amber-600 hover:bg-amber-700 h-12"
+                                    className="w-full bg-amber-600 hover:bg-amber-700 h-12"
                                 >
                                     <LogOut className="w-4 h-4 mr-2" />
                                     Да, выйти
                                 </Button>
 
                                 <Button
-                                    typeButton="noBg"
+                                    variant="outline"
                                     onClick={() => navigate("/dashboard")}
-                                    className="rounded-xl w-full h-12"
+                                    className="w-full h-12"
                                 >
                                     Отмена
                                 </Button>
@@ -79,13 +81,13 @@ export default function LogoutPage() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
                 )}
 
                 {step === "loading" && (
                     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                        <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
+                        <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
                             <div className="flex items-center justify-center w-16 h-16 bg-slate-100 dark:bg-slate-900/50 rounded-full mx-auto mb-6">
                                 <Loader2 className="w-8 h-8 text-emerald-600 dark:text-emerald-400 animate-spin" />
                             </div>
@@ -96,7 +98,7 @@ export default function LogoutPage() {
                             <p className="text-slate-600 dark:text-slate-400">
                                 Завершаем активные сессии
                             </p>
-                        </div>
+                        </Card>
                     </motion.div>
                 )}
 
@@ -105,7 +107,7 @@ export default function LogoutPage() {
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
+                        <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
                             <motion.div
                                 initial={{ scale: 0 }}
                                 animate={{ scale: 1 }}
@@ -123,14 +125,13 @@ export default function LogoutPage() {
                             </p>
 
                             <Button
-                                typeButton="emerald"
                                 onClick={() => navigate("/login")}
                                 className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
                             >
                                 Войти снова
                                 <ArrowRight className="w-4 h-4 ml-2" />
                             </Button>
-                        </div>
+                        </Card>
                     </motion.div>
                 )}
             </div>

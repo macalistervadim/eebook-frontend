@@ -17,10 +17,11 @@ import {
     Calendar,
     DollarSign,
 } from "lucide-react";
-import Button from "@/components/Button.tsx";
-import { useNavigate } from "react-router-dom";
+import { Card } from "@/components/Card.tsx";
+import { Button } from "@/components/Button.tsx";
 import Footer from "@/components/Footer.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
+import { useNavigate } from "react-router-dom";
 
 export default function AboutPageImproved() {
     const navigate = useNavigate();
@@ -28,7 +29,8 @@ export default function AboutPageImproved() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
             <LandingHeader />
-            <section className="relative overflow-hidden pt-50 pb-24">
+            {/* Hero */}
+            <section className="relative overflow-hidden pt-42 pb-24">
                 <div className="absolute inset-0 pointer-events-none">
                     <div className="absolute top-1/4 right-0 w-96 h-96 bg-emerald-100 dark:bg-emerald-900/20 rounded-full blur-3xl opacity-20" />
                     <div className="absolute bottom-1/4 left-0 w-96 h-96 bg-teal-100 dark:bg-teal-900/20 rounded-full blur-3xl opacity-20" />
@@ -161,7 +163,7 @@ export default function AboutPageImproved() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: index * 0.15 }}
                             >
-                                <div className="border group p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl hover:shadow-lg hover:shadow-emerald-100/50 dark:hover:shadow-emerald-900/20 transition-all duration-300 hover:-translate-y-1 h-full">
+                                <Card className="group p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl hover:shadow-lg hover:shadow-emerald-100/50 dark:hover:shadow-emerald-900/20 transition-all duration-300 hover:-translate-y-1 h-full">
                                     <div className="text-6xl font-bold text-slate-100 dark:text-slate-700 mb-4">
                                         {item.step}
                                     </div>
@@ -174,7 +176,7 @@ export default function AboutPageImproved() {
                                     <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
                                         {item.description}
                                     </p>
-                                </div>
+                                </Card>
                             </motion.div>
                         ))}
                     </div>
@@ -253,7 +255,7 @@ export default function AboutPageImproved() {
                                 viewport={{ once: true }}
                                 transition={{ duration: 0.4, delay: index * 0.1 }}
                             >
-                                <div className="border group p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl hover:shadow-lg hover:shadow-emerald-100/50 dark:hover:shadow-emerald-900/20 transition-all duration-300 h-full">
+                                <Card className="group p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl hover:shadow-lg hover:shadow-emerald-100/50 dark:hover:shadow-emerald-900/20 transition-all duration-300 h-full">
                                     <div className="flex items-start gap-6">
                                         <div className="w-12 h-12 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 rounded-xl flex items-center justify-center flex-shrink-0">
                                             <feature.icon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
@@ -280,7 +282,7 @@ export default function AboutPageImproved() {
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </Card>
                             </motion.div>
                         ))}
                     </div>
@@ -347,7 +349,7 @@ export default function AboutPageImproved() {
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
                         >
-                            <div className="border p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl">
+                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl">
                                 <div className="space-y-6">
                                     <div className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-xl">
                                         <div className="flex items-center justify-between mb-4">
@@ -402,7 +404,7 @@ export default function AboutPageImproved() {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Card>
                         </motion.div>
                     </div>
                 </div>
@@ -413,7 +415,7 @@ export default function AboutPageImproved() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
             >
-                <div className="mb-20 p-12 border max-w-7xl mx-auto rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/20 border-emerald-200 dark:border-emerald-900 text-center">
+                <div className="mb-20 mt-20 p-12 border max-w-7xl mx-auto rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/20 dark:to-teal-950/20 border-emerald-200 dark:border-emerald-900 text-center">
                     <Award className="w-16 h-16 text-emerald-600 dark:text-emerald-400 mx-auto mb-6" />
                     <h2 className="text-slate-900 dark:text-white mb-4">
                         Присоединяйтесь к нам
@@ -423,7 +425,6 @@ export default function AboutPageImproved() {
                         финансовых технологий. Посмотрите наши открытые вакансии!
                     </p>
                     <Button
-                        typeButton="emerald"
                         className="mt-8 px-3 py-3 rounded-xl"
                         onClick={() => navigate("/career")}
                     >

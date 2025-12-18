@@ -12,10 +12,13 @@ import {
     Shield,
     Key,
 } from "lucide-react";
-import Button from "@/components/Button.tsx";
-import Footer from "@/components/Footer.tsx";
+import { Card } from "@/components/Card.tsx";
+import { Input } from "@/components/Input.tsx";
+import { Button } from "@/components/Button.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
-import { Link, useNavigate } from "react-router-dom";
+import Footer from "@/components/Footer.tsx";
+import { useNavigate } from "react-router-dom";
+import { Label } from "@/components/Label.tsx";
 
 export default function PasswordResetPage() {
     const [step, setStep] = useState<"email" | "code" | "newPassword" | "success">(
@@ -28,7 +31,6 @@ export default function PasswordResetPage() {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    const navigate = useNavigate();
 
     const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -103,10 +105,12 @@ export default function PasswordResetPage() {
         return "Надежный";
     };
 
+    const navigate = useNavigate();
+
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 py-12">
+        <section className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950  px-4">
             <LandingHeader />
-            <div className="w-full max-w-md mb-30 mt-20">
+            <div className="w-full max-w-md mt-40 mb-20 ">
                 {/* Logo */}
                 <motion.div
                     initial={{ opacity: 0, y: -20 }}
@@ -166,7 +170,7 @@ export default function PasswordResetPage() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                         >
-                            <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                                 <div className="flex items-center justify-center w-16 h-16 bg-emerald-100 dark:bg-emerald-500/10 rounded-2xl mx-auto mb-6">
                                     <Mail className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                                 </div>
@@ -180,22 +184,23 @@ export default function PasswordResetPage() {
 
                                 <form onSubmit={handleEmailSubmit} className="space-y-6">
                                     <div>
-                                        <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                             Email
-                                        </label>
-                                        <input
+                                        </Label>
+                                        <Input
                                             type="email"
                                             placeholder="ivan@example.com"
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             required
-                                            className="w-full outline-none rounded-md p-3 border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                            className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                         />
                                     </div>
 
                                     <Button
-                                        typeButton="emerald"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 rounded-xl"
+                                        type="submit"
+                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                        disabled={isLoading}
                                     >
                                         {isLoading ? (
                                             "Отправка..."
@@ -208,16 +213,16 @@ export default function PasswordResetPage() {
                                     </Button>
 
                                     <div className="text-center">
-                                        <Link
-                                            to="/login"
+                                        <a
+                                            href="#login"
                                             className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center justify-center gap-2"
                                         >
                                             <ArrowLeft className="w-4 h-4" />
                                             Вернуться ко входу
-                                        </Link>
+                                        </a>
                                     </div>
                                 </form>
-                            </div>
+                            </Card>
                         </motion.div>
                     )}
 
@@ -229,7 +234,7 @@ export default function PasswordResetPage() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                         >
-                            <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                                 <div className="flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-500/10 rounded-2xl mx-auto mb-6">
                                     <Shield className="w-8 h-8 text-blue-600 dark:text-blue-400" />
                                 </div>
@@ -243,9 +248,9 @@ export default function PasswordResetPage() {
 
                                 <form onSubmit={handleCodeSubmit} className="space-y-6">
                                     <div>
-                                        <label className="block text-sm text-slate-700 dark:text-slate-300 mb-3 text-center">
+                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-3 text-center">
                                             Введите 6-значный код
-                                        </label>
+                                        </Label>
                                         <div className="flex gap-2 justify-center">
                                             {code.map((digit, index) => (
                                                 <input
@@ -270,8 +275,9 @@ export default function PasswordResetPage() {
                                     </div>
 
                                     <Button
-                                        typeButton="emerald"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 rounded-xl "
+                                        type="submit"
+                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                        disabled={isLoading || code.some((d) => !d)}
                                     >
                                         {isLoading ? (
                                             "Проверка..."
@@ -290,7 +296,7 @@ export default function PasswordResetPage() {
                                         </button>
                                     </div>
                                 </form>
-                            </div>
+                            </Card>
                         </motion.div>
                     )}
 
@@ -302,7 +308,7 @@ export default function PasswordResetPage() {
                             animate={{ opacity: 1, x: 0 }}
                             exit={{ opacity: 0, x: -20 }}
                         >
-                            <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                                 <div className="flex items-center justify-center w-16 h-16 bg-purple-100 dark:bg-purple-500/10 rounded-2xl mx-auto mb-6">
                                     <Key className="w-8 h-8 text-purple-600 dark:text-purple-400" />
                                 </div>
@@ -319,11 +325,11 @@ export default function PasswordResetPage() {
                                     className="space-y-6"
                                 >
                                     <div>
-                                        <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                             Новый пароль
-                                        </label>
+                                        </Label>
                                         <div className="relative">
-                                            <input
+                                            <Input
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="Минимум 8 символов"
                                                 value={password}
@@ -331,7 +337,7 @@ export default function PasswordResetPage() {
                                                     setPassword(e.target.value)
                                                 }
                                                 required
-                                                className="pr-12 p-3 rounded-xl w-full border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                                className="pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                             />
                                             <button
                                                 type="button"
@@ -371,11 +377,11 @@ export default function PasswordResetPage() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                             Подтвердите пароль
-                                        </label>
+                                        </Label>
                                         <div className="relative">
-                                            <input
+                                            <Input
                                                 type={
                                                     showConfirmPassword
                                                         ? "text"
@@ -387,7 +393,7 @@ export default function PasswordResetPage() {
                                                     setConfirmPassword(e.target.value)
                                                 }
                                                 required
-                                                className="pr-12 p-3 rounded-xl w-full border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                                className="pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                             />
                                             <button
                                                 type="button"
@@ -414,8 +420,15 @@ export default function PasswordResetPage() {
                                     </div>
 
                                     <Button
-                                        typeButton="emerald"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12 rounded-xl"
+                                        type="submit"
+                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                        disabled={
+                                            isLoading ||
+                                            !password ||
+                                            !confirmPassword ||
+                                            password !== confirmPassword ||
+                                            passwordStrength() < 50
+                                        }
                                     >
                                         {isLoading ? (
                                             "Сохранение..."
@@ -427,7 +440,7 @@ export default function PasswordResetPage() {
                                         )}
                                     </Button>
                                 </form>
-                            </div>
+                            </Card>
                         </motion.div>
                     )}
 
@@ -439,7 +452,7 @@ export default function PasswordResetPage() {
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.9 }}
                         >
-                            <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
+                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
                                 <motion.div
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
@@ -457,21 +470,18 @@ export default function PasswordResetPage() {
                                 </p>
 
                                 <Button
-                                    typeButton="emerald"
                                     onClick={() => navigate("/login")}
-                                    className="w-full bg-emerald-600 rounded-xl hover:bg-emerald-700 h-12"
+                                    className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
                                 >
                                     Войти в аккаунт
                                     <ArrowRight className="w-4 h-4 ml-2" />
                                 </Button>
-                            </div>
+                            </Card>
                         </motion.div>
                     )}
                 </AnimatePresence>
             </div>
-            <div className="w-full">
-                <Footer />
-            </div>
+            <Footer />
         </section>
     );
 }

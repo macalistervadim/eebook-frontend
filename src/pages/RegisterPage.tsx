@@ -14,11 +14,13 @@ import {
     XCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import Button from "@/components/Button.tsx";
+import { Button } from "@/components/Button.tsx";
 import { Checkbox } from "@/components/Checkbox.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
 import { Link, useNavigate } from "react-router-dom";
+import { Input } from "@/components/Input.tsx";
+import { Label } from "@/components/Label.tsx";
 
 export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
@@ -252,26 +254,29 @@ export default function Register() {
                         </AnimatePresence>
 
                         {/* Social register buttons */}
-                        <div className="space-y-3 space-x-4 mb-6 flex">
+                        <div className="space-y-3 space-x-4 mb-6 flex justify-between">
                             <Button
-                                typeButton="noBg"
-                                className="w-full h-12 rounded-xl border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center"
+                                type="button"
+                                variant="outline"
+                                className="w-[30%] h-12 rounded-xl border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
                                 onClick={() => handleSocialRegister("Google")}
                             >
                                 <Chrome className="w-5 h-5 mr-2" />
                                 Google
                             </Button>
                             <Button
-                                typeButton="noBg"
-                                className="w-full h-12 rounded-xl border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all flex items-center justify-center"
+                                type="button"
+                                variant="outline"
+                                className="w-[30%] h-12 rounded-xl border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
                                 onClick={() => handleSocialRegister("Apple")}
                             >
                                 <AppleIcon className="w-5 h-5 mr-2" />
                                 Apple
                             </Button>
                             <Button
-                                typeButton="noBg"
-                                className="w-full h-12 rounded-xl border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all  flex items-center justify-center"
+                                type="button"
+                                variant="outline"
+                                className="w-[30%] h-12 rounded-xl border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all"
                                 onClick={() => handleSocialRegister("LinkedIn")}
                             >
                                 <Linkedin className="w-5 h-5 mr-2" />
@@ -296,15 +301,15 @@ export default function Register() {
                             {/* Name fields */}
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label
+                                    <Label
                                         htmlFor="register-firstName"
                                         className="text-gray-700 dark:text-gray-300 mb-2 block"
                                     >
                                         Имя
-                                    </label>
+                                    </Label>
                                     <div className="relative">
                                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                        <input
+                                        <Input
                                             id="register-firstName"
                                             type="text"
                                             placeholder="Иван"
@@ -325,15 +330,15 @@ export default function Register() {
                                     </div>
                                 </div>
                                 <div>
-                                    <label
+                                    <Label
                                         htmlFor="register-lastName"
                                         className="text-gray-700 dark:text-gray-300 mb-2 block"
                                     >
                                         Фамилия
-                                    </label>
+                                    </Label>
                                     <div className="relative">
                                         <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                        <input
+                                        <Input
                                             id="register-lastName"
                                             type="text"
                                             placeholder="Иванов"
@@ -355,15 +360,15 @@ export default function Register() {
                                 </div>
                             </div>
                             <div>
-                                <label
+                                <Label
                                     htmlFor="register-firstName"
                                     className="text-gray-700 dark:text-gray-300 mb-2 block"
                                 >
                                     Имя пользователя
-                                </label>
+                                </Label>
                                 <div className="relative">
                                     <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                    <input
+                                    <Input
                                         id="register-username"
                                         type="text"
                                         placeholder="ivanov111"
@@ -391,15 +396,15 @@ export default function Register() {
                             </div>
                             {/* Email */}
                             <div>
-                                <label
+                                <Label
                                     htmlFor="register-email"
                                     className="text-gray-700 dark:text-gray-300 mb-2 block"
                                 >
                                     Email
-                                </label>
+                                </Label>
                                 <div className="relative">
                                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                    <input
+                                    <Input
                                         id="register-email"
                                         type="email"
                                         placeholder="your@email.com"
@@ -444,15 +449,15 @@ export default function Register() {
 
                             {/* Password */}
                             <div>
-                                <label
+                                <Label
                                     htmlFor="register-password"
                                     className="text-gray-700 dark:text-gray-300 mb-2 block"
                                 >
                                     Пароль
-                                </label>
+                                </Label>
                                 <div className="relative">
                                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                    <input
+                                    <Input
                                         id="register-password"
                                         type={showPassword ? "text" : "password"}
                                         placeholder="••••••••"
@@ -563,15 +568,15 @@ export default function Register() {
 
                             {/* Confirm Password */}
                             <div>
-                                <label
+                                <Label
                                     htmlFor="register-confirmPassword"
                                     className="text-gray-700 dark:text-gray-300 mb-2 block"
                                 >
                                     Подтвердите пароль
-                                </label>
+                                </Label>
                                 <div className="relative">
                                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                    <input
+                                    <Input
                                         id="register-confirmPassword"
                                         type={showConfirmPassword ? "text" : "password"}
                                         placeholder="••••••••"
@@ -594,8 +599,8 @@ export default function Register() {
                                         }`}
                                         required
                                     />
-                                    <Button
-                                        typeButton="noBg"
+                                    <button
+                                        type="button"
                                         onClick={() =>
                                             setShowConfirmPassword(!showConfirmPassword)
                                         }
@@ -606,7 +611,7 @@ export default function Register() {
                                         ) : (
                                             <Eye className="w-5 h-5" />
                                         )}
-                                    </Button>
+                                    </button>
                                 </div>
                                 <AnimatePresence>
                                     {errors.confirmPassword && (
@@ -647,7 +652,7 @@ export default function Register() {
                                             )
                                         }
                                     />
-                                    <label
+                                    <Label
                                         htmlFor="register-terms"
                                         className="text-gray-600  dark:text-gray-400 cursor-pointer select-none"
                                     >
@@ -665,7 +670,7 @@ export default function Register() {
                                         >
                                             политикой конфиденциальности
                                         </a>
-                                    </label>
+                                    </Label>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                     <Checkbox
@@ -678,33 +683,33 @@ export default function Register() {
                                             )
                                         }
                                     />
-                                    <label
+                                    <Label
                                         htmlFor="register-newsletter"
                                         className="text-gray-600 dark:text-gray-400 cursor-pointer select-none"
                                     >
                                         Получать новости и обновления на email
-                                    </label>
+                                    </Label>
                                 </div>
                             </div>
 
                             {/* Submit button */}
                             <Button
-                                typeButton="noBg"
-                                // disabled={
-                                //     isSubmitting ||
-                                //     !!errors.email ||
-                                //     !!errors.confirmPassword ||
-                                //     !formData.email ||
-                                //     !formData.password ||
-                                //     !formData.confirmPassword ||
-                                //     !formData.agreeToTerms ||
-                                //     passwordStrength < 3
-                                // }
+                                type="submit"
+                                disabled={
+                                    isSubmitting ||
+                                    !!errors.email ||
+                                    !!errors.confirmPassword ||
+                                    !formData.email ||
+                                    !formData.password ||
+                                    !formData.confirmPassword ||
+                                    !formData.agreeToTerms ||
+                                    passwordStrength < 3
+                                }
                                 className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isSubmitting ? (
-                                    <div className="flex items-center justify-center gap-2">
-                                        <div className="text-center w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                                         Регистрация...
                                     </div>
                                 ) : (

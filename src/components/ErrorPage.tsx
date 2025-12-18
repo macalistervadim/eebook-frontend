@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Home, RefreshCw } from "lucide-react";
-import Button from "@/components/Button";
+import { Button } from "@/components/Button";
 import { useNavigate } from "react-router-dom";
 
 interface ErrorPageProps {
@@ -108,8 +108,8 @@ export function ErrorPage({ code }: ErrorPageProps) {
                     className="flex flex-col sm:flex-row justify-center gap-4 w-full max-w-sm sm:max-w-none"
                 >
                     <Button
-                        typeButton="emerald"
-                        className={`w-full sm:w-auto px-5 py-3 rounded-xl bg-gradient-to-r ${content.gradient} text-white shadow-lg shadow-black/10`}
+                        size="lg"
+                        className="rounded-xl bg-gradient-to-r  from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg"
                         onClick={() => navigate("/")}
                     >
                         <Home className="w-5 h-5 mr-2" />
@@ -117,9 +117,10 @@ export function ErrorPage({ code }: ErrorPageProps) {
                     </Button>
 
                     <Button
-                        typeButton="noBg"
+                        size="lg"
+                        variant="outline"
                         onClick={() => window.location.reload()}
-                        className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300/60 dark:border-slate-700/60 hover:bg-slate-100/40 dark:hover:bg-slate-800/40 transition flex items-center justify-center"
+                        className="rounded-xl border-slate-300 dark:border-slate-700"
                     >
                         <RefreshCw className="w-5 h-5 mr-2" />
                         Обновить страницу

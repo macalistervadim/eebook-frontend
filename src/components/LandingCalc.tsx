@@ -5,9 +5,10 @@ import { useState } from "react";
 import type { JSX } from "react";
 import { TrendingUp, Percent, Sparkles } from "lucide-react";
 import * as SliderPrimitive from "@radix-ui/react-slider";
-import Button from "./Button.tsx";
-import Badge from "./Badge.tsx";
+import { Button } from "./Button.tsx";
 import { useNavigate } from "react-router-dom";
+import { Card } from "@/components/Card.tsx";
+import { Label } from "@/components/Label.tsx";
 
 export default function LandingCalc(): JSX.Element {
     const [portfolioValue, setPortfolioValue] = useState(1000000);
@@ -41,15 +42,12 @@ export default function LandingCalc(): JSX.Element {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-12 sm:mb-16 md:mb-20"
                 >
-                    <Badge
-                        className="bg-emerald-100/60 border border-emerald-200
-                  dark:border-emerald-700 dark:text-slate-300 dark:bg-emerald-800/20 rounded-full px-5 py-2 mb-10 "
-                        icon={
-                            <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400 mr-1" />
-                        }
-                    >
-                        Калькулятор выгоды
-                    </Badge>
+                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 rounded-full border border-emerald-100 dark:border-emerald-800 mb-6">
+                        <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                        <span className="text-sm text-emerald-700 dark:text-emerald-300">
+                            Калькулятор выгоды
+                        </span>
+                    </div>
                     <h2 className="text-4xl sm:text-5xl md:text-6xl mb-4 sm:mb-6 text-slate-900 dark:text-white">
                         Посчитайте вашу выгоду
                     </h2>
@@ -76,9 +74,9 @@ export default function LandingCalc(): JSX.Element {
 
                             <div className="mb-8">
                                 <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                                    <label className="text-slate-700 dark:text-slate-200 text-sm sm:text-base">
+                                    <Label className="text-slate-700 dark:text-slate-200 text-sm sm:text-base">
                                         Размер портфеля
-                                    </label>
+                                    </Label>
                                     <div className="flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl border border-emerald-100 dark:from-emerald-900/30 dark:to-teal-900/30 dark:border-emerald-800">
                                         <span className="text-lg sm:text-xl text-emerald-700 dark:text-emerald-400 whitespace-nowrap">
                                             {portfolioValue.toLocaleString("ru-RU")} ₽
@@ -109,9 +107,9 @@ export default function LandingCalc(): JSX.Element {
                             {/* Сделок в месяц */}
                             <div className="mb-8">
                                 <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
-                                    <label className="text-slate-700 dark:text-slate-200 text-sm sm:text-base">
+                                    <Label className="text-slate-700 dark:text-slate-200 text-sm sm:text-base">
                                         Сделок в месяц
-                                    </label>
+                                    </Label>
                                     <div className="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl border border-slate-200 dark:from-slate-700 dark:to-slate-600 dark:border-slate-600">
                                         <span className="text-lg sm:text-xl text-slate-900 dark:text-white whitespace-nowrap">
                                             {monthlyTrades}
@@ -258,21 +256,17 @@ export default function LandingCalc(): JSX.Element {
                         </div>
 
                         {/* CTA */}
-                        <div className="p-6 sm:p-8 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl sm:rounded-3xl border border-slate-700 dark:from-slate-800 dark:to-slate-700 dark:border-slate-600">
-                            <h4 className="text-lg sm:text-xl text-white mb-3 sm:mb-4">
+                        <Card className="p-8 bg-gradient-to-br from-slate-900 to-slate-800 dark:from-slate-800 dark:to-slate-700 border-slate-700 dark:border-slate-600 rounded-3xl">
+                            <h4 className="text-xl text-white mb-2">
                                 Начните экономить уже сегодня
                             </h4>
-                            <p className="text-slate-300 text-sm sm:text-base mb-5 sm:mb-6">
+                            <p className="text-slate-300 mb-2">
                                 Первые 30 дней — бесплатно. Отмените в любой момент.
                             </p>
-                            <Button
-                                typeButton="emerald"
-                                className="w-full px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl text-base"
-                                onClick={() => navigate("/register")}
-                            >
-                                Начать бесплатно
+                            <Button className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl shadow-lg shadow-emerald-500/25">
+                                Попробовать бесплатно
                             </Button>
-                        </div>
+                        </Card>
                     </motion.div>
                 </div>
 

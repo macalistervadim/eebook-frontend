@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight, Mail } from "lucide-react";
-import Button from "./Button.tsx";
+import { Button } from "./Button.tsx";
 import { useState } from "react";
 
 export default function CTA() {
@@ -127,10 +127,8 @@ export default function CTA() {
                         </div>
 
                         <Button
-                            typeButton="emerald"
-                            className={`px-4 py-3 rounded-2xl w-full sm:w-auto ${
-                                errors.email ? "opacity-10 pointer-events-none" : ""
-                            }`}
+                            size="lg"
+                            className="w-full sm:w-auto group px-8 py-6 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-2xl shadow-lg shadow-emerald-500/25"
                         >
                             Получить доступ
                             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />

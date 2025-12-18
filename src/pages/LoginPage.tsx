@@ -12,7 +12,7 @@ import {
     CheckCircle2,
     XCircle,
 } from "lucide-react";
-import Button from "../components/Button.tsx";
+import { Button } from "../components/Button.tsx";
 import { Checkbox } from "@/components/Checkbox.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
@@ -20,6 +20,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { loginRequest } from "@/auth/authApi.ts";
 import { useAuth } from "@/auth/AuthProvider.tsx";
+import { Input } from "@/components/Input.tsx";
+import { Label } from "@/components/Label.tsx";
 
 export default function Login() {
     const [showPassword, setShowPassword] = useState(false);
@@ -114,7 +116,8 @@ export default function Login() {
 
                         <div className="space-y-3 mb-6">
                             <Button
-                                typeButton="noBg"
+                                type="button"
+                                variant="outline"
                                 className="w-full h-12 rounded-xl border-gray-300 dark:border-gray-700 flex items-center justify-center"
                                 onClick={() => handleSocialLogin("Google")}
                             >
@@ -123,7 +126,8 @@ export default function Login() {
                             </Button>
 
                             <Button
-                                typeButton="noBg"
+                                type="button"
+                                variant="outline"
                                 className="w-full h-12 rounded-xl border-gray-300 dark:border-gray-700 flex items-center justify-center"
                                 onClick={() => handleSocialLogin("Apple")}
                             >
@@ -132,7 +136,8 @@ export default function Login() {
                             </Button>
 
                             <Button
-                                typeButton="noBg"
+                                type="button"
+                                variant="outline"
                                 className="w-full h-12 rounded-xl border-gray-300 dark:border-gray-700 flex items-center justify-center"
                                 onClick={() => handleSocialLogin("LinkedIn")}
                             >
@@ -154,12 +159,12 @@ export default function Login() {
 
                         <form onSubmit={handleSubmit} className="space-y-5">
                             <div>
-                                <label className="text-gray-700 dark:text-gray-300 mb-2 block">
+                                <Label className="text-gray-700 dark:text-gray-300 mb-2 block">
                                     Email
-                                </label>
+                                </Label>
                                 <div className="relative">
                                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                    <input
+                                    <Input
                                         id="email"
                                         type="email"
                                         value={email}
@@ -198,12 +203,12 @@ export default function Login() {
 
                             {/* PASSWORD */}
                             <div>
-                                <label className="text-gray-700 dark:text-gray-300 mb-2 block">
+                                <Label className="text-gray-700 dark:text-gray-300 mb-2 block">
                                     Пароль
-                                </label>
+                                </Label>
                                 <div className="relative">
                                     <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                                    <input
+                                    <Input
                                         id="password"
                                         type={showPassword ? "text" : "password"}
                                         value={password}
@@ -225,14 +230,17 @@ export default function Login() {
                             {/* REMEMBER */}
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center space-x-2">
-                                    <Checkbox id="remember" />
-                                    <label className="text-gray-600 dark:text-gray-400 select-none">
+                                    <Checkbox id="login-remember" />
+                                    <Label
+                                        htmlFor="login-remember"
+                                        className="text-gray-600 dark:text-gray-400 cursor-pointer select-none"
+                                    >
                                         Запомнить меня
-                                    </label>
+                                    </Label>
                                 </div>
                                 <Link
                                     to="/password-reset"
-                                    className="text-emerald-600 dark:text-emerald-400"
+                                    className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors"
                                 >
                                     Забыли пароль?
                                 </Link>
@@ -240,8 +248,10 @@ export default function Login() {
 
                             {/* BUTTON — with spinner */}
                             <Button
-                                typeButton="emerald"
-                                className="w-full h-12 text-white rounded-xl shadow-lg shadow-emerald-500/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                type="submit"
+                                variant="default"
+                                size="lg"
+                                className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl shadow-lg transition-all  shadow-emerald-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 {isSubmitting ? (
                                     <div className="flex items-center gap-2">

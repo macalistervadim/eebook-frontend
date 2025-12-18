@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
+import { Card } from "../components/Card";
+import { Button } from "../components/Button";
 import { Check, Sparkles, Zap, Crown } from "lucide-react";
-import Button from "./Button.tsx";
 
 const plans = [
     {
@@ -47,6 +48,7 @@ const plans = [
             "Все из тарифа Про",
             "Персональный менеджер",
             "Индивидуальные стратегии",
+            "Белый лейбл",
             "Расширенное API",
             "Кастомные интеграции",
             "Обучение и консультации",
@@ -58,10 +60,7 @@ const plans = [
 
 export default function Pricing() {
     return (
-        <section
-            id="price"
-            className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden"
-        >
+        <section className="py-32 bg-white dark:bg-slate-900 relative overflow-hidden">
             {/* Background decoration */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 left-1/4 w-96 h-96 bg-emerald-100 rounded-full blur-3xl opacity-20" />
@@ -86,95 +85,95 @@ export default function Pricing() {
                 </motion.div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {plans.map((plan, index) => {
-                        const buttonVariant = plan.price === "499" ? "emerald" : "slate";
-
-                        return (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="relative"
-                            >
-                                {plan.popular && (
-                                    <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
-                                        <div className="px-4 py-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm rounded-full shadow-lg">
-                                            Популярный
-                                        </div>
-                                    </div>
-                                )}
-
-                                <div
-                                    className={`relative p-8 h-full rounded-3xl transition-all duration-300 ${
-                                        plan.popular
-                                            ? "bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 shadow-2xl shadow-emerald-100/50 scale-105"
-                                            : "bg-white border-slate-200 hover:border-emerald-200 hover:shadow-xl hover:-translate-y-1 border"
-                                    }`}
-                                >
-                                    <div className="mb-6">
-                                        <div className="inline-flex p-3 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 mb-4">
-                                            <plan.icon
-                                                className={`w-6 h-6 ${
-                                                    plan.popular
-                                                        ? "text-emerald-600"
-                                                        : "text-slate-600"
-                                                }`}
-                                            />
-                                        </div>
-                                        <h3 className="text-2xl text-slate-900 mb-2">
-                                            {plan.name}
-                                        </h3>
-                                        <p className="text-slate-600 text-sm mb-6">
-                                            {plan.description}
-                                        </p>
-                                        <div className="flex items-baseline gap-2 mb-1">
-                                            <span className="text-5xl text-slate-900">
-                                                {plan.price}
-                                            </span>
-                                            {plan.price !== "0" && (
-                                                <span className="text-slate-600">₽</span>
-                                            )}
-                                        </div>
-                                        <div className="text-slate-500 text-sm">
-                                            {plan.period}
-                                        </div>
-                                    </div>
-
-                                    <Button
-                                        typeButton={buttonVariant}
-                                        className="px-2 py-2 w-full rounded-xl"
-                                    >
-                                        {plan.price === "0"
-                                            ? "Начать бесплатно"
-                                            : "Попробовать 30 дней"}
-                                    </Button>
-                                    <div className="space-y-4 mt-10">
-                                        {plan.features.map((feature, featureIndex) => (
-                                            <div
-                                                key={featureIndex}
-                                                className="flex items-start gap-3"
-                                            >
-                                                <div className="mt-0.5">
-                                                    <Check
-                                                        className={`w-5 h-5 ${
-                                                            plan.popular
-                                                                ? "text-emerald-600"
-                                                                : "text-slate-400"
-                                                        }`}
-                                                    />
-                                                </div>
-                                                <span className="text-slate-700">
-                                                    {feature}
-                                                </span>
-                                            </div>
-                                        ))}
+                    {plans.map((plan, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            className="relative"
+                        >
+                            {plan.popular && (
+                                <div className="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
+                                    <div className="px-4 py-1 bg-gradient-to-r from-emerald-500 to-teal-500 text-white text-sm rounded-full shadow-lg">
+                                        Популярный
                                     </div>
                                 </div>
-                            </motion.div>
-                        );
-                    })}
+                            )}
+
+                            <Card
+                                className={`relative p-8 h-full rounded-3xl transition-all duration-300 ${
+                                    plan.popular
+                                        ? "bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-200 shadow-2xl shadow-emerald-100/50 scale-105"
+                                        : "bg-white border-slate-200 hover:border-emerald-200 hover:shadow-xl hover:-translate-y-1"
+                                }`}
+                            >
+                                <div className="mb-6">
+                                    <div className="inline-flex p-3 rounded-2xl bg-gradient-to-br from-slate-100 to-slate-50 mb-4">
+                                        <plan.icon
+                                            className={`w-6 h-6 ${
+                                                plan.popular
+                                                    ? "text-emerald-600"
+                                                    : "text-slate-600"
+                                            }`}
+                                        />
+                                    </div>
+                                    <h3 className="text-2xl text-slate-900 mb-2">
+                                        {plan.name}
+                                    </h3>
+                                    <p className="text-slate-600 text-sm mb-6">
+                                        {plan.description}
+                                    </p>
+                                    <div className="flex items-baseline gap-2 mb-1">
+                                        <span className="text-5xl text-slate-900">
+                                            {plan.price}
+                                        </span>
+                                        {plan.price !== "0" && (
+                                            <span className="text-slate-600">₽</span>
+                                        )}
+                                    </div>
+                                    <div className="text-slate-500 text-sm">
+                                        {plan.period}
+                                    </div>
+                                </div>
+
+                                <Button
+                                    className={`w-full mb-8 rounded-xl ${
+                                        plan.popular
+                                            ? "bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg shadow-emerald-500/25"
+                                            : "bg-slate-900 hover:bg-slate-800 text-white"
+                                    }`}
+                                >
+                                    {plan.price === "0"
+                                        ? "Начать бесплатно"
+                                        : "Попробовать 30 дней"}
+                                </Button>
+
+                                <div className="space-y-4">
+                                    {plan.features.map((feature, featureIndex) => (
+                                        <div
+                                            key={featureIndex}
+                                            className="flex items-start gap-3"
+                                        >
+                                            <div className="mt-0.5">
+                                                <Check
+                                                    className={`w-5 h-5 ${
+                                                        plan.popular
+                                                            ? "text-emerald-600"
+                                                            : "text-slate-400"
+                                                    }`}
+                                                />
+                                            </div>
+                                            <span className="text-slate-700">
+                                                {feature}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </Card>
+                        </motion.div>
+                    ))}
                 </div>
 
                 {/* Enterprise option */}
@@ -185,7 +184,7 @@ export default function Pricing() {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="mt-12 text-center"
                 >
-                    <div className="inline-block p-8 bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 rounded-2xl">
+                    <Card className="inline-block p-8 bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 rounded-2xl">
                         <div className="flex flex-col md:flex-row items-center gap-6">
                             <div className="text-5xl">🏢</div>
                             <div className="text-left">
@@ -197,14 +196,14 @@ export default function Pricing() {
                                     инвесторов. Свяжитесь с нами для обсуждения.
                                 </p>
                                 <Button
-                                    typeButton="noBg"
-                                    className="px-4 py-2 text-white rounded-xl"
+                                    variant="outline"
+                                    className="border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white"
                                 >
                                     Связаться с отделом продаж
                                 </Button>
                             </div>
                         </div>
-                    </div>
+                    </Card>
                 </motion.div>
             </div>
         </section>

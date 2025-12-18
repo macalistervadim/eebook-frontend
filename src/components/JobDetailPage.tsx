@@ -12,8 +12,8 @@ import {
     ArrowLeft,
     Send,
 } from "lucide-react";
-import Button from "@/components/Button.tsx";
-import Badge from "@/components/Badge.tsx";
+import { Button } from "@/components/Button.tsx";
+import { Badge } from "@/components/Badge.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
 import { useNavigate } from "react-router-dom";
@@ -87,7 +87,7 @@ export default function JobDetailPage() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
             <LandingHeader />
-            <div className="max-w-6xl mx-auto px-6 py-50 mb-20 space-y-8">
+            <div className="max-w-6xl mx-auto px-6 py-30 mb-20 space-y-8">
                 {/* Back button */}
                 <motion.div
                     initial={{ opacity: 0, x: -15 }}
@@ -95,7 +95,8 @@ export default function JobDetailPage() {
                     transition={{ duration: 0.4 }}
                 >
                     <Button
-                        typeButton="ghost"
+                        type="button"
+                        variant="ghost"
                         className="rounded-xl px-3 py-3 flex items-center justify-center"
                         onClick={() => navigate("/career")}
                     >
@@ -163,21 +164,21 @@ export default function JobDetailPage() {
 
                         <div className="flex flex-col gap-3 w-full md:w-56">
                             <Button
-                                typeButton="emerald"
-                                className="w-full rounded-xl bg-white text-emerald-700 hover:bg-emerald-50 px-3 py-3 flex items-center justify-center"
+                                type="button"
+                                className="bg-gradient-to-r from-emerald-300 to-teal-500 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl shadow-lg shadow-emerald-500/25"
+                                onClick={() => navigate("/register")}
                             >
-                                <Send className="w-4 h-4 mr-2" />
                                 Откликнуться
                             </Button>
                             <Button
-                                typeButton="noBg"
+                                variant="outline"
                                 className="w-full rounded-xl border-white/20 text-white hover:bg-white/10 px-3 py-3 flex items-center justify-center"
                             >
                                 <Heart className="w-4 h-4 mr-2" />
                                 Сохранить вакансию
                             </Button>
                             <Button
-                                typeButton="noBg"
+                                variant="outline"
                                 className="w-full rounded-xl border-white/10 text-white/80 hover:bg-white/5 px-3 py-3 flex items-center justify-center"
                             >
                                 <Share2 className="w-4 h-4 mr-2" />
@@ -370,7 +371,7 @@ export default function JobDetailPage() {
                                 Откликнуться на вакансию
                             </Button>
                             <Button
-                                typeButton="noBg"
+                                variant="outline"
                                 className="w-full rounded-xl border border-slate-200/70 dark:border-slate-700/70 px-3 py-3 flex items-center justify-center "
                             >
                                 <Heart className="w-4 h-4 mr-2" />

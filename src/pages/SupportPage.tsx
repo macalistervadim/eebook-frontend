@@ -20,10 +20,13 @@ import {
     Zap,
     Users,
 } from "lucide-react";
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/Tabs";
-import Badge from "@/components/Badge.tsx";
-import Button from "@/components/Button.tsx";
+import { Badge } from "@/components/Badge.tsx";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/Tabs.tsx";
+import { Card } from "@/components/Card.tsx";
+import { Button } from "@/components/Button.tsx";
+import { Input } from "@/components/Input.tsx";
+import { Label } from "@/components/Label.tsx";
+import { Textarea } from "@/components/Textarea.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
 
@@ -154,21 +157,21 @@ export default function SupportPage() {
         switch (status) {
             case "open":
                 return (
-                    <Badge className="rounded-xl px-4 py-1 inline-flex bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
-                        <AlertCircle className="w-3 h-3 mr-1 inline-flex" />
+                    <Badge className="bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
+                        <AlertCircle className="w-3 h-3 mr-1" />
                         Открыт
                     </Badge>
                 );
             case "in_progress":
                 return (
-                    <Badge className="rounded-xl px-4 py-1  bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-0">
-                        <Clock className="w-3 h-3 mr-1 inline-flex" />В работе
+                    <Badge className="bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-0">
+                        <Clock className="w-3 h-3 mr-1" />В работе
                     </Badge>
                 );
             case "resolved":
                 return (
-                    <Badge className=" rounded-xl px-4 py-1 bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0">
-                        <CheckCircle2 className="w-3 h-3 mr-1 inline-flex" />
+                    <Badge className="bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0">
+                        <CheckCircle2 className="w-3 h-3 mr-1" />
                         Решен
                     </Badge>
                 );
@@ -180,11 +183,11 @@ export default function SupportPage() {
     const getPriorityBadge = (priority: string) => {
         switch (priority) {
             case "high":
-                return <Badge>Высокий</Badge>;
+                return <Badge variant="destructive">Высокий</Badge>;
             case "medium":
-                return <Badge>Средний</Badge>;
+                return <Badge variant="secondary">Средний</Badge>;
             case "low":
-                return <Badge>Низкий</Badge>;
+                return <Badge variant="outline">Низкий</Badge>;
             default:
                 return null;
         }
@@ -192,13 +195,13 @@ export default function SupportPage() {
 
     return (
         <section className="py-12 bg-white dark:bg-slate-900 min-h-screen">
-            <div className="container mx-auto px-4 max-w-7xl mb-20">
-                <LandingHeader />
+            <LandingHeader />
+            <div className="container mx-auto px-4 max-w-7xl mt-20 mb-20">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-12 mt-20"
+                    className="mb-12"
                 >
                     <div className="flex items-center gap-3 mb-6">
                         <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl">
@@ -233,7 +236,7 @@ export default function SupportPage() {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: index * 0.1 }}
                                     >
-                                        <div className="border rounded-xl p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all">
+                                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:shadow-lg transition-all">
                                             <div className="flex items-start gap-4">
                                                 <div
                                                     className={`p-3 rounded-xl ${
@@ -266,34 +269,34 @@ export default function SupportPage() {
                                                     <p className="text-slate-600 dark:text-slate-400 mb-1">
                                                         {method.description}
                                                     </p>
-                                                    <p className="text-sm text-slate-500 dark:text-slate-300 mb-4">
+                                                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">
                                                         {method.availability}
                                                     </p>
                                                     <Button
-                                                        typeButton="noBg"
-                                                        className="w-full py-2"
+                                                        variant="outline"
+                                                        className="w-full"
                                                     >
                                                         {method.action}
                                                     </Button>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </Card>
                                     </motion.div>
                                 );
                             })}
                         </div>
 
                         {/* New Ticket Form */}
-                        <div className="border rounded-xl p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <h3 className="text-slate-900 dark:text-white mb-6">
                                 Создать обращение
                             </h3>
                             <div className="space-y-4">
                                 <div>
-                                    <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                    <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                         Тема обращения
-                                    </label>
-                                    <input
+                                    </Label>
+                                    <Input
                                         placeholder="Кратко опишите вашу проблему"
                                         value={newTicket.subject}
                                         onChange={(e) =>
@@ -302,7 +305,7 @@ export default function SupportPage() {
                                                 subject: e.target.value,
                                             })
                                         }
-                                        className="outline-none border rounded-md w-full p-3 text-md bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                        className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                     />
                                 </div>
 
@@ -334,9 +337,9 @@ export default function SupportPage() {
                                     </div>
 
                                     <div>
-                                        <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                             Приоритет
-                                        </label>
+                                        </Label>
                                         <select
                                             className="w-full h-10 px-3 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
                                             value={newTicket.priority}
@@ -359,7 +362,7 @@ export default function SupportPage() {
                                     <label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
                                         Описание проблемы
                                     </label>
-                                    <textarea
+                                    <Textarea
                                         placeholder="Подробно опишите вашу проблему или вопрос..."
                                         value={newTicket.description}
                                         onChange={(e) =>
@@ -368,28 +371,22 @@ export default function SupportPage() {
                                                 description: e.target.value,
                                             })
                                         }
-                                        className="outline-none w-full p-3 rounded-md border min-h-[150px] bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                        className="min-h-[150px] bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
                                     />
                                 </div>
 
                                 <div className="flex items-center gap-4">
-                                    <Button
-                                        typeButton="noBg"
-                                        className="gap-2 px-4 py-2 rounded-xl flex items-center"
-                                    >
+                                    <Button variant="outline" className="gap-2">
                                         <Paperclip className="w-4 h-4" />
                                         Прикрепить файлы
                                     </Button>
-                                    <Button
-                                        typeButton="emerald"
-                                        className="bg-emerald-600 hover:bg-emerald-700 ml-auto px-4 py-2 rounded-xl"
-                                    >
+                                    <Button className="bg-emerald-600 hover:bg-emerald-700 ml-auto">
                                         <Send className="w-4 h-4 mr-2" />
                                         Отправить обращение
                                     </Button>
                                 </div>
                             </div>
-                        </div>
+                        </Card>
                     </TabsContent>
 
                     {/* Tickets List */}
@@ -401,11 +398,13 @@ export default function SupportPage() {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.05 }}
                             >
-                                <div className="border rounded-xl p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:shadow-lg transition-shadow cursor-pointer">
+                                <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:shadow-lg transition-shadow cursor-pointer">
                                     <div className="flex items-start justify-between gap-4 mb-4">
                                         <div className="flex-1">
                                             <div className="flex items-center gap-3 mb-2">
-                                                <Badge>{ticket.id}</Badge>
+                                                <Badge variant="outline">
+                                                    {ticket.id}
+                                                </Badge>
                                                 {getStatusBadge(ticket.status)}
                                                 {getPriorityBadge(ticket.priority)}
                                             </div>
@@ -426,28 +425,22 @@ export default function SupportPage() {
                                                 </span>
                                             </div>
                                         </div>
-                                        <Button typeButton="ghost">
+                                        <Button variant="ghost" size="sm">
                                             <MoreHorizontal className="w-5 h-5" />
                                         </Button>
                                     </div>
 
                                     <div className="flex gap-2">
-                                        <Button
-                                            typeButton="noBg"
-                                            className="rounded-xl px-4 py-2"
-                                        >
+                                        <Button variant="outline" size="sm">
                                             Просмотреть
                                         </Button>
                                         {ticket.status !== "resolved" && (
-                                            <Button
-                                                typeButton="ghost"
-                                                className="rounded-xl px-2 py-1 "
-                                            >
+                                            <Button variant="ghost" size="sm">
                                                 Добавить сообщение
                                             </Button>
                                         )}
                                     </div>
-                                </div>
+                                </Card>
                             </motion.div>
                         ))}
                     </TabsContent>
@@ -457,12 +450,12 @@ export default function SupportPage() {
                         {/* Search */}
                         <div className="relative max-w-2xl">
                             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-                            <input
+                            <Input
                                 type="text"
                                 placeholder="Поиск в базе знаний..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-3xl rounded-xl pl-12 h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                className="pl-12 h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                             />
                         </div>
 
@@ -484,9 +477,9 @@ export default function SupportPage() {
                                             {category.questions.map((qa, qaIndex) => {
                                                 const faqId = catIndex * 100 + qaIndex;
                                                 return (
-                                                    <div
+                                                    <Card
                                                         key={qaIndex}
-                                                        className="bg-white rounded-xl dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                                        className="bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                                                     >
                                                         <button
                                                             onClick={() =>
@@ -496,7 +489,7 @@ export default function SupportPage() {
                                                                         : faqId
                                                                 )
                                                             }
-                                                            className="rounded-xl w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
+                                                            className="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors"
                                                         >
                                                             <span className="text-slate-900 dark:text-white">
                                                                 {qa.q}
@@ -526,7 +519,7 @@ export default function SupportPage() {
                                                                 </motion.div>
                                                             )}
                                                         </AnimatePresence>
-                                                    </div>
+                                                    </Card>
                                                 );
                                             })}
                                         </div>

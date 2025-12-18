@@ -25,6 +25,8 @@ import SupportPage from "@/pages/SupportPage.tsx";
 import UpdatesPage from "@/pages/UpdatesPage.tsx";
 import PasswordResetPage from "@/pages/PasswordResetPage.tsx";
 import ChangePasswordPage from "@/pages/ChangePassword.tsx";
+import CreatePortfolioPage from "@/pages/CreatePortfolioPage.tsx";
+import ProfilePage from "@/pages/ProfilePage.tsx";
 
 export default function App() {
     return (
@@ -64,6 +66,22 @@ export default function App() {
                 element={
                     <ProtectedRoute>
                         <LogoutPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/create-portfolio"
+                element={
+                    <ProtectedRoute>
+                        <CreatePortfolioPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/profile"
+                element={
+                    <ProtectedRoute>
+                        <ProfilePage />
                     </ProtectedRoute>
                 }
             />

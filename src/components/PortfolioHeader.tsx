@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "./Avatar";
+import { Button } from "../components/Button";
+import { Input } from "../components/Input";
+import { Avatar, AvatarFallback, AvatarImage } from "../components/Avatar";
 import {
     Bell,
     Search,
@@ -30,8 +32,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { motion, AnimatePresence } from "motion/react";
-import Badge from "./Badge";
-import { HashLink } from "react-router-hash-link";
+import { Badge } from "../components/Badge";
 import { Link } from "react-router-dom";
 
 const menuItems = {
@@ -91,14 +92,14 @@ export default function PortfolioHeader() {
 
                         {/* Desktop Navigation */}
                         <nav className="hidden lg:flex items-center gap-1">
-                            <HashLink
-                                smooth
+                            {/* Обзор */}
+                            <Link
                                 to="/dashboard"
                                 className="px-4 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors flex items-center gap-2"
                             >
                                 <LayoutDashboard className="w-4 h-4" />
                                 Обзор
-                            </HashLink>
+                            </Link>
 
                             {/* AI Помощник */}
                             <a
@@ -109,7 +110,7 @@ export default function PortfolioHeader() {
                                 <span className="bg-gradient-to-r from-amber-600 to-orange-600 bg-clip-text text-transparent">
                                     AI Помощник
                                 </span>
-                                <Badge className="absolute -top-1 -right-1 bg-gradient-to-r rounded-sm from-amber-500 to-orange-500 text-white border-0 text-xs px-1.5 py-0.5">
+                                <Badge className="absolute -top-1 -right-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0 text-xs px-1.5 py-0.5">
                                     NEW
                                 </Badge>
                             </a>
@@ -218,7 +219,7 @@ export default function PortfolioHeader() {
                     <div className="hidden md:flex flex-1 max-w-md">
                         <div className="relative w-full">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                            <input
+                            <Input
                                 type="text"
                                 placeholder="Поиск активов, транзакций..."
                                 className="w-full pl-11 pr-4 h-10 rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 focus:bg-white dark:focus:bg-slate-800"
@@ -295,7 +296,7 @@ export default function PortfolioHeader() {
                                                         <p className="text-slate-900 dark:text-white truncate">
                                                             Иван Иванов
                                                         </p>
-                                                        <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 rounded-md text-white border-0 text-xs px-1.5 py-0 h-5">
+                                                        <Badge className="bg-gradient-to-r from-amber-400 to-orange-500 text-white border-0 text-xs px-1.5 py-0 h-5">
                                                             PRO
                                                         </Badge>
                                                     </div>
@@ -334,8 +335,8 @@ export default function PortfolioHeader() {
 
                                         {/* Menu Items */}
                                         <div className="py-2">
-                                            <a
-                                                href="#profile"
+                                            <Link
+                                                to="/profile"
                                                 className="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
                                             >
                                                 <div className="flex-1">
@@ -346,7 +347,7 @@ export default function PortfolioHeader() {
                                                         Настройки аккаунта
                                                     </p>
                                                 </div>
-                                            </a>
+                                            </Link>
                                             <a
                                                 href="#settings"
                                                 className="flex items-center gap-3 px-4 py-3 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"

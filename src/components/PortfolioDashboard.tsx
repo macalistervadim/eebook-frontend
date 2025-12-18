@@ -21,8 +21,10 @@ import {
     Globe,
     Newspaper,
 } from "lucide-react";
-import { Progress } from "./Progress";
-import Badge from "./Badge";
+import { Button } from "../components/Button";
+import { Card } from "../components/Card";
+import { Badge } from "../components/Badge";
+import { Progress } from "../components/Progress";
 import {
     AreaChart,
     Area,
@@ -35,9 +37,9 @@ import {
     Tooltip,
     ResponsiveContainer,
 } from "recharts";
-import Button from "@/components/Button.tsx";
-import Footer from "@/components/Footer.tsx";
+import { LandingHeader } from "@/components/LandingHeader.tsx";
 import PortfolioHeader from "@/components/PortfolioHeader.tsx";
+import Footer from "@/components/Footer.tsx";
 
 // Mock data
 const portfolioData = [
@@ -91,7 +93,13 @@ const topHoldings = [
     },
 ];
 
-const upcomingDividends = [
+type Dividend = {
+    company: string;
+    date: string;
+    amount: number;
+};
+
+const upcomingDividends: Dividend[] = [
     { company: "Сбербанк", date: "15 дек", amount: 8500 },
     { company: "Газпром", date: "20 дек", amount: 5600 },
     { company: "Лукойл", date: "28 дек", amount: 4800 },
@@ -182,7 +190,7 @@ export default function PortfolioDashboardNew() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
             <PortfolioHeader />
-            <div className="max-w-[1600px] mx-auto px-6 py-20 space-y-8">
+            <div className="max-w-[1600px] mx-auto px-6 py-8 space-y-8 mb-20">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -190,7 +198,7 @@ export default function PortfolioDashboardNew() {
                     className="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
                 >
                     <div>
-                        <h1 className="text-slate-900 dark:text-white mb-2">
+                        <h1 className="text-slate-900 dark:text-white mb-2 text-xl">
                             Обзор портфеля
                         </h1>
                         <p className="text-slate-600 dark:text-slate-400">
@@ -198,14 +206,11 @@ export default function PortfolioDashboardNew() {
                         </p>
                     </div>
                     <div className="flex gap-3">
-                        <Button typeButton="noBg" className="flex gap-2 px-4 py-2">
+                        <Button variant="outline" className="gap-2">
                             <Calendar className="w-4 h-4" />
                             {selectedPeriod}
                         </Button>
-                        <Button
-                            typeButton="emerald"
-                            className="bg-emerald-600 hover:bg-emerald-700 gap-2 rounded-xl px-3"
-                        >
+                        <Button className="bg-emerald-600 hover:bg-emerald-700 gap-2">
                             <Plus className="w-4 h-4" />
                             Добавить актив
                         </Button>
@@ -220,15 +225,13 @@ export default function PortfolioDashboardNew() {
                     className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
                 >
                     {/* Total Value */}
-                    <div className="border rounded-xl p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-emerald-200 dark:border-emerald-800">
+                    <Card className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-emerald-200 dark:border-emerald-800">
                         <div className="flex items-start justify-between mb-4">
                             <div className="p-3 bg-emerald-600 rounded-2xl">
                                 <DollarSign className="w-6 h-6 text-white" />
                             </div>
-                            <Badge
-                                className="bg-emerald-600 text-white border-0 rounded-md px-2 py-0.5"
-                                icon={<TrendingUp className="w-3 h-3 mr-1" />}
-                            >
+                            <Badge className="bg-emerald-600 text-white border-0">
+                                <TrendingUp className="w-3 h-3 mr-1" />
                                 +18.06%
                             </Badge>
                         </div>
@@ -236,7 +239,7 @@ export default function PortfolioDashboardNew() {
                             <p className="text-sm text-slate-600 dark:text-slate-400">
                                 Общая стоимость
                             </p>
-                            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">
+                            <h3 className="text-3xl text-slate-900 dark:text-white">
                                 ₽1,180,000
                             </h3>
                             <p className="text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-1">
@@ -244,15 +247,15 @@ export default function PortfolioDashboardNew() {
                                 +₽180,000 от вложений
                             </p>
                         </div>
-                    </div>
+                    </Card>
 
                     {/* Today's Change */}
-                    <div className="border rounded-xl p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                    <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                         <div className="flex items-start justify-between mb-4">
                             <div className="p-3 bg-blue-100 dark:bg-blue-500/10 rounded-2xl">
                                 <Activity className="w-6 h-6 text-blue-600 dark:text-blue-400" />
                             </div>
-                            <Badge className="bg-blue-100 dark:bg-blue-500/10 rounded-md px-2 py-0.5 text-blue-700 dark:text-blue-400 border-0">
+                            <Badge className="bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
                                 +2.4%
                             </Badge>
                         </div>
@@ -260,22 +263,22 @@ export default function PortfolioDashboardNew() {
                             <p className="text-sm text-slate-600 dark:text-slate-400">
                                 Изменение за день
                             </p>
-                            <h3 className="text-2xl font-semibold  text-slate-900 dark:text-white">
+                            <h3 className="text-3xl text-slate-900 dark:text-white">
                                 +₽28,320
                             </h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
                                 С 9:00 МСК
                             </p>
                         </div>
-                    </div>
+                    </Card>
 
                     {/* Dividends */}
-                    <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                    <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                         <div className="flex items-start justify-between mb-4">
                             <div className="p-3 bg-purple-100 dark:bg-purple-500/10 rounded-2xl">
                                 <Calendar className="w-6 h-6 text-purple-600 dark:text-purple-400" />
                             </div>
-                            <Badge className="bg-purple-100 rounded-md px-2 py-0.5 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 border-0">
+                            <Badge className="bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 border-0">
                                 3 выплаты
                             </Badge>
                         </div>
@@ -283,22 +286,22 @@ export default function PortfolioDashboardNew() {
                             <p className="text-sm text-slate-600 dark:text-slate-400">
                                 Дивиденды декабрь
                             </p>
-                            <h3 className="text-2xl font-semibold  text-slate-900 dark:text-white">
+                            <h3 className="text-3xl text-slate-900 dark:text-white">
                                 ₽18,900
                             </h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
                                 Следующая: 15 дек
                             </p>
                         </div>
-                    </div>
+                    </Card>
 
                     {/* AI Score */}
-                    <div className="border p-6 bg-gradient-to-br rounded-xl from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-200 dark:border-amber-800">
+                    <Card className="p-6 bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-900/20 dark:to-orange-900/20 border-amber-200 dark:border-amber-800">
                         <div className="flex items-start justify-between mb-4">
                             <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-500 rounded-2xl">
                                 <Sparkles className="w-6 h-6 text-white" />
                             </div>
-                            <Badge className="bg-gradient-to-r from-amber-500 rounded-md px-2 py-0.5 to-orange-500 text-white border-0">
+                            <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white border-0">
                                 Отлично
                             </Badge>
                         </div>
@@ -306,14 +309,14 @@ export default function PortfolioDashboardNew() {
                             <p className="text-sm text-slate-600 dark:text-slate-400">
                                 AI оценка портфеля
                             </p>
-                            <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">
+                            <h3 className="text-3xl text-slate-900 dark:text-white">
                                 8.5/10
                             </h3>
                             <p className="text-sm text-slate-500 dark:text-slate-400">
                                 Выше среднего
                             </p>
                         </div>
-                    </div>
+                    </Card>
                 </motion.div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -324,7 +327,7 @@ export default function PortfolioDashboardNew() {
                         transition={{ delay: 0.2 }}
                         className="lg:col-span-2"
                     >
-                        <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <div className="flex items-center justify-between mb-6">
                                 <h3 className="text-slate-900 dark:text-white">
                                     Динамика портфеля
@@ -333,16 +336,17 @@ export default function PortfolioDashboardNew() {
                                     {["1M", "3M", "6M", "1Y", "Все"].map((period) => (
                                         <Button
                                             key={period}
-                                            typeButton={
+                                            variant={
                                                 selectedPeriod === period
-                                                    ? "emerald"
+                                                    ? "default"
                                                     : "ghost"
                                             }
+                                            size="sm"
                                             onClick={() => setSelectedPeriod(period)}
                                             className={
                                                 selectedPeriod === period
-                                                    ? "bg-emerald-600 px-3 py-2 hover:bg-emerald-700 rounded-lg"
-                                                    : "rounded-lg px-3 py-2 "
+                                                    ? "bg-emerald-600 hover:bg-emerald-700 rounded-lg"
+                                                    : "rounded-lg"
                                             }
                                         >
                                             {period}
@@ -425,7 +429,7 @@ export default function PortfolioDashboardNew() {
                                     />
                                 </AreaChart>
                             </ResponsiveContainer>
-                        </div>
+                        </Card>
                     </motion.div>
 
                     {/* Asset Allocation */}
@@ -434,7 +438,7 @@ export default function PortfolioDashboardNew() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
                     >
-                        <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 h-full">
+                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 h-full">
                             <h3 className="text-slate-900 dark:text-white mb-6">
                                 Распределение активов
                             </h3>
@@ -486,7 +490,7 @@ export default function PortfolioDashboardNew() {
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
                 </div>
 
@@ -498,7 +502,7 @@ export default function PortfolioDashboardNew() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.4 }}
                     >
-                        <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <h3 className="text-slate-900 dark:text-white mb-6">
                                 Топ активов
                             </h3>
@@ -537,8 +541,8 @@ export default function PortfolioDashboardNew() {
                                                 <Badge
                                                     className={
                                                         holding.change > 0
-                                                            ? "bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0 px-2 py-0.5 rounded-md"
-                                                            : "bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-0 px-2 py-0.5 rounded-md"
+                                                            ? "bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0"
+                                                            : "bg-red-100 dark:bg-red-500/10 text-red-700 dark:text-red-400 border-0"
                                                     }
                                                 >
                                                     {holding.change > 0 ? "+" : ""}
@@ -549,7 +553,7 @@ export default function PortfolioDashboardNew() {
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
 
                     {/* AI Insights */}
@@ -558,7 +562,7 @@ export default function PortfolioDashboardNew() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.5 }}
                     >
-                        <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <div className="flex items-center gap-2 mb-6">
                                 <Sparkles className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                                 <h3 className="text-slate-900 dark:text-white">
@@ -571,7 +575,7 @@ export default function PortfolioDashboardNew() {
                                         key={index}
                                         className={`p-4 rounded-xl border-2 ${
                                             insight.priority === "high"
-                                                ? "bg-red-50 dark:bg-emerald-900/50 border-red-200 dark:border-emerald-800"
+                                                ? "bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800"
                                                 : insight.priority === "medium"
                                                   ? "bg-amber-50 dark:bg-amber-900/20 border-amber-200 dark:border-amber-800"
                                                   : "bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800"
@@ -581,14 +585,14 @@ export default function PortfolioDashboardNew() {
                                             <div
                                                 className={`p-2 rounded-lg ${
                                                     insight.priority === "high"
-                                                        ? "bg-red-100 dark:bg-emerald-900/80"
+                                                        ? "bg-red-100 dark:bg-red-900/30"
                                                         : insight.priority === "medium"
                                                           ? "bg-amber-100 dark:bg-amber-900/30"
                                                           : "bg-blue-100 dark:bg-blue-900/30"
                                                 }`}
                                             >
                                                 {insight.type === "alert" ? (
-                                                    <Bell className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                                                    <Bell className="w-4 h-4 text-red-600 dark:text-red-400" />
                                                 ) : insight.type === "opportunity" ? (
                                                     <Target className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                                                 ) : (
@@ -607,7 +611,7 @@ export default function PortfolioDashboardNew() {
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
                 </div>
 
@@ -617,7 +621,7 @@ export default function PortfolioDashboardNew() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.6 }}
                 >
-                    <div className="border p-8 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-emerald-200 dark:border-emerald-800">
+                    <Card className="p-8 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-emerald-200 dark:border-emerald-800">
                         <div className="flex items-center justify-between mb-6">
                             <div>
                                 <h3 className="text-slate-900 dark:text-white mb-1">
@@ -627,9 +631,7 @@ export default function PortfolioDashboardNew() {
                                     Ближайшие дивиденды в декабре
                                 </p>
                             </div>
-                            <Button typeButton="ghost" className="rounded-xl px-4 py-2">
-                                Все выплаты →
-                            </Button>
+                            <Button variant="outline">Все выплаты →</Button>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -642,7 +644,7 @@ export default function PortfolioDashboardNew() {
                                         <span className="text-slate-900 dark:text-white">
                                             {dividend.company}
                                         </span>
-                                        <Badge>{dividend.date}</Badge>
+                                        <Badge variant="outline">{dividend.date}</Badge>
                                     </div>
                                     <p className="text-2xl text-emerald-600 dark:text-emerald-400">
                                         ₽{dividend.amount.toLocaleString()}
@@ -650,7 +652,7 @@ export default function PortfolioDashboardNew() {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </Card>
                 </motion.div>
 
                 {/* Benchmark Comparison & Recent Transactions */}
@@ -661,7 +663,7 @@ export default function PortfolioDashboardNew() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.7 }}
                     >
-                        <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <div className="flex items-center gap-2 mb-6">
                                 <BarChart3 className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                                 <h3 className="text-slate-900 dark:text-white">
@@ -725,7 +727,7 @@ export default function PortfolioDashboardNew() {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
 
                     {/* Recent Transactions */}
@@ -734,7 +736,7 @@ export default function PortfolioDashboardNew() {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.8 }}
                     >
-                        <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                             <div className="flex items-center justify-between mb-6">
                                 <div className="flex items-center gap-2">
                                     <Repeat className="w-5 h-5 text-purple-600 dark:text-purple-400" />
@@ -742,10 +744,7 @@ export default function PortfolioDashboardNew() {
                                         Последние операции
                                     </h3>
                                 </div>
-                                <Button
-                                    typeButton="ghost"
-                                    className="rounded-xl px-4 py-1"
-                                >
+                                <Button variant="ghost" size="sm">
                                     Все →
                                 </Button>
                             </div>
@@ -805,7 +804,7 @@ export default function PortfolioDashboardNew() {
                                     </div>
                                 ))}
                             </div>
-                        </div>
+                        </Card>
                     </motion.div>
                 </div>
 
@@ -815,7 +814,7 @@ export default function PortfolioDashboardNew() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9 }}
                 >
-                    <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                    <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-2">
                                 <Target className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -823,10 +822,7 @@ export default function PortfolioDashboardNew() {
                                     Инвестиционные цели
                                 </h3>
                             </div>
-                            <Button
-                                typeButton="noBg"
-                                className="gap-2 rounded-xl px-3 flex py-2 items-center"
-                            >
+                            <Button variant="outline" size="sm" className="gap-2">
                                 <Plus className="w-4 h-4" />
                                 Добавить цель
                             </Button>
@@ -860,7 +856,7 @@ export default function PortfolioDashboardNew() {
                                         </div>
                                         <Progress value={goal.progress} className="h-2" />
                                         <div className="flex items-center justify-between">
-                                            <Badge className="text-xs">
+                                            <Badge variant="outline" className="text-xs">
                                                 {goal.progress.toFixed(1)}% выполнено
                                             </Badge>
                                             <span className="text-xs text-slate-500 dark:text-slate-400">
@@ -876,7 +872,7 @@ export default function PortfolioDashboardNew() {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </Card>
                 </motion.div>
 
                 {/* Market News */}
@@ -885,7 +881,7 @@ export default function PortfolioDashboardNew() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.0 }}
                 >
-                    <div className="border p-6 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                    <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center gap-2">
                                 <Newspaper className="w-5 h-5 text-slate-600 dark:text-slate-400" />
@@ -893,7 +889,7 @@ export default function PortfolioDashboardNew() {
                                     Новости рынка
                                 </h3>
                             </div>
-                            <Button typeButton="ghost" className="rounded-xl px-3 py-1">
+                            <Button variant="ghost" size="sm">
                                 Все новости →
                             </Button>
                         </div>
@@ -932,7 +928,7 @@ export default function PortfolioDashboardNew() {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </Card>
                 </motion.div>
             </div>
             <Footer />

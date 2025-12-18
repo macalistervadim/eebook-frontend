@@ -14,10 +14,11 @@ import {
     FileCode,
     Sparkles,
 } from "lucide-react";
-
+import { Button } from "../components/Button";
+import { Card } from "../components/Card";
+import { Badge } from "../components/Badge";
+import { Input } from "../components/Input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/Tabs";
-import Badge from "@/components/Badge.tsx";
-import Button from "@/components/Button.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
 
@@ -139,10 +140,11 @@ export default function DocumentationPage() {
     };
 
     return (
-        <section className="min-h-screen bg-white dark:bg-slate-900">
+        <section className="min-h-screen bg-white dark:bg-slate-900 pb-20">
             <LandingHeader />
-            <div className="border-b border-slate-200 dark:border-slate-800 pt-30">
+            <div className="border-b border-slate-200 dark:border-slate-800 pt-25">
                 <div className="container mx-auto px-4 max-w-7xl py-8">
+                    {/* Header */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -164,12 +166,12 @@ export default function DocumentationPage() {
                         {/* Search */}
                         <div className="relative max-w-2xl">
                             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-                            <input
+                            <Input
                                 type="text"
                                 placeholder="Поиск в документации..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="outline-none  border w-3xl rounded-xl pl-12 h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                className="pl-12 h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                             />
                         </div>
                     </motion.div>
@@ -251,7 +253,7 @@ export default function DocumentationPage() {
                                                 animate={{ opacity: 1, y: 0 }}
                                                 transition={{ delay: 0.1 + index * 0.05 }}
                                             >
-                                                <div className="border rounded-xl p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all cursor-pointer group">
+                                                <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all cursor-pointer group">
                                                     <div className="flex items-start gap-4">
                                                         <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-500/20 transition-colors">
                                                             <Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -266,7 +268,7 @@ export default function DocumentationPage() {
                                                         </div>
                                                         <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
                                                     </div>
-                                                </div>
+                                                </Card>
                                             </motion.div>
                                         );
                                     })}
@@ -373,7 +375,7 @@ export default function DocumentationPage() {
                                     ))}
                                 </div>
 
-                                <div className="p-6 bg-emerald-50 rounded-xl border dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-800">
+                                <Card className="p-6 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-800">
                                     <div className="flex gap-3">
                                         <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
                                         <div>
@@ -388,7 +390,7 @@ export default function DocumentationPage() {
                                             </p>
                                         </div>
                                     </div>
-                                </div>
+                                </Card>
                             </div>
                         )}
 
@@ -415,13 +417,14 @@ export default function DocumentationPage() {
                                     <h3 className="text-slate-900 dark:text-white mb-3">
                                         Base URL
                                     </h3>
-                                    <div className="p-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                                    <Card className="p-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                                         <div className="flex items-center justify-between">
                                             <code className="text-emerald-600 dark:text-emerald-400">
                                                 https://api.eebook.io/v1
                                             </code>
                                             <Button
-                                                typeButton="ghost"
+                                                variant="ghost"
+                                                size="sm"
                                                 onClick={handleCopyCode}
                                             >
                                                 {copiedCode ? (
@@ -431,7 +434,7 @@ export default function DocumentationPage() {
                                                 )}
                                             </Button>
                                         </div>
-                                    </div>
+                                    </Card>
                                 </div>
 
                                 {/* Authentication */}
@@ -480,7 +483,8 @@ export default function DocumentationPage() {
                                                     </code>
                                                 </pre>
                                                 <Button
-                                                    typeButton="ghost"
+                                                    size="sm"
+                                                    variant="ghost"
                                                     className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-white hover:bg-white/10"
                                                     onClick={handleCopyCode}
                                                 >
@@ -506,17 +510,19 @@ export default function DocumentationPage() {
                                             { plan: "Pro", limit: "1,000 req/hour" },
                                             { plan: "Enterprise", limit: "Custom" },
                                         ].map((item) => (
-                                            <div
+                                            <Card
                                                 key={item.plan}
-                                                className="border p-4 rounded-xl bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                                className="p-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                                             >
                                                 <div className="flex items-center justify-between">
                                                     <span className="text-slate-900 dark:text-white">
                                                         {item.plan}
                                                     </span>
-                                                    <Badge>{item.limit}</Badge>
+                                                    <Badge variant="secondary">
+                                                        {item.limit}
+                                                    </Badge>
                                                 </div>
-                                            </div>
+                                            </Card>
                                         ))}
                                     </div>
                                 </div>
@@ -569,9 +575,9 @@ export default function DocumentationPage() {
                                             emoji: "🟠",
                                         },
                                     ].map((broker) => (
-                                        <div
+                                        <Card
                                             key={broker.name}
-                                            className="border p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                            className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                                         >
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
@@ -594,7 +600,7 @@ export default function DocumentationPage() {
                                                         : "Скоро"}
                                                 </Badge>
                                             </div>
-                                        </div>
+                                        </Card>
                                     ))}
                                 </div>
                             </div>

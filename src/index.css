@@ -7,7 +7,20 @@
 :root {
   --bg-card: #ffffff;
   --border-card: #e2e8f0;
-  --default-font-family: -apple-system;
+  --default-font-family: ui-sans-serif,
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  "Helvetica Neue",
+  Arial,
+  "Noto Sans",
+  sans-serif,
+  "Apple Color Emoji",
+  "Segoe UI Emoji",
+  "Segoe UI Symbol",
+  "Noto Color Emoji";
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --border-radius-lg: 12px;

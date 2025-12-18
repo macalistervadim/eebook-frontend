@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Sheet, SheetTrigger, SheetContent } from "@/components/ui/sheet";
 import { Menu, Moon, Sun } from "lucide-react";
-import Button from "./Button";
+import { Button } from "./Button";
 import { motion } from "motion/react";
 import { useTheme } from "@/components/ThemeProvider";
 import { Link, useNavigate } from "react-router-dom";
@@ -89,14 +89,15 @@ export function LandingHeader() {
                     {isAuthenticated ? (
                         <>
                             <Button
-                                typeButton="emerald"
+                                type="button"
                                 className="px-5 py-2 rounded-xl"
                                 onClick={() => navigate("/dashboard")}
                             >
                                 Личный кабинет
                             </Button>
                             <Button
-                                typeButton="noBg"
+                                type="button"
+                                variant="outline"
                                 className="px-5 py-2 rounded-xl"
                                 onClick={() => navigate("/logout")}
                             >
@@ -106,15 +107,16 @@ export function LandingHeader() {
                     ) : (
                         <>
                             <Button
-                                typeButton="ghost"
+                                type="button"
+                                variant="ghost"
                                 className="px-3 py-2 cursor-pointer"
                                 onClick={() => navigate("/login")}
                             >
                                 Войти
                             </Button>
                             <Button
-                                typeButton="emerald"
-                                className="px-3 py-2 rounded-xl cursor-pointer"
+                                type="button"
+                                className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-xl shadow-lg shadow-emerald-500/25"
                                 onClick={() => navigate("/register")}
                             >
                                 Начать бесплатно
@@ -139,13 +141,12 @@ export function LandingHeader() {
                         >
                             <ul className="flex flex-col gap-4 text-lg">
                                 <li>
-                                    <HashLink
-                                        smooth
-                                        to="/#comparsion"
+                                    <Link
+                                        to="/support"
                                         className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
                                     >
-                                        Функции
-                                    </HashLink>
+                                        Поддержка
+                                    </Link>
                                 </li>
                                 <li>
                                     <Link
@@ -164,30 +165,36 @@ export function LandingHeader() {
                                         Цены
                                     </HashLink>
                                 </li>
-                                <Link
-                                    to="/career"
-                                    className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
-                                >
-                                    Карьера
-                                </Link>
                                 <li>
-                                    <a className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer">
+                                    <Link
+                                        to="/career"
+                                        className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                                    >
+                                        Карьера
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        to="/docs"
+                                        className="text-slate-900 dark:text-slate-300 hover:text-slate-700 dark:hover:text-white cursor-pointer"
+                                    >
                                         Документация
-                                    </a>
+                                    </Link>
                                 </li>
                             </ul>
                             <div className="flex flex-col gap-3 pt-4 border-t">
                                 {isAuthenticated ? (
                                     <>
                                         <Button
-                                            typeButton="emerald"
+                                            type="button"
                                             className="px-5 py-2 rounded-xl"
                                             onClick={() => navigate("/dashboard")}
                                         >
                                             Личный кабинет
                                         </Button>
                                         <Button
-                                            typeButton="noBg"
+                                            type="button"
+                                            variant="outline"
                                             className="px-5 py-2 rounded-xl"
                                             onClick={() => navigate("/logout")}
                                         >
@@ -197,14 +204,15 @@ export function LandingHeader() {
                                 ) : (
                                     <>
                                         <Button
-                                            typeButton="ghost"
+                                            type="button"
+                                            variant="ghost"
                                             className="px-3 py-2 cursor-pointer"
                                             onClick={() => navigate("/login")}
                                         >
                                             Войти
                                         </Button>
                                         <Button
-                                            typeButton="emerald"
+                                            type="button"
                                             className="px-3 py-2 rounded-xl cursor-pointer"
                                             onClick={() => navigate("/register")}
                                         >

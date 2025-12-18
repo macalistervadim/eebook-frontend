@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
-import Badge from "@/components/Badge.tsx";
+import { Badge } from "@/components/Badge.tsx";
 import {
     MapPin,
     Clock,
@@ -23,10 +23,12 @@ import {
     Shield,
     Target,
 } from "lucide-react";
-import Button from "@/components/Button.tsx";
+import { Button } from "@/components/Button.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
 import Footer from "@/components/Footer.tsx";
 import { useNavigate } from "react-router-dom";
+import { Card } from "@/components/Card";
+import { Input } from "@/components/Input.tsx";
 
 const jobs = [
     {
@@ -284,7 +286,7 @@ export default function CareersPage() {
                         <div className="max-w-2xl mx-auto">
                             <div className="relative">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                                <input
+                                <Input
                                     type="text"
                                     placeholder="Поиск вакансий..."
                                     value={searchQuery}
@@ -323,7 +325,7 @@ export default function CareersPage() {
                                     transition={{ duration: 0.3, delay: index * 0.05 }}
                                     layout
                                 >
-                                    <div className="border group p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl hover:shadow-lg hover:shadow-emerald-100/50 dark:hover:shadow-emerald-900/20 hover:border-emerald-500 transition-all duration-300">
+                                    <Card className="group p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 rounded-2xl hover:shadow-lg hover:shadow-emerald-100/50 dark:hover:shadow-emerald-900/20 hover:border-emerald-500 transition-all duration-300">
                                         <div className="flex flex-col lg:flex-row lg:items-center gap-6">
                                             <div className="flex items-start gap-4 flex-1">
                                                 <div className="p-3 bg-gradient-to-br from-emerald-100 to-teal-100 dark:from-emerald-900/30 dark:to-teal-900/30 rounded-xl">
@@ -336,7 +338,7 @@ export default function CareersPage() {
                                                             <h3 className="text-xl text-slate-900 dark:text-white mb-2">
                                                                 {job.title}
                                                             </h3>
-                                                            <Badge className="bg-slate-100 px-2 py-0.5 rounded-md dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-0">
+                                                            <Badge className="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-0">
                                                                 {job.department}
                                                             </Badge>
                                                         </div>
@@ -351,6 +353,7 @@ export default function CareersPage() {
                                                             (skill, skillIndex) => (
                                                                 <Badge
                                                                     key={skillIndex}
+                                                                    variant="outline"
                                                                     className="border-slate-300 dark:border-slate-600 text-slate-600 dark:text-slate-400"
                                                                 >
                                                                     {skill}
@@ -379,15 +382,14 @@ export default function CareersPage() {
                                             </div>
 
                                             <Button
-                                                typeButton="emerald"
-                                                className="bg-emerald-600 hover:bg-emerald-700 text-white lg:flex-shrink-0 rounded-xl px-2 py-2"
+                                                className="bg-emerald-600 hover:bg-emerald-700 text-white lg:flex-shrink-0 rounded-xl"
                                                 onClick={() => navigate("/jobs/1")}
                                             >
                                                 Откликнуться
                                                 <ArrowRight className="w-4 h-4 ml-2" />
                                             </Button>
                                         </div>
-                                    </div>
+                                    </Card>
                                 </motion.div>
                             ))}
                         </AnimatePresence>
@@ -432,7 +434,7 @@ export default function CareersPage() {
                                 подходящая позиция.
                             </p>
                             <Button
-                                typeButton="emerald"
+                                type="button"
                                 className="px-3 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white"
                             >
                                 Отправить резюме

@@ -1,36 +1,55 @@
-import React from "react";
-import type { JSX } from "react";
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "@radix-ui/react-slot";
 
-const typeBtn: Record<string, string> = {
-    emerald:
-        "text-white bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700" +
-        "hover:to-teal-700 shadow-lg shadow-emerald-500/25 hover:shadow-xl " +
-        "hover:shadow-emerald-500/30 transition-all text-sm text-center inline-flex " +
-        "items-center justify-center cursor-pointer",
-    ghost:
-        "text-slate-900 rounded-xl bg-transparent " +
-        "hover:bg-slate-200 transition hover:text-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 cursor-pointer",
-    noBg:
-        "text-slate-900 rounded-2xl bg-transparent hover:bg-slate-200 " +
-        "transition hover:text-slate-700 border-1 border-slate-300 text-sm " +
-        "dark:hover:border-slate-600 dark:hover:bg-slate-700 dark:border-slate-700 dark:bg-slate-800/80 dark:text-slate-200 cursor-pointer",
-    slate: "bg-slate-900 hover:bg-slate-800 text-white transition-all cursor-pointer",
-};
+import { cn } from "@/lib/utils";
 
-export default function Button({
-    children,
-    typeButton,
+const buttonVariants = cva(
+    "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+    {
+        variants: {
+            variant: {
+                default: "bg-primary text-primary-foreground hover:bg-primary/90",
+                destructive:
+                    "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+                outline:
+                    "border bg-background text-foreground hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+                secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+                ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+                link: "text-primary underline-offset-4 hover:underline",
+            },
+            size: {
+                default: "h-9 px-4 py-2 has-[>svg]:px-3",
+                sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
+                lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+                icon: "size-9 rounded-md",
+            },
+        },
+        defaultVariants: {
+            variant: "default",
+            size: "default",
+        },
+    }
+);
+
+function Button({
     className,
-    onClick,
-}: {
-    children: React.ReactNode;
-    typeButton: keyof typeof typeBtn;
-    className?: string;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-}): JSX.Element {
+    variant,
+    size,
+    asChild = false,
+    ...props
+}: React.ComponentProps<"button"> &
+    VariantProps<typeof buttonVariants> & {
+        asChild?: boolean;
+    }) {
+    const Comp = asChild ? Slot : "button";
+
     return (
-        <button className={`${typeBtn[typeButton]} ${className}`} onClick={onClick}>
-            {children}
-        </button>
+        <Comp
+            data-slot="button"
+            className={cn(buttonVariants({ variant, size, className }))}
+            {...props}
+        />
     );
 }
+
+export { Button, buttonVariants };

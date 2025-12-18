@@ -1,6 +1,6 @@
 import { motion } from "motion/react";
+import { Card } from "../components/Card";
 import { Star, Quote } from "lucide-react";
-import type { JSX } from "react";
 
 const testimonials = [
     {
@@ -47,7 +47,7 @@ const testimonials = [
     },
 ];
 
-export default function LandingReviews(): JSX.Element {
+export default function Testimonials() {
     return (
         <section className="py-32 bg-gradient-to-b from-slate-50 to-white dark:from-slate-800 dark:to-slate-900">
             <div className="max-w-7xl mx-auto px-6">
@@ -76,7 +76,7 @@ export default function LandingReviews(): JSX.Element {
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
                         >
-                            <div className="group relative p-6 h-full bg-white hover:bg-slate-50 border-slate-200 hover:border-emerald-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 rounded-2xl overflow-hidden">
+                            <Card className="group relative p-6 h-full bg-white hover:bg-slate-50 border-slate-200 hover:border-emerald-200 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 rounded-2xl overflow-hidden">
                                 <div className="absolute top-4 right-4 text-emerald-100 opacity-50">
                                     <Quote className="w-12 h-12" />
                                 </div>
@@ -114,7 +114,7 @@ export default function LandingReviews(): JSX.Element {
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Card>
                         </motion.div>
                     ))}
                 </div>

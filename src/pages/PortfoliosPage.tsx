@@ -16,11 +16,13 @@ import {
 } from "lucide-react";
 
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import Button from "@/components/Button.tsx";
+import { Button } from "@/components/Button.tsx";
 import PortfolioHeader from "@/components/PortfolioHeader.tsx";
 import Footer from "@/components/Footer.tsx";
 import { apiFetch } from "@/auth/apiFetch.ts";
 import { useAuth } from "@/auth/AuthProvider.tsx";
+import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/Input.tsx";
 
 type PortfolioCardVM = {
     id: string;
@@ -36,11 +38,15 @@ type PortfolioCardVM = {
 export default function PortfoliosPage() {
     const [searchQuery, setSearchQuery] = useState("");
     const [portfolios, setPortfolios] = useState<PortfolioCardVM[]>([]);
+    const navigate = useNavigate();
 
     const totalValue = portfolios.reduce((sum, p) => sum + p.value, 0);
     const totalProfit = portfolios.reduce((sum, p) => sum + p.profit, 0);
     const totalInvested = portfolios.reduce((sum, p) => sum + p.invested, 0);
-    const avgReturn = ((totalProfit / totalInvested) * 100).toFixed(2);
+    const avgReturn: number =
+        totalProfit > 0 && totalInvested > 0
+            ? ((totalProfit / totalInvested) * 100).toFixed(2)
+            : 0;
 
     const { isLoading } = useAuth();
 
@@ -82,7 +88,7 @@ export default function PortfoliosPage() {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
             <PortfolioHeader />
-            <div className="max-w-[1600px] mx-auto px-6 py-20 space-y-8">
+            <div className="max-w-[1600px] mx-auto px-6 py-10 space-y-8">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -91,7 +97,7 @@ export default function PortfoliosPage() {
                 >
                     <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                         <div>
-                            <h1 className="text-slate-900 dark:text-white mb-2">
+                            <h1 className="text-slate-900 dark:text-white mb-2 text-xl">
                                 Мои портфели
                             </h1>
                             <p className="text-slate-600 dark:text-slate-400">
@@ -99,8 +105,10 @@ export default function PortfoliosPage() {
                             </p>
                         </div>
                         <Button
-                            typeButton="emerald"
+                            type="button"
+                            variant="default"
                             className="rounded-xl px-4 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-lg shadow-emerald-500/25"
+                            onClick={() => navigate("/create-portfolio")}
                         >
                             <Plus className="w-4 h-4 mr-2" />
                             Создать портфель
@@ -144,9 +152,11 @@ export default function PortfoliosPage() {
                             <h3 className="text-slate-900 dark:text-white">
                                 ₽{totalProfit.toLocaleString()}
                             </h3>
-                            <p className="text-emerald-600 dark:text-emerald-400">
-                                +{avgReturn}%
-                            </p>
+                            {avgReturn > 0 && (
+                                <p className="text-emerald-600 dark:text-emerald-400">
+                                    +{avgReturn}%
+                                </p>
+                            )}
                         </div>
                     </div>
 
@@ -190,7 +200,7 @@ export default function PortfoliosPage() {
                 >
                     <div className="relative flex-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-                        <input
+                        <Input
                             type="text"
                             placeholder="Поиск портфелей..."
                             value={searchQuery}
@@ -199,7 +209,8 @@ export default function PortfoliosPage() {
                         />
                     </div>
                     <Button
-                        typeButton="noBg"
+                        type="button"
+                        variant="outline"
                         className="rounded-xl px-4 flex justify-center items-center border-slate-300 dark:border-slate-700 h-12"
                     >
                         <Filter className="w-4 h-4 mr-2" />
@@ -225,7 +236,11 @@ export default function PortfoliosPage() {
                                             </h3>
                                         </div>
                                     </div>
-                                    <Button typeButton="ghost" className="rounded-xl">
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        className="rounded-xl"
+                                    >
                                         <MoreVertical className="w-4 h-4" />
                                     </Button>
                                 </div>
@@ -316,14 +331,16 @@ export default function PortfoliosPage() {
                                 {/* Actions */}
                                 <div className="flex items-center gap-2">
                                     <Button
-                                        typeButton="noBg"
+                                        type="button"
+                                        variant="outline"
                                         className="flex-1 flex px-2 py-2 rounded-xl items-center justify-center border-slate-300 dark:border-slate-700"
                                     >
                                         <Eye className="w-4 h-4 mr-2" />
                                         Открыть
                                     </Button>
                                     <Button
-                                        typeButton="noBg"
+                                        type="button"
+                                        variant="outline"
                                         className="flex-1 flex px-2 py-2  justify-center rounded-xl border-slate-300 dark:border-slate-700"
                                     >
                                         <Edit className="w-4 h-4 mr-2" />
@@ -354,8 +371,10 @@ export default function PortfoliosPage() {
                                 стратегиями для лучшей диверсификации
                             </p>
                             <Button
-                                typeButton="emerald"
+                                type="button"
+                                variant="default"
                                 className="rounded-xl px-3 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white"
+                                onClick={() => navigate("/create-portfolio")}
                             >
                                 <Plus className="w-4 h-4 mr-2" />
                                 Создать портфель

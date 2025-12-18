@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Check, ArrowRight, Shield, Zap, Lock } from "lucide-react";
-import Button from "@/components/Button.tsx";
+import { Button } from "@/components/Button.tsx";
+import { Card } from "@/components/Card.tsx";
 
 const brokers = [
     { name: "Тинькофф Инвестиции", gradient: "from-yellow-400 to-yellow-600" },
@@ -91,11 +92,11 @@ export default function Integrations() {
                                     </p>
 
                                     <Button
-                                        typeButton="emerald"
-                                        className="px-3 rounded-xl py-2"
+                                        size="sm"
+                                        className="group px-8 py-6 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white rounded-2xl shadow-lg shadow-emerald-500/25 hover:shadow-xl hover:shadow-emerald-500/30 transition-all"
                                     >
-                                        Подключить брокера
-                                        <ArrowRight className="w-4 h-4 ml-4" />
+                                        Начать бесплатно
+                                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
                                 </div>
 
@@ -201,7 +202,7 @@ export default function Integrations() {
                     transition={{ duration: 0.6, delay: 0.3 }}
                     className="mt-12 text-center"
                 >
-                    <div className="border inline-block p-6 md:p-8 bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 rounded-2xl">
+                    <Card className="inline-block p-6 md:p-8 bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 rounded-2xl">
                         <div className="flex flex-col md:flex-row items-center gap-6">
                             <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
                                 <span className="text-3xl">🔌</span>
@@ -216,13 +217,13 @@ export default function Integrations() {
                                 </p>
                             </div>
                             <Button
-                                typeButton="slate"
-                                className="px-3 py-4 rounded-xl border border-slate-200/20"
+                                variant="outline"
+                                className="flex-shrink-0 border-emerald-500 text-emerald-400 hover:bg-emerald-500 hover:text-white rounded-xl"
                             >
                                 Запросить интеграцию
                             </Button>
                         </div>
-                    </div>
+                    </Card>
                 </motion.div>
             </div>
         </section>

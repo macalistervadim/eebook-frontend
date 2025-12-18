@@ -15,10 +15,12 @@ import {
     ArrowRight,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/Tabs";
-import Badge from "@/components/Badge.tsx";
-import Button from "@/components/Button.tsx";
-import Footer from "@/components/Footer.tsx";
+import { Badge } from "@/components/Badge.tsx";
+import { Card } from "@/components/Card";
+import { Input } from "@/components/Input.tsx";
+import { Button } from "@/components/Button.tsx";
 import { LandingHeader } from "@/components/LandingHeader.tsx";
+import Footer from "@/components/Footer.tsx";
 
 const updates = [
     {
@@ -228,22 +230,22 @@ export default function UpdatesPage() {
         switch (type) {
             case "feature":
                 return (
-                    <Badge className="bg-emerald-100 rounded-md px-3 py-0.5 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0">
-                        <Sparkles className="w-3 h-3 mr-1 inline-flex" />
+                    <Badge className="bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0">
+                        <Sparkles className="w-3 h-3 mr-1" />
                         Новая функция
                     </Badge>
                 );
             case "improvement":
                 return (
-                    <Badge className="bg-blue-100 rounded-md px-3 py-0.5 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
-                        <Wrench className="w-3 h-3 mr-1 inline-flex" />
+                    <Badge className="bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 border-0">
+                        <Wrench className="w-3 h-3 mr-1" />
                         Улучшение
                     </Badge>
                 );
             case "fix":
                 return (
-                    <Badge className="bg-amber-100 rounded-md px-3 py-0.5 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-0">
-                        <Bug className="w-3 h-3 mr-1 inline-flex" />
+                    <Badge className="bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-0">
+                        <Bug className="w-3 h-3 mr-1" />
                         Исправления
                     </Badge>
                 );
@@ -273,8 +275,8 @@ export default function UpdatesPage() {
 
     return (
         <section className="py-12 bg-white dark:bg-slate-900 min-h-screen">
-            <div className="container mx-auto px-4 max-w-7xl mb-20 mt-20">
-                <LandingHeader />
+            <LandingHeader />
+            <div className="container mx-auto px-4 max-w-7xl mt-20 mb-20">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -298,22 +300,22 @@ export default function UpdatesPage() {
                         {stats.map((stat) => {
                             const Icon = stat.icon;
                             return (
-                                <div
+                                <Card
                                     key={stat.label}
-                                    className="border rounded-xl p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                    className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                                 >
                                     <div className="flex items-center gap-3 mb-2">
-                                        <div className=" p-2 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg">
+                                        <div className="p-2 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg">
                                             <Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
                                         </div>
                                     </div>
-                                    <p className="mt-5 text-2xl text-slate-900 dark:text-white mb-1">
+                                    <p className="text-2xl text-slate-900 dark:text-white mb-1">
                                         {stat.value}
                                     </p>
-                                    <p className="mt-5 text-sm text-slate-600 dark:text-slate-400">
+                                    <p className="text-sm text-slate-600 dark:text-slate-400">
                                         {stat.label}
                                     </p>
-                                </div>
+                                </Card>
                             );
                         })}
                     </div>
@@ -322,12 +324,12 @@ export default function UpdatesPage() {
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="relative flex-1">
                             <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
-                            <input
+                            <Input
                                 type="text"
                                 placeholder="Поиск обновлений..."
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full rounded-xl outline-none border pl-12 h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                className="pl-12 h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                             />
                         </div>
                         <div className="flex gap-2">
@@ -339,14 +341,15 @@ export default function UpdatesPage() {
                             ].map((type) => (
                                 <Button
                                     key={type.id}
-                                    typeButton={
-                                        selectedType === type.id ? "emerald" : "noBg"
+                                    variant={
+                                        selectedType === type.id ? "default" : "outline"
                                     }
+                                    size="lg"
                                     onClick={() => setSelectedType(type.id)}
                                     className={
                                         selectedType === type.id
-                                            ? "bg-emerald-600 hover:bg-emerald-700 px-3 rounded-xl"
-                                            : "px-3 rounded-xl"
+                                            ? "bg-emerald-600 hover:bg-emerald-700"
+                                            : ""
                                     }
                                 >
                                     {type.label}
@@ -372,7 +375,7 @@ export default function UpdatesPage() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.05 }}
                                 >
-                                    <div className="border rounded-xl overflow-hidden bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                                    <Card className="overflow-hidden bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                                         {update.image && (
                                             <div className="h-48 overflow-hidden">
                                                 <img
@@ -386,7 +389,10 @@ export default function UpdatesPage() {
                                             <div className="flex items-start justify-between gap-4 mb-4">
                                                 <div className="flex-1">
                                                     <div className="flex items-center gap-3 mb-2">
-                                                        <Badge className="text-xs">
+                                                        <Badge
+                                                            variant="outline"
+                                                            className="text-xs"
+                                                        >
                                                             v{update.version}
                                                         </Badge>
                                                         {getTypeBadge(update.type)}
@@ -430,7 +436,7 @@ export default function UpdatesPage() {
                                                 )}
                                             </div>
                                         </div>
-                                    </div>
+                                    </Card>
                                 </motion.div>
                             ))}
                         </div>
@@ -456,7 +462,7 @@ export default function UpdatesPage() {
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: index * 0.1 }}
                                     >
-                                        <div className="border rounded-xl p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 h-full">
+                                        <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 h-full">
                                             <div className="flex items-center gap-2 mb-6">
                                                 <div className="p-2 bg-emerald-50 dark:bg-emerald-500/10 rounded-lg">
                                                     <Calendar className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
@@ -476,14 +482,14 @@ export default function UpdatesPage() {
                                                     </li>
                                                 ))}
                                             </ul>
-                                        </div>
+                                        </Card>
                                     </motion.div>
                                 ))}
                             </div>
                         </div>
 
                         {/* Feedback Card */}
-                        <div className="border rounded-xl p-8 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-emerald-200 dark:border-emerald-800">
+                        <Card className="p-8 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 border-emerald-200 dark:border-emerald-800">
                             <div className="flex items-start gap-4">
                                 <div className="p-3 bg-emerald-600 rounded-2xl">
                                     <Heart className="w-6 h-6 text-white" />
@@ -496,15 +502,12 @@ export default function UpdatesPage() {
                                         Хотите предложить новую функцию или улучшение? Мы
                                         всегда рады вашей обратной связи!
                                     </p>
-                                    <Button
-                                        typeButton="emerald"
-                                        className="bg-emerald-600 hover:bg-emerald-700 px-3 py-2 rounded-xl"
-                                    >
+                                    <Button className="bg-emerald-600 hover:bg-emerald-700">
                                         Предложить идею
                                     </Button>
                                 </div>
                             </div>
-                        </div>
+                        </Card>
                     </TabsContent>
                 </Tabs>
             </div>
