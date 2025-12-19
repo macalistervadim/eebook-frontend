@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { use, useEffect, useState } from "react";
 import { motion } from "motion/react";
 import {
     User,
@@ -30,11 +30,14 @@ import { Avatar, AvatarFallback, AvatarImage } from "../components/Avatar";
 import { Separator } from "../components/Separator";
 import PortfolioHeader from "@/components/PortfolioHeader.tsx";
 import Footer from "@/components/Footer.tsx";
+import { useAuth } from "@/auth/AuthProvider.tsx";
+import { apiFetch } from "@/auth/apiFetch.ts";
+import { useNavigate } from "react-router-dom";
 
-export default function ProfilePageImproved() {
+export default function ProfilePage() {
     const [activeTab, setActiveTab] = useState("overview");
     const [showPassword, setShowPassword] = useState(false);
-
+    const [userInfo, setUserInfo] = useState<ProfileResponse | null>(null);
     const stats = [
         { label: "Портфелей", value: "3", icon: BarChart3 },
         { label: "Активов", value: "47", icon: Activity },
@@ -50,6 +53,66 @@ export default function ProfilePageImproved() {
         { id: "billing", label: "Подписка", icon: CreditCard },
     ];
 
+    type userResponse = {
+        id: number;
+        first_name: string;
+        last_name: string;
+        email: string;
+        role: string;
+        username: string;
+        created_at: string;
+        is_active: boolean;
+        is_verified: boolean;
+    };
+
+    type userSubscription = {
+        id: number;
+        user_id: number;
+        plan: string;
+        started_at: string;
+        expired_at: string | null;
+        is_active: boolean;
+    };
+
+    type ProfileResponse = {
+        user: userResponse;
+        user_subscription: userSubscription;
+    };
+
+    const { isLoading } = useAuth();
+
+    useEffect(() => {
+        if (isLoading) return;
+
+        const fetchProfile = async () => {
+            try {
+                const res = await apiFetch("http://localhost:8000/api/v1/users/me");
+                if (!res.ok) {
+                    console.error("HTTP error:", res.status);
+                    return;
+                }
+
+                const data = await res.json();
+                console.log(data);
+
+                setUserInfo(data);
+            } catch (e) {
+                console.error("Ошибка при получении профиля:", e);
+            }
+        };
+
+        fetchProfile();
+    }, [isLoading]);
+    const navigate = useNavigate();
+
+    const formatDate = (isoString: string): string => {
+        const date = new Date(isoString);
+        return new Intl.DateTimeFormat("ru-RU", {
+            month: "long",
+            year: "numeric",
+        }).format(date);
+    };
+
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950">
             <PortfolioHeader />
@@ -63,30 +126,33 @@ export default function ProfilePageImproved() {
                     >
                         {/* Profile Card */}
                         <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
-                            <div className="text-center mb-6">
+                            <div className="text-center ">
                                 <Avatar className="w-24 h-24 mx-auto mb-4 ring-2 ring-slate-200 dark:ring-slate-700">
                                     <AvatarImage src="" />
                                     <AvatarFallback className="bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
                                         ИИ
                                     </AvatarFallback>
                                 </Avatar>
-                                <h3 className="text-slate-900 dark:text-white mb-1">
-                                    Иван Иванов
-                                </h3>
+                                <h3 className="text-slate-900 dark:text-white mb-1"></h3>
                                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                                    Premium
+                                    {userInfo?.user_subscription?.plan?.toUpperCase()}
                                 </p>
                             </div>
 
                             <div className="space-y-3 text-sm">
                                 <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400">
                                     <Mail className="w-4 h-4" />
-                                    <span>ivan@email.com</span>
+                                    <span>{userInfo?.user?.email}</span>
                                 </div>
 
                                 <div className="flex items-center gap-3 text-slate-600 dark:text-slate-400">
                                     <Calendar className="w-4 h-4" />
-                                    <span>С января 2024</span>
+                                    <span>
+                                        С{" "}
+                                        {userInfo?.user?.created_at
+                                            ? formatDate(userInfo.user.created_at)
+                                            : "—"}
+                                    </span>{" "}
                                 </div>
                             </div>
                         </Card>
@@ -208,14 +274,14 @@ export default function ProfilePageImproved() {
                                         <div className="space-y-2">
                                             <Label>Имя</Label>
                                             <Input
-                                                defaultValue="Иван"
+                                                defaultValue={`${userInfo?.user?.first_name}`}
                                                 className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
                                             />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>Фамилия</Label>
                                             <Input
-                                                defaultValue="Иванов"
+                                                defaultValue={`${userInfo?.user?.last_name}`}
                                                 className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
                                             />
                                         </div>
@@ -225,54 +291,7 @@ export default function ProfilePageImproved() {
                                         <Label>Email</Label>
                                         <Input
                                             type="email"
-                                            defaultValue="ivan@email.com"
-                                            className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>Телефон</Label>
-                                        <Input
-                                            defaultValue="+7 (999) 123-45-67"
-                                            className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
-                                        />
-                                    </div>
-
-                                    <div className="grid grid-cols-2 gap-6">
-                                        <div className="space-y-2">
-                                            <Label>Страна</Label>
-                                            <Input
-                                                defaultValue="Россия"
-                                                className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label>Город</Label>
-                                            <Input
-                                                defaultValue="Москва"
-                                                className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <Separator className="my-8" />
-
-                                    <h4 className="text-slate-900 dark:text-white mb-4">
-                                        Инвестиционный профиль
-                                    </h4>
-
-                                    <div className="space-y-2">
-                                        <Label>Риск-профиль</Label>
-                                        <Input
-                                            defaultValue="Умеренный"
-                                            className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
-                                        />
-                                    </div>
-
-                                    <div className="space-y-2">
-                                        <Label>Инвестиционный горизонт</Label>
-                                        <Input
-                                            defaultValue="Долгосрочный (5+ лет)"
+                                            defaultValue={`${userInfo?.user?.email}`}
                                             className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
                                         />
                                     </div>
@@ -298,51 +317,13 @@ export default function ProfilePageImproved() {
                                     <h3 className="text-slate-900 dark:text-white mb-6">
                                         Изменить пароль
                                     </h3>
-                                    <div className="space-y-4 max-w-xl">
-                                        <div className="space-y-2">
-                                            <Label>Текущий пароль</Label>
-                                            <div className="relative">
-                                                <Input
-                                                    type={
-                                                        showPassword ? "text" : "password"
-                                                    }
-                                                    className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700 pr-10"
-                                                />
-                                                <button
-                                                    onClick={() =>
-                                                        setShowPassword(!showPassword)
-                                                    }
-                                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
-                                                >
-                                                    {showPassword ? (
-                                                        <EyeOff className="w-4 h-4" />
-                                                    ) : (
-                                                        <Eye className="w-4 h-4" />
-                                                    )}
-                                                </button>
-                                            </div>
-                                        </div>
 
-                                        <div className="space-y-2">
-                                            <Label>Новый пароль</Label>
-                                            <Input
-                                                type="password"
-                                                className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
-                                            />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label>Подтвердите пароль</Label>
-                                            <Input
-                                                type="password"
-                                                className="bg-slate-50 dark:bg-slate-700/30 border-slate-200 dark:border-slate-700"
-                                            />
-                                        </div>
-
-                                        <Button className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                                            Обновить пароль
-                                        </Button>
-                                    </div>
+                                    <Button
+                                        className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                                        onClick={() => navigate("/password-change")}
+                                    >
+                                        Обновить пароль
+                                    </Button>
                                 </Card>
 
                                 <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
@@ -540,64 +521,90 @@ export default function ProfilePageImproved() {
 
                         {activeTab === "billing" && (
                             <div className="space-y-6">
-                                <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
-                                    <div className="flex items-start justify-between mb-6">
-                                        <div>
-                                            <h3 className="text-slate-900 dark:text-white mb-2">
-                                                Premium подписка
-                                            </h3>
-                                            <p className="text-slate-500 dark:text-slate-400">
-                                                Активна до 31 декабря 2025
-                                            </p>
+                                {userInfo?.user_subscription != null && (
+                                    <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                                        <div className="flex items-start justify-between mb-6">
+                                            <div>
+                                                <h3 className="text-slate-900 dark:text-white mb-2">
+                                                    {(userInfo?.user_subscription?.plan).toUpperCase()}{" "}
+                                                    подписка
+                                                </h3>
+                                                <p className="text-slate-500 dark:text-slate-400">
+                                                    <span>
+                                                        {userInfo?.user_subscription
+                                                            ?.expired_at ? (
+                                                            <>
+                                                                Активна до{" "}
+                                                                {formatDate(
+                                                                    userInfo
+                                                                        .user_subscription
+                                                                        .expired_at
+                                                                )}
+                                                            </>
+                                                        ) : (
+                                                            "бессрочно"
+                                                        )}
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <span
+                                                className={`px-3 py-1 text-sm rounded-lg
+                                                     ${
+                                                         userInfo?.user_subscription
+                                                             ?.is_active
+                                                             ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
+                                                             : "bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400"
+                                                     }`}
+                                            >
+                                                {userInfo?.user_subscription?.is_active
+                                                    ? "Активна"
+                                                    : "Неактивна"}
+                                            </span>
                                         </div>
-                                        <span className="px-3 py-1 bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm rounded-lg">
-                                            Активна
-                                        </span>
-                                    </div>
 
-                                    <div className="grid grid-cols-3 gap-4 mb-8">
-                                        <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                                            <div className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                                                План
+                                        <div className="grid grid-cols-3 gap-4 mb-8">
+                                            <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                                                <div className="text-sm text-slate-500 dark:text-slate-400 mb-1">
+                                                    План
+                                                </div>
+                                                <div className="text-slate-900 dark:text-white">
+                                                    {userInfo?.user_subscription?.plan.toUpperCase()}
+                                                </div>
                                             </div>
-                                            <div className="text-slate-900 dark:text-white">
-                                                Premium Annual
+                                            <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                                                <div className="text-sm text-slate-500 dark:text-slate-400 mb-1">
+                                                    Стоимость
+                                                </div>
+                                                <div className="text-slate-900 dark:text-white">
+                                                    ₽9,990/год
+                                                </div>
+                                            </div>
+                                            <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
+                                                <div className="text-sm text-slate-500 dark:text-slate-400 mb-1">
+                                                    Следующий платёж
+                                                </div>
+                                                <div className="text-slate-900 dark:text-white">
+                                                    31.12.2025
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                                            <div className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                                                Стоимость
-                                            </div>
-                                            <div className="text-slate-900 dark:text-white">
-                                                ₽9,990/год
-                                            </div>
-                                        </div>
-                                        <div className="p-4 rounded-lg border border-slate-200 dark:border-slate-700">
-                                            <div className="text-sm text-slate-500 dark:text-slate-400 mb-1">
-                                                Следующий платёж
-                                            </div>
-                                            <div className="text-slate-900 dark:text-white">
-                                                31.12.2025
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div className="flex gap-3">
-                                        <Button
-                                            variant="outline"
-                                            className="border-slate-300 dark:border-slate-700"
-                                        >
-                                            Изменить план
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            className="border-red-300 dark:border-red-700 text-red-600 dark:text-red-400"
-                                        >
-                                            Отменить подписку
-                                        </Button>
-                                    </div>
-                                </Card>
-
+                                        <div className="flex gap-3">
+                                            <Button
+                                                variant="outline"
+                                                className="border-slate-300 dark:border-slate-700"
+                                            >
+                                                Изменить план
+                                            </Button>
+                                            <Button
+                                                variant="outline"
+                                                className="border-red-300 dark:border-red-700 text-red-600 dark:text-red-400"
+                                            >
+                                                Отменить подписку
+                                            </Button>
+                                        </div>
+                                    </Card>
+                                )}
                                 <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
                                     <h3 className="text-slate-900 dark:text-white mb-6">
                                         Преимущества Premium

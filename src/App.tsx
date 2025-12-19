@@ -42,7 +42,6 @@ export default function App() {
             <Route path="/support" element={<SupportPage />} />
             <Route path="/updates" element={<UpdatesPage />} />
             <Route path="/password-reset" element={<PasswordResetPage />} />
-            <Route path="/password-change" element={<ChangePasswordPage />} />
 
             {/* Защищенные страницы */}
             <Route
@@ -50,6 +49,14 @@ export default function App() {
                 element={
                     <ProtectedRoute>
                         <PortfolioDashboard />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/password-change"
+                element={
+                    <ProtectedRoute>
+                        <ChangePasswordPage />
                     </ProtectedRoute>
                 }
             />
