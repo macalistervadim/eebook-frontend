@@ -9,6 +9,7 @@
 ### Основные цвета (Light Mode)
 
 **Background (Фоны):**
+
 ```
 white          #ffffff      - Основной фон
 slate-50       #f8fafc      - Альтернативный светлый фон
@@ -17,6 +18,7 @@ slate-900      #0f172a      - Темный текст
 ```
 
 **Text (Текст):**
+
 ```
 slate-900      #0f172a      - Заголовки, основной текст
 slate-700      #334155      - Вторичный текст
@@ -26,6 +28,7 @@ slate-400      #94a3b8      - Дисейбл, плейсхолдеры
 ```
 
 **Accent (Акценты):**
+
 ```
 emerald-600    #059669      - Основной акцент, CTA
 emerald-500    #10b981      - Иконки, элементы
@@ -40,6 +43,7 @@ teal-50        #f0fdfa      - Подсветки
 ```
 
 **Градиенты:**
+
 ```css
 /* Основной градиент кнопок и акцентов */
 bg-gradient-to-r from-emerald-600 to-teal-600
@@ -60,6 +64,7 @@ linear-gradient(135deg, #1e293b 0%, #475569 50%, #64748b 100%)
 ### Dark Mode
 
 **Background:**
+
 ```
 slate-900      #0f172a      - Основной фон
 slate-800      #1e293b      - Карточки, секции
@@ -67,6 +72,7 @@ slate-700      #334155      - Элементы
 ```
 
 **Text:**
+
 ```
 white          #ffffff      - Заголовки
 slate-300      #cbd5e1      - Основной текст
@@ -74,6 +80,7 @@ slate-400      #94a3b8      - Вторичный текст
 ```
 
 **Accent:**
+
 ```
 emerald-400    #34d399      - Акценты (светлее для контраста)
 teal-400       #2dd4bf      - Вторичные акценты
@@ -84,6 +91,7 @@ teal-400       #2dd4bf      - Вторичные акценты
 ## 📐 ТИПОГРАФИКА
 
 ### Шрифты
+
 ```
 font-family: System UI font stack (default)
 - macOS: San Francisco
@@ -95,6 +103,7 @@ font-family: System UI font stack (default)
 ### Размеры текста
 
 **Заголовки страниц (Hero, Sections):**
+
 ```
 H1: text-6xl md:text-8xl        (3.75rem / 6rem = 60px / 96px)
 H2: text-5xl md:text-6xl        (3rem / 3.75rem = 48px / 60px)
@@ -102,6 +111,7 @@ H3: text-3xl md:text-4xl        (1.875rem / 2.25rem = 30px / 36px)
 ```
 
 **Подзаголовки и описания:**
+
 ```
 text-2xl md:text-4xl            (1.5rem / 2.25rem = 24px / 36px) - Hero subtitle
 text-xl                         (1.25rem = 20px) - Section descriptions
@@ -112,6 +122,7 @@ text-xs                         (0.75rem = 12px) - Captions, footnotes
 ```
 
 **Специальные цифры:**
+
 ```
 text-7xl                        (4.5rem = 72px) - ROI результаты
 text-6xl                        (3.75rem = 60px) - Статистика
@@ -121,12 +132,14 @@ text-2xl                        (1.5rem = 24px) - Вторичные цифры
 ```
 
 ### Начертания
+
 ```
 font-weight-medium: 500         - Заголовки, кнопки, лейблы
 font-weight-normal: 400         - Основной текст, параграфы
 ```
 
 ### Line Heights
+
 ```
 line-height: 1.5                - Везде (из globals.css)
 tracking-tight                  - Hero заголовок
@@ -140,6 +153,7 @@ tracking-wide                   - Мелкие uppercase лейблы
 ### Кнопки (Button)
 
 **Размеры:**
+
 ```
 Default:        h-10 px-4 py-2          (40px × auto)
 size="sm":      h-9 px-3                (36px)
@@ -148,12 +162,14 @@ Custom Hero:    px-8 py-6               (32px × 24px padding)
 ```
 
 **Border Radius:**
+
 ```
 rounded-xl                              (0.75rem = 12px) - Стандарт
 rounded-2xl                             (1rem = 16px) - Hero, крупные
 ```
 
 **Варианты:**
+
 ```
 Primary:        bg-gradient-to-r from-emerald-600 to-teal-600
                 hover:from-emerald-700 hover:to-teal-700
@@ -165,6 +181,7 @@ Ghost:          bg-transparent hover:bg-slate-100
 ```
 
 **Тени кнопок:**
+
 ```
 shadow-lg shadow-emerald-500/25
 hover:shadow-xl hover:shadow-emerald-500/30
@@ -175,6 +192,7 @@ hover:shadow-xl hover:shadow-emerald-500/30
 ### Карточки (Card)
 
 **Padding:**
+
 ```
 p-6                                     (24px) - Стандартные карточки
 p-8                                     (32px) - Средние карточки
@@ -182,12 +200,14 @@ p-8 md:p-12                             (32px / 48px) - Крупные блок�
 ```
 
 **Border Radius:**
+
 ```
 rounded-2xl                             (1rem = 16px) - Мелкие карточки
 rounded-3xl                             (1.5rem = 24px) - Основные карточки
 ```
 
 **Borders:**
+
 ```
 border                                  (1px solid)
 border-2                                (2px solid)
@@ -196,6 +216,7 @@ border-slate-700                        - Dark mode
 ```
 
 **Background:**
+
 ```
 bg-white                                - Light mode
 bg-slate-800                            - Dark mode
@@ -207,6 +228,7 @@ bg-gradient-to-br from-white to-slate-50  - Subtle gradient
 ### Иконки (Lucide)
 
 **Размеры:**
+
 ```
 w-3 h-3                                 (12px) - Browser dots
 w-4 h-4                                 (16px) - Бейджи, мелкие элементы
@@ -217,6 +239,7 @@ w-12 h-12                               (48px) - Главные элементы
 ```
 
 **Цвета иконок:**
+
 ```
 text-emerald-600                        - Акцентные иконки
 text-slate-600                          - Нейтральные иконки
@@ -224,6 +247,7 @@ group-hover:text-emerald-600            - Hover на карточке
 ```
 
 **Иконки в карточках:**
+
 ```
 Container: p-3 rounded-2xl bg-gradient-to-br from-emerald-100 to-teal-100
 Icon: w-6 h-6 text-emerald-600
@@ -234,17 +258,20 @@ Icon: w-6 h-6 text-emerald-600
 ### Секции (Sections)
 
 **Padding:**
+
 ```
 py-32                                   (128px) - Основные секции
 py-24                                   (96px) - Hero
 ```
 
 **Container:**
+
 ```
 max-w-7xl mx-auto px-6                  (1280px max width, 24px padding)
 ```
 
 **Заголовки секций:**
+
 ```
 mb-20                                   (80px) - Отступ заголовка от контента
 text-center                             - Центрирование
@@ -255,23 +282,27 @@ text-center                             - Центрирование
 ### Сетки (Grids)
 
 **Features:**
+
 ```
 grid-cols-1 md:grid-cols-2 lg:grid-cols-4
 gap-6                                   (24px)
 ```
 
-**Pricing:**
+**LandingPricing:**
+
 ```
 grid-cols-1 md:grid-cols-3
 gap-8                                   (32px)
 ```
 
 **Case Studies:**
+
 ```
 grid-cols-1 lg:grid-cols-2              (инфо + график)
 ```
 
 **Gaps:**
+
 ```
 gap-2                                   (8px) - Мелкие элементы
 gap-4                                   (16px) - Средние
@@ -287,6 +318,7 @@ gap-12                                  (48px) - ROI Calculator колонки
 ### Кнопки
 
 **Primary Button:**
+
 ```css
 /* Градиент */
 bg-gradient-to-r from-emerald-600 to-teal-600
@@ -304,6 +336,7 @@ group-hover:translate-x-1 transition-transform
 ```
 
 **Outline Button:**
+
 ```css
 border-2 border-slate-200 bg-white/80 backdrop-blur-sm
 hover:border-slate-300
@@ -315,11 +348,13 @@ transition-colors
 ### Карточки Features
 
 **Default state:**
+
 ```css
 bg-white border-slate-200
 ```
 
 **Hover state:**
+
 ```css
 /* Border */
 hover:border-emerald-200
@@ -338,12 +373,14 @@ transition-all duration-300
 ```
 
 **Градиент оверлей при hover:**
+
 ```tsx
 <div className="absolute inset-0 bg-gradient-to-br from-emerald-50 to-teal-50 
                 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 ```
 
 **Иконка в карточке:**
+
 ```css
 /* Container */
 bg-gradient-to-br from-slate-100 to-slate-50
@@ -368,9 +405,10 @@ transition-colors
 
 ---
 
-### Pricing карточки
+### LandingPricing карточки
 
 **Popular plan:**
+
 ```css
 bg-gradient-to-br from-emerald-50 to-teal-50
 border-2 border-emerald-200
@@ -379,6 +417,7 @@ scale-105                                /* Увеличена по умолча
 ```
 
 **Обычные планы:**
+
 ```css
 bg-white border-slate-200
 hover:border-emerald-200
@@ -401,6 +440,7 @@ opacity-20                              (20% общая прозрачность
 ```
 
 **Анимированные блобы:**
+
 ```tsx
 animate={{
   scale: [1, 1.2, 1],
@@ -418,6 +458,7 @@ transition={{
 ### Glassmorphism (Стеклянные эффекты)
 
 **Navbar:**
+
 ```css
 bg-white/80                             (80% opacity)
 backdrop-blur-xl                        (24px blur)
@@ -425,12 +466,14 @@ border-b border-slate-200
 ```
 
 **Бейджи в Hero:**
+
 ```css
 bg-white/80 backdrop-blur-sm
 border border-slate-200
 ```
 
 **Outline buttons:**
+
 ```css
 bg-white/80 backdrop-blur-sm
 ```
@@ -474,6 +517,7 @@ shadow-2xl                              - 0 25px 50px     [Dashboard, Comparison
 ### Цветные тен��
 
 **Emerald (зеленые):**
+
 ```css
 shadow-emerald-500/25                   - Кнопки CTA
 shadow-emerald-500/30                   - Hover на кнопках
@@ -482,11 +526,13 @@ shadow-emerald-900/50                   - Карточки hover (dark)
 ```
 
 **Teal (бирюзовые):**
+
 ```css
 shadow-teal-100/50                      - Вторичные карточки
 ```
 
 **Slate (серые):**
+
 ```css
 shadow-slate-100/50                     - Нейтральные карточки
 ```
@@ -515,6 +561,7 @@ transition={{ duration: 0.6 }}
 ```
 
 **Варианты:**
+
 - `y: 30` - появление снизу (основной)
 - `y: -20` - появление сверху (мобильное меню)
 - `x: -30` / `x: 30` - появление слева/справа (ROI calculator)
@@ -553,6 +600,7 @@ delay: 0.1, 0.2, 0.3, 0.4              - Фиксированные задерж
 ### Бесконечные анимации
 
 **Фоновые блобы (Hero, Dashboard):**
+
 ```tsx
 animate={{
   scale: [1, 1.2, 1],
@@ -566,6 +614,7 @@ transition={{
 ```
 
 **Scroll indicator (Hero):**
+
 ```tsx
 // Контейнер
 animate={{ y: [0, 10, 0] }}
@@ -581,11 +630,13 @@ transition={{ duration: 2, repeat: Infinity }}
 ### Hover transitions
 
 **Универсальный:**
+
 ```css
 transition-all duration-300
 ```
 
 **Специфичные:**
+
 ```css
 transition-colors                       - Цвета
 transition-transform                    - Трансформации
@@ -598,6 +649,7 @@ transition-shadow                       - Тени
 ### Интерактивные элементы
 
 **ROI Calculator - анимация результата:**
+
 ```tsx
 <motion.div
   key={totalYearlySavings}              // Re-mount при изменении
@@ -626,6 +678,7 @@ transition={{ duration: 0.6 }}
 ### Градиентный текст
 
 **CSS inline:**
+
 ```tsx
 style={{
   background: "linear-gradient(135deg, #1e293b 0%, #475569 50%, #64748b 100%)",
@@ -636,6 +689,7 @@ style={{
 ```
 
 **Tailwind:**
+
 ```css
 bg-gradient-to-r from-emerald-600 to-teal-600 
 bg-clip-text text-transparent
@@ -652,6 +706,7 @@ backdrop-blur-xl                        (24px blur)
 ```
 
 **Использование:**
+
 - Navbar: `backdrop-blur-xl`
 - Бейджи: `backdrop-blur-sm`
 - Кнопки outline: `backdrop-blur-sm`
@@ -661,6 +716,7 @@ backdrop-blur-xl                        (24px blur)
 ### Radial Gradient overlay
 
 **На градиентных карточках:**
+
 ```tsx
 <div className="absolute inset-0 
                 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent)]" />
@@ -760,6 +816,7 @@ text-sm text-emerald-700                - Текст
 ```
 
 **С иконкой:**
+
 ```tsx
 <div className="inline-flex items-center gap-2 px-4 py-2 ...">
   <Sparkles className="w-4 h-4 text-emerald-600" />
@@ -775,7 +832,7 @@ bg-emerald-100 text-emerald-700
 text-xs rounded-full
 ```
 
-### Popular badge (Pricing)
+### Popular badge (LandingPricing)
 
 ```css
 px-4 py-1
@@ -805,6 +862,7 @@ rounded-full shadow-lg
 ### Comparison Table
 
 **Header columns:**
+
 ```css
 /* eebook column */
 bg-gradient-to-br from-emerald-600 via-emerald-500 to-teal-500
@@ -815,6 +873,7 @@ bg-slate-50 border-l border-slate-200
 ```
 
 **Feature rows:**
+
 ```css
 hover:bg-slate-50/50 transition-colors      - Hover на строках
 
@@ -917,26 +976,31 @@ mb-20    80px     - Отступ заголовка от контента
 ## 💎 КЛЮЧЕВЫЕ ПРИНЦИПЫ ДИЗАЙНА
 
 ### 1. Сдержанность и премиальность
+
 - Много белого пространства (`py-32`, `mb-20`)
 - Крупные заголовки (`text-6xl`)
 - Минимализм в цветах (серый + изумруд)
 
 ### 2. Микро-интерактивность
+
 - Hover на всех элементах
 - Плавные transitions (`duration-300`)
 - Subtle градиенты
 
 ### 3. Доверие через детали
+
 - Rounded corners (`rounded-3xl`)
 - Soft shadows (`shadow-xl shadow-emerald-100/50`)
 - Glassmorphism (`backdrop-blur-xl`)
 
 ### 4. Финансовая серьезность
+
 - Нет ярких кислотных цветов
 - Приглушенные emerald вместо bright green
 - Профессиональные графики
 
 ### 5. Apple-like polish
+
 - System fonts
 - Precise spacing (8px grid)
 - Smooth animations
@@ -955,6 +1019,7 @@ xl:   1280px
 ```
 
 **Типичные паттерны:**
+
 ```css
 text-5xl md:text-6xl                    - Больше на десктопе
 grid-cols-1 md:grid-cols-2 lg:grid-cols-4  - Адаптивная сетка

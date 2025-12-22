@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage";
-import Login from "./pages/LoginPage";
-import Register from "./pages/RegisterPage";
+import LandingPage from "./containers/LandingPage.tsx";
+import Login from "./containers/LoginPage.tsx";
+import Register from "./containers/RegisterPage.tsx";
 
 import {
     Error401,
@@ -10,23 +10,23 @@ import {
     Error402,
     Error403,
     Error503,
-} from "@/components/ErrorPage";
+} from "@/containers/ErrorPage.tsx";
 
-import JobDetailPage from "@/components/JobDetailPage";
-import AboutPage from "@/pages/AboutPage.tsx";
-import CareersPage from "@/pages/CareersPage.tsx";
-import PortfolioDashboard from "@/components/PortfolioDashboard.tsx";
-import ProtectedRoute from "@/auth/ProtectedRoute.tsx";
-import LogoutPage from "@/pages/LogoutPage.tsx";
-import DocumentationPage from "@/pages/DocumentationPage.tsx";
-import LegalPage from "@/pages/LegalPage.tsx";
-import PortfoliosPage from "@/pages/PortfoliosPage.tsx";
-import SupportPage from "@/pages/SupportPage.tsx";
-import UpdatesPage from "@/pages/UpdatesPage.tsx";
-import PasswordResetPage from "@/pages/PasswordResetPage.tsx";
-import ChangePasswordPage from "@/pages/ChangePassword.tsx";
-import CreatePortfolioPage from "@/pages/CreatePortfolioPage.tsx";
-import ProfilePage from "@/pages/ProfilePage.tsx";
+import JobDetailPage from "@/containers/JobDetailPage.tsx";
+import AboutPage from "@/containers/AboutPage.tsx";
+import CareersPage from "@/containers/CareersPage.tsx";
+import PortfolioDashboard from "@/containers/PortfolioDashboard.tsx";
+import ProtectedRoute from "@/utils/auth/ProtectedRoute.tsx";
+import LogoutPage from "@/containers/LogoutPage.tsx";
+import DocumentationPage from "@/containers/DocumentationPage.tsx";
+import LegalPage from "@/containers/LegalPage.tsx";
+import PortfoliosPage from "@/containers/PortfoliosPage.tsx";
+import SupportPage from "@/containers/SupportPage.tsx";
+import UpdatesPage from "@/containers/UpdatesPage.tsx";
+import PasswordResetPage from "@/containers/PasswordResetPage.tsx";
+import ChangePasswordPage from "@/containers/ChangePassword.tsx";
+import CreatePortfolioPage from "@/containers/CreatePortfolioPage.tsx";
+import ProfilePage from "@/containers/ProfilePage.tsx";
 
 export default function App() {
     return (
