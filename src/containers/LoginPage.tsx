@@ -11,6 +11,7 @@ import {
     Linkedin,
     CheckCircle2,
     XCircle,
+    TriangleAlert,
 } from "lucide-react";
 import { Button } from "../components/ui/Button.tsx";
 import { Checkbox } from "@/components/ui/Checkbox.tsx";
@@ -30,6 +31,7 @@ export default function Login() {
     const [emailError, setEmailError] = useState("");
     const [loginError, setLoginError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [remainingAttempts, setRemainingAttempts] = useState<number | null>(null);
 
     const validateEmail = (value: string) => {
         if (!value) {
@@ -54,16 +56,55 @@ export default function Login() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+        setLoginError("");
+        setIsSubmitting(true);
 
-        const token = await loginRequest(email, password);
-        if (!token) {
-            setLoginError("Неверный логин или пароль");
+        const result = await loginRequest(email, password);
+
+        setIsSubmitting(false);
+
+        if (!result.ok) {
+            switch (result.error.code) {
+                case "INVALID_CREDENTIALS":
+                    const remaining = result.error.details?.remaining_attempts;
+                    setRemainingAttempts(remaining ?? null);
+                    setLoginError("Неверный email или пароль");
+                    break;
+
+                case "EMAIL_NOT_VERIFIED":
+                    setLoginError("Подтвердите email перед входом");
+                    break;
+
+                case "USER_LOCKED":
+                case "MAX_LOGIN_ATTEMPTS":
+                    const retryAfter = result.error.details?.retry_after_seconds;
+                    setRemainingAttempts(null);
+
+                    setLoginError(
+                        `Вы достигли максимального количества попыток входа. Ваш аккаунт был временно заблокирован. Попробуйте снова через ${Math.ceil(retryAfter / 60)} минут`
+                    );
+                    break;
+
+                case "REQUEST_TIMEOUT":
+                    setLoginError("Сервер не отвечает. Попробуйте позже.");
+                    break;
+
+                case "NETWORK_ERROR":
+                    setLoginError(
+                        "Нет соединения с сервером. Проверьте интернет и попробуйте позже. Или обратитесь в поддержку"
+                    );
+                    break;
+
+                default:
+                    setLoginError("Ошибка входа. Попробуйте позже");
+            }
             return;
         }
 
-        setAccessToken(token);
+        setAccessToken(result.data.access_token);
         navigate("/dashboard");
     }
+
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 via-emerald-50/30 to-gray-100 dark:from-gray-950 dark:via-emerald-950/20 dark:to-gray-900">
             <LandingHeader />
@@ -101,14 +142,37 @@ export default function Login() {
                         >
                             {loginError && (
                                 <div className="p-4 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900 flex items-start gap-3">
-                                    <XCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5" />
-                                    <div>
-                                        <div className="text-red-900 dark:text-red-200 mb-1">
+                                    <XCircle className="w-5 h-5 text-red-600 dark:text-red-400 mt-0.5 shrink-0" />
+
+                                    <div className="space-y-2">
+                                        <div className="text-red-900 dark:text-red-200 font-medium">
                                             Ошибка входа
                                         </div>
-                                        <div className="text-red-700 dark:text-red-300">
+
+                                        <div className="text-red-700 dark:text-red-300 text-sm">
                                             {loginError}
                                         </div>
+
+                                        {remainingAttempts !== null &&
+                                            remainingAttempts <= 2 && (
+                                                <div className="flex flex-col gap-2 text-sm text-orange-400 dark:text-orange-300">
+                                                    <span className="font-semibold">
+                                                        Внимание:
+                                                    </span>
+                                                    <span>
+                                                        осталось попыток{" "}
+                                                        <b>{remainingAttempts}</b>. Если
+                                                        забыли пароль — лучше{" "}
+                                                        <Link
+                                                            to="/password-reset"
+                                                            className="underline underline-offset-2"
+                                                        >
+                                                            восстановить его
+                                                        </Link>
+                                                        .
+                                                    </span>
+                                                </div>
+                                            )}
                                     </div>
                                 </div>
                             )}

@@ -1,15 +1,70 @@
-export async function loginRequest(email: string, password: string) {
-    const res = await fetch("http://localhost:8000/api/v1/users/login/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ email, password }),
-    });
+export type ApiError = {
+    code: string;
+    message?: string;
+    details?: any;
+};
 
-    if (!res.ok) return null;
+export type ApiResult<T> = { ok: true; data: T } | { ok: false; error: ApiError };
 
-    const data = await res.json();
-    return data.access_token;
+export async function loginRequest(
+    email: string,
+    password: string
+): Promise<ApiResult<{ access_token: string }>> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10_000); // 10 секунд
+
+    try {
+        const res = await fetch("http://localhost:8000/api/v1/users/login/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include",
+            body: JSON.stringify({ email, password }),
+            signal: controller.signal,
+        });
+
+        let body: any = null;
+        try {
+            body = await res.json();
+        } catch {
+            // сервер вернул не-json
+        }
+
+        if (!res.ok) {
+            return {
+                ok: false,
+                error: {
+                    code: body?.code ?? "SERVER_ERROR",
+                    message: body?.message ?? "Ошибка сервера",
+                    details: body?.details,
+                },
+            };
+        }
+
+        return {
+            ok: true,
+            data: body,
+        };
+    } catch (err: any) {
+        if (err.name === "AbortError") {
+            return {
+                ok: false,
+                error: {
+                    code: "REQUEST_TIMEOUT",
+                    message: "Превышено время ожидания сервера",
+                },
+            };
+        }
+
+        return {
+            ok: false,
+            error: {
+                code: "NETWORK_ERROR",
+                message: "Сервер недоступен",
+            },
+        };
+    } finally {
+        clearTimeout(timeoutId);
+    }
 }
 
 export async function logoutRequest() {
