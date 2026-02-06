@@ -1,6 +1,7 @@
 import { motion, useInView } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import type { JSX } from "react";
+import { User, UserCircle, Users, UserCog, UserCheck } from "lucide-react";
 
 const stats = [
     { value: 5000, suffix: "+", label: "Активных пользователей", prefix: "" },
@@ -53,6 +54,8 @@ function AnimatedCounter({
         </span>
     );
 }
+
+const avatars = [User, UserCircle, UserCog, UserCheck, Users];
 
 export default function LandingStats(): JSX.Element {
     return (
@@ -113,7 +116,7 @@ export default function LandingStats(): JSX.Element {
                             <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-teal-500/20 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                             <div className="relative p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl hover:border-emerald-500/50 transition-all duration-300 hover:bg-white/10">
-                                <div className="text-5xl md:text-6xl mb-3 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+                                <div className="inline-flex min-w-[120px] justify-center text-4xl md:text-5xl mb-3 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
                                     <AnimatedCounter
                                         value={stat.value}
                                         prefix={stat.prefix}
@@ -135,12 +138,15 @@ export default function LandingStats(): JSX.Element {
                 >
                     <div className="inline-flex items-center gap-3 px-6 py-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full">
                         <div className="flex -space-x-2">
-                            {["👨‍💼", "👩‍💼", "👨‍💻", "👩‍🎓", "👨‍🔧"].map((emoji, i) => (
+                            {avatars.map((Icon, i) => (
                                 <div
                                     key={i}
-                                    className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center border-2 border-slate-900 text-sm"
+                                    className="w-8 h-8 rounded-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center border-2 border-emerald-500"
                                 >
-                                    {emoji}
+                                    <Icon
+                                        className="w-4 h-4 text-white"
+                                        strokeWidth={2.5}
+                                    />
                                 </div>
                             ))}
                         </div>

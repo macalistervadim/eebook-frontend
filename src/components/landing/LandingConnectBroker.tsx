@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { Check, ArrowRight, Shield, Zap, Lock } from "lucide-react";
+import { Check, ArrowRight, Shield, Zap, Lock, Plug } from "lucide-react";
 import { Button } from "@/components/ui/Button.tsx";
 import { Card } from "@/components/ui/Card.tsx";
 
@@ -205,7 +205,7 @@ export default function Integrations() {
                     <Card className="inline-block p-6 md:p-8 bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 rounded-2xl">
                         <div className="flex flex-col md:flex-row items-center gap-6">
                             <div className="flex-shrink-0 w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
-                                <span className="text-3xl">🔌</span>
+                                <Plug className="w-6 h-6 text-white" strokeWidth={2.5} />
                             </div>
                             <div className="text-left flex-1">
                                 <h3 className="text-xl text-white mb-2">

@@ -8,7 +8,7 @@ import {
     Tooltip,
     ResponsiveContainer,
 } from "recharts";
-import { TrendingUp, Clock, Target, Award } from "lucide-react";
+import { TrendingUp, Clock, Target, Award, User } from "lucide-react";
 import { motion } from "motion/react";
 
 const cases = [
@@ -18,7 +18,7 @@ const cases = [
         portfolio: "2.1 млн ₽",
         period: "6 месяцев",
         improvement: "+23%",
-        avatar: "👨‍💼",
+        avatar: User,
         quote: "eebook помог мне увидеть реальную картину моих инвестиций. Налоговая оптимизация окупила подписку за первый же месяц.",
         metrics: [
             { label: "Было", value: "8.2%", color: "text-slate-600" },
@@ -39,7 +39,7 @@ const cases = [
         portfolio: "5.8 млн ₽",
         period: "4 месяца",
         improvement: "+18%",
-        avatar: "👩‍💼",
+        avatar: User,
         quote: "AI-прогнозы оказались точнее моих собственных. Автоматическая ребалансировка экономит 10+ часов в месяц.",
         metrics: [
             { label: "Было", value: "12.5%", color: "text-slate-600" },
@@ -58,7 +58,7 @@ const cases = [
         portfolio: "12.3 млн ₽",
         period: "8 месяцев",
         improvement: "+31%",
-        avatar: "👨‍💻",
+        avatar: User,
         quote: "Управлял 4 брокерскими счетами в Excel. Теперь все в одном месте с полной аналитикой. Это другой уровень.",
         metrics: [
             { label: "Было", value: "15.3%", color: "text-slate-600" },
@@ -121,8 +121,11 @@ export default function LandingCases(): JSX.Element {
                                      dark:to-slate-800"
                                     >
                                         <div className="flex items-start gap-4 mb-6">
-                                            <div className="text-5xl">
-                                                {caseStudy.avatar}
+                                            <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl shadow-lg">
+                                                <caseStudy.avatar
+                                                    className="w-8 h-8 text-white"
+                                                    strokeWidth={2.5}
+                                                />
                                             </div>
                                             <div>
                                                 <h3

@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Card } from "../ui/Card.tsx";
 import { Button } from "../ui/Button.tsx";
-import { Check, Sparkles, Zap, Crown } from "lucide-react";
+import { Check, Sparkles, Zap, Crown, Building } from "lucide-react";
 
 const plans = [
     {
@@ -186,7 +186,12 @@ export default function LandingPricing() {
                 >
                     <Card className="inline-block p-8 bg-gradient-to-br from-slate-900 to-slate-800 border-slate-700 rounded-2xl">
                         <div className="flex flex-col md:flex-row items-center gap-6">
-                            <div className="text-5xl">🏢</div>
+                            <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-br from-emerald-500 to-teal-500 rounded-2xl shadow-lg">
+                                <Building
+                                    className="w-8 h-8 text-white"
+                                    strokeWidth={2.5}
+                                />
+                            </div>
                             <div className="text-left">
                                 <h3 className="text-xl text-white mb-2">
                                     Корпоративные решения

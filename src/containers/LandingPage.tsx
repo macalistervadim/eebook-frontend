@@ -2,7 +2,6 @@ import { LandingHeader } from "../components/landing/LandingHeader.tsx";
 import LandingCalc from "../components/landing/LandingCalc.tsx";
 import LandingHero from "../components/landing/LandingHero.tsx";
 import LandingAdvantages from "../components/landing/LandingAdvantages.tsx";
-import LandingInterface from "../components/landing/LandingInterface.tsx";
 import LandingHowItWork from "../components/landing/LandingHowItWork.tsx";
 import LandingConnectBroker from "../components/landing/LandingConnectBroker.tsx";
 import type { JSX } from "react";
@@ -15,6 +14,7 @@ import LandingPricing from "../components/landing/LandingPricing.tsx";
 import FAQ from "../components/ui/FAQ.tsx";
 import CTA from "../components/ui/CTA.tsx";
 import Footer from "../components/ui/Footer.tsx";
+import DashboardAnimated from "@/components/landing/LandingAnimated.tsx";
 
 export default function LandingPage(): JSX.Element {
     return (
@@ -22,7 +22,8 @@ export default function LandingPage(): JSX.Element {
             <LandingHeader />
             <LandingHero />
             <LandingAdvantages />
-            <LandingInterface />
+            {/*<LandingInterface />*/}
+            <DashboardAnimated />
             <LandingHowItWork />
             <LandingConnectBroker />
             <LandingCalc />

@@ -1,13 +1,15 @@
 import { motion } from "motion/react";
 import { Check } from "lucide-react";
 
+import { Link, BarChart, Cpu, Zap } from "lucide-react";
+
 const steps = [
     {
         number: "01",
         title: "Подключите брокеров",
         description:
             "Добавьте все свои брокерские счета в один клик. Безопасное подключение через API.",
-        image: "🔗",
+        icon: Link, // lucide icon
         color: "from-emerald-500 to-teal-500",
     },
     {
@@ -15,7 +17,7 @@ const steps = [
         title: "Агрегируйте данные",
         description:
             "eebook автоматически соберет данные со всех счетов и построит единый портфель.",
-        image: "📊",
+        icon: BarChart,
         color: "from-teal-500 to-cyan-500",
     },
     {
@@ -23,14 +25,14 @@ const steps = [
         title: "Анализируйте с AI",
         description:
             "Получайте умные прогнозы, рекомендации по ребалансировке и оптимизации налогов.",
-        image: "🤖",
+        icon: Cpu,
         color: "from-cyan-500 to-blue-500",
     },
     {
         number: "04",
         title: "Принимайте решения",
         description: "Используйте детальную аналитику и инсайты для успешных инвестиций.",
-        image: "✨",
+        icon: Zap,
         color: "from-blue-500 to-emerald-500",
     },
 ];
@@ -90,9 +92,11 @@ export default function HowItWorks() {
                                     </div>
                                 </div>
 
-                                <div className="border p-6 h-70 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 rounded-2xl">
-                                    <div className="text-5xl mb-4 text-center">
-                                        {step.image}
+                                <div className="border p-6 h-80 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-700 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 rounded-2xl">
+                                    <div
+                                        className={`w-15 h-15 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center mx-auto mb-10 shadow-lg`}
+                                    >
+                                        <step.icon className="w-8 h-8 text-white" />
                                     </div>
 
                                     <h3 className="text-xl text-slate-900 dark:text-white mb-3 text-center">

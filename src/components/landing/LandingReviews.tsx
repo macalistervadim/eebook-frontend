@@ -1,47 +1,48 @@
 import { motion } from "motion/react";
 import { Card } from "../ui/Card.tsx";
 import { Star, Quote } from "lucide-react";
+import { User, UserCircle, UserCog, UserCheck, UserPlus } from "lucide-react";
 
 const testimonials = [
     {
         name: "Алексей М.",
         role: "Частный инвестор",
-        avatar: "👨‍💼",
+        avatar: User,
         rating: 5,
         text: "eebook полностью изменил мой подход к инвестициям. Теперь все портфели в одном месте, а AI-прогнозы помогают принимать взвешенные решения.",
     },
     {
         name: "Мария К.",
         role: "Финансовый консультант",
-        avatar: "👩‍💼",
+        avatar: UserCircle,
         rating: 5,
         text: "Рекомендую всем своим клиентам. Удобный интерфейс, детальная аналитика и отличная поддержка. Незаменимый инструмент для профессионалов.",
     },
     {
         name: "Дмитрий С.",
         role: "Опытный трейдер",
-        avatar: "👨‍💻",
+        avatar: UserCog,
         rating: 5,
         text: "Пользуюсь уже полгода. Календарь купонов экономит массу времени, а возможность отслеживать несколько брокеров одновременно — это просто находка!",
     },
     {
         name: "Елена В.",
         role: "Начинающий инвестор",
-        avatar: "👩‍🎓",
+        avatar: UserCheck,
         rating: 5,
         text: "Начинала с нуля, и eebook помог разобраться в инвестициях. Простой интерфейс, понятные графики и полезные подсказки. Очень довольна!",
     },
     {
         name: "Игорь П.",
         role: "IT-специалист",
-        avatar: "👨‍🔧",
+        avatar: User,
         rating: 5,
         text: "Оценил техническую реализацию. Быстрая синхронизация, безопасность на высоте, API для автоматизации. Все продумано до мелочей.",
     },
     {
         name: "Ольга Н.",
         role: "Бизнес-владелец",
-        avatar: "👩‍💼",
+        avatar: UserPlus,
         rating: 5,
         text: "Управляю корпоративными и личными инвестициями через eebook. Удобная аналитика позволяет быстро оценивать эффективность портфеля.",
     },
@@ -101,8 +102,11 @@ export default function Testimonials() {
 
                                     {/* Author */}
                                     <div className="flex items-center gap-3">
-                                        <div className="text-3xl">
-                                            {testimonial.avatar}
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+                                            <testimonial.avatar
+                                                className="w-6 h-6 text-white"
+                                                strokeWidth={2.5}
+                                            />
                                         </div>
                                         <div>
                                             <div className="text-slate-900">
