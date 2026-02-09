@@ -140,7 +140,7 @@ export default function DocumentationPage() {
     };
 
     return (
-        <section className="min-h-screen bg-white dark:bg-slate-900 pb-20">
+        <section className="min-h-screen bg-white dark:bg-slate-900 ">
             <LandingHeader />
             <div className="border-b border-slate-200 dark:border-slate-800 pt-25">
                 <div className="container mx-auto px-4 max-w-7xl py-8">

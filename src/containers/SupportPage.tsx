@@ -194,9 +194,9 @@ export default function SupportPage() {
     };
 
     return (
-        <section className="py-12 bg-white dark:bg-slate-900 min-h-screen">
+        <section className="bg-white dark:bg-slate-900 min-h-screen">
             <LandingHeader />
-            <div className="container mx-auto px-4 max-w-7xl mt-20 mb-20">
+            <div className="container mx-auto px-4 max-w-7xl mt-20 mb-20 py-10">
                 {/* Header */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
