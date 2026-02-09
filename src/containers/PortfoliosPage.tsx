@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "motion/react";
 import { Plus } from "lucide-react";
 
@@ -19,10 +19,35 @@ import { calculatePortfoliosStats } from "@/domain/PortfoliosCalc.ts";
 
 export default function PortfoliosPage() {
     const [searchQuery, setSearchQuery] = useState("");
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+    const menuRef = useRef<HTMLDivElement>(null);
     const navigate = useNavigate();
     const { isLoading } = useAuth();
     const { data: portfolios, loading } = usePortfolios(!isLoading);
     const { totalValue, totalProfit, avgReturn } = calculatePortfoliosStats(portfolios);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
+            const isMenuButton = target
+                .closest("button")
+                ?.querySelector('[class*="MoreVertical"]');
+            const isMenuContent = target
+                .closest('[class*="bg-white"]')
+                ?.querySelector('[class*="py-2"]');
+
+            if (!isMenuButton && !isMenuContent) {
+                setOpenMenuId(null);
+            }
+        };
+
+        if (openMenuId) {
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }
+    }, [openMenuId]);
 
     if (loading) return <PortfoliosLoader />;
 
@@ -68,7 +93,7 @@ export default function PortfoliosPage() {
                     setSearchQuery={setSearchQuery}
                 />
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6" ref={menuRef}>
                     {portfolios.map((portfolio, index) => (
                         <motion.div
                             key={portfolio.id}
@@ -76,7 +101,11 @@ export default function PortfoliosPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.3 + index * 0.1 }}
                         >
-                            <PortfoliosGrid portfolio={portfolio} />
+                            <PortfoliosGrid
+                                portfolio={portfolio}
+                                openMenuId={openMenuId}
+                                setOpenMenuId={setOpenMenuId}
+                            />
                         </motion.div>
                     ))}
                 </div>

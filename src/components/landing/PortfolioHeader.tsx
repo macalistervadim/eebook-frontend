@@ -29,11 +29,13 @@ import {
     FileBarChart,
     FileSpreadsheet,
     Sparkles,
+    Check,
+    FolderOpen,
 } from "lucide-react";
 import { useTheme } from "../../utils/ThemeProvider.tsx";
 import { motion, AnimatePresence } from "motion/react";
 import { Badge } from "../ui/Badge.tsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const menuItems = {
     portfolios: {
@@ -67,11 +69,45 @@ const menuItems = {
     },
 };
 
+const mockPortfolios = [
+    {
+        id: 1,
+        name: "Основной портфель",
+        value: 850000,
+        profit: 18.06,
+        color: "emerald",
+    },
+    {
+        id: 2,
+        name: "Агрессивный рост",
+        value: 320000,
+        profit: 24.5,
+        color: "purple",
+    },
+    {
+        id: 3,
+        name: "Консервативный",
+        value: 580000,
+        profit: 12.3,
+        color: "blue",
+    },
+    {
+        id: 4,
+        name: "Дивидендный",
+        value: 450000,
+        profit: 9.8,
+        color: "amber",
+    },
+];
+
 export default function PortfolioHeader() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isProfileOpen, setIsProfileOpen] = useState(false);
     const [openDropdown, setOpenDropdown] = useState<string | null>(null);
     const { theme, toggleTheme } = useTheme();
+    const [selectedPortfolio, setSelectedPortfolio] = useState<number | "all">("all");
+    const [isPortfolioSelectorOpen, setIsPortfolioSelectorOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleDropdownToggle = (key: string) => {
         setOpenDropdown(openDropdown === key ? null : key);
@@ -243,7 +279,10 @@ export default function PortfolioHeader() {
                         </button>
 
                         {/* Notifications */}
-                        <button className="relative p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        <button
+                            className="relative p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            onClick={() => navigate("/notifications")}
+                        >
                             <Bell className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                             <span className="absolute top-1 right-1 w-2 h-2 bg-emerald-500 rounded-full"></span>
                         </button>
@@ -252,6 +291,191 @@ export default function PortfolioHeader() {
                         <button className="hidden md:block p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
                             <Settings className="w-5 h-5 text-slate-600 dark:text-slate-400" />
                         </button>
+
+                        <div className="relative hidden md:block">
+                            <button
+                                onClick={() =>
+                                    setIsPortfolioSelectorOpen(!isPortfolioSelectorOpen)
+                                }
+                                className="flex items-center gap-2 px-3 py-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700"
+                            >
+                                <PieChart className="w-4 h-4 text-slate-600 dark:text-slate-400" />
+                                <span className="text-sm text-slate-700 dark:text-slate-300 max-w-[120px] truncate">
+                                    {selectedPortfolio === "all"
+                                        ? "Все портфели"
+                                        : mockPortfolios.find(
+                                              (p) => p.id === selectedPortfolio
+                                          )?.name || "Портфель"}
+                                </span>
+                                <ChevronDown
+                                    className={`w-4 h-4 text-slate-600 dark:text-slate-400 transition-transform ${
+                                        isPortfolioSelectorOpen ? "rotate-180" : ""
+                                    }`}
+                                />
+                            </button>
+
+                            {/* Portfolio Selector Dropdown */}
+                            <AnimatePresence>
+                                {isPortfolioSelectorOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="absolute right-0 mt-2 w-80 bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+                                    >
+                                        {/* Header */}
+                                        <div className="p-4 border-b border-slate-200 dark:border-slate-700 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/30 dark:to-teal-950/30">
+                                            <h3 className="text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                                                Выбор портфеля
+                                            </h3>
+                                            <p className="text-xs text-slate-600 dark:text-slate-400">
+                                                Аналитика будет показана для выбранного
+                                                портфеля
+                                            </p>
+                                        </div>
+
+                                        {/* All Portfolios Option */}
+                                        <div className="py-2">
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedPortfolio("all");
+                                                    setIsPortfolioSelectorOpen(false);
+                                                }}
+                                                className={`w-full flex items-center justify-between px-4 py-3 transition-colors ${
+                                                    selectedPortfolio === "all"
+                                                        ? "bg-emerald-50 dark:bg-emerald-900/20"
+                                                        : "hover:bg-slate-50 dark:hover:bg-slate-700/30"
+                                                }`}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+                                                        <Layers className="w-5 h-5 text-white" />
+                                                    </div>
+                                                    <div className="text-left">
+                                                        <div className="text-sm font-medium text-slate-900 dark:text-white">
+                                                            Все портфели
+                                                        </div>
+                                                        <div className="text-xs text-slate-500 dark:text-slate-400">
+                                                            Агрегированная аналитика
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {selectedPortfolio === "all" && (
+                                                    <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                                                )}
+                                            </button>
+                                        </div>
+
+                                        {/* Divider */}
+                                        <div className="border-t border-slate-200 dark:border-slate-700"></div>
+
+                                        {/* Individual Portfolios */}
+                                        <div className="py-2 max-h-80 overflow-y-auto">
+                                            {mockPortfolios.map((portfolio) => (
+                                                <button
+                                                    key={portfolio.id}
+                                                    onClick={() => {
+                                                        setSelectedPortfolio(
+                                                            portfolio.id
+                                                        );
+                                                        setIsPortfolioSelectorOpen(false);
+                                                    }}
+                                                    className={`w-full flex items-center justify-between px-4 py-3 transition-colors ${
+                                                        selectedPortfolio === portfolio.id
+                                                            ? "bg-emerald-50 dark:bg-emerald-900/20"
+                                                            : "hover:bg-slate-50 dark:hover:bg-slate-700/30"
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                        <div
+                                                            className={`w-10 h-10 rounded-xl flex items-center justify-center ${
+                                                                portfolio.color ===
+                                                                "emerald"
+                                                                    ? "bg-gradient-to-br from-emerald-100 to-emerald-50 dark:from-emerald-500/20 dark:to-emerald-500/10"
+                                                                    : portfolio.color ===
+                                                                        "purple"
+                                                                      ? "bg-gradient-to-br from-purple-100 to-purple-50 dark:from-purple-500/20 dark:to-purple-500/10"
+                                                                      : portfolio.color ===
+                                                                          "blue"
+                                                                        ? "bg-gradient-to-br from-blue-100 to-blue-50 dark:from-blue-500/20 dark:to-blue-500/10"
+                                                                        : "bg-gradient-to-br from-amber-100 to-amber-50 dark:from-amber-500/20 dark:to-amber-500/10"
+                                                            }`}
+                                                        >
+                                                            <PieChart
+                                                                className={`w-5 h-5 ${
+                                                                    portfolio.color ===
+                                                                    "emerald"
+                                                                        ? "text-emerald-600 dark:text-emerald-400"
+                                                                        : portfolio.color ===
+                                                                            "purple"
+                                                                          ? "text-purple-600 dark:text-purple-400"
+                                                                          : portfolio.color ===
+                                                                              "blue"
+                                                                            ? "text-blue-600 dark:text-blue-400"
+                                                                            : "text-amber-600 dark:text-amber-400"
+                                                                }`}
+                                                            />
+                                                        </div>
+                                                        <div className="text-left flex-1 min-w-0">
+                                                            <div className="text-sm font-medium text-slate-900 dark:text-white truncate">
+                                                                {portfolio.name}
+                                                            </div>
+                                                            <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
+                                                                <span>
+                                                                    ₽
+                                                                    {(
+                                                                        portfolio.value /
+                                                                        1000
+                                                                    ).toFixed(0)}
+                                                                    K
+                                                                </span>
+                                                                <span>•</span>
+                                                                <span
+                                                                    className={
+                                                                        portfolio.profit >
+                                                                        0
+                                                                            ? "text-emerald-600 dark:text-emerald-400"
+                                                                            : "text-red-600 dark:text-red-400"
+                                                                    }
+                                                                >
+                                                                    {portfolio.profit > 0
+                                                                        ? "+"
+                                                                        : ""}
+                                                                    {portfolio.profit}%
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {selectedPortfolio ===
+                                                        portfolio.id && (
+                                                        <Check className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0" />
+                                                    )}
+                                                </button>
+                                            ))}
+                                        </div>
+
+                                        {/* Footer - Manage Portfolios */}
+                                        <div className="border-t border-slate-200 dark:border-slate-700">
+                                            <Link
+                                                to="/portfolio"
+                                                onClick={() =>
+                                                    setIsPortfolioSelectorOpen(false)
+                                                }
+                                                className="flex items-center gap-3 px-4 py-3 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-colors"
+                                            >
+                                                <div className="w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center">
+                                                    <FolderOpen className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                                                </div>
+                                                <span className="text-sm font-medium">
+                                                    Управление портфелями
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
 
                         {/* Profile */}
                         <div className="relative hidden md:block">

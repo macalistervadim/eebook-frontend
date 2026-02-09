@@ -1,5 +1,6 @@
 import { motion } from "motion/react";
 import { Twitter, Linkedin, Mail, Github, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const footerLinks = {
     product: [
@@ -76,7 +77,7 @@ const footerLinks = {
         { name: "Форум", href: "#" },
     ],
     developers: [
-        { name: "API Документация", href: "#docs" },
+        { name: "API Документация", href: "/docs" },
         { name: "SDK & Библиотеки", href: "#" },
         { name: "Webhooks", href: "#" },
         { name: "GitHub", href: "#" },
@@ -336,15 +337,15 @@ export default function Footer() {
                         <ul className="space-y-2.5">
                             {footerLinks.developers.map((link, index) => (
                                 <li key={index}>
-                                    <a
-                                        href={link.href}
+                                    <Link
+                                        to={link.href}
                                         className="text-sm text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors inline-block relative group"
                                     >
                                         <span className="relative">
                                             {link.name}
                                             <span className="absolute left-0 bottom-0 w-0 h-0.5 bg-emerald-600 dark:bg-emerald-400 group-hover:w-full transition-all duration-300"></span>
                                         </span>
-                                    </a>
+                                    </Link>
                                 </li>
                             ))}
                         </ul>

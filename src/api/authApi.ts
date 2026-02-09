@@ -88,6 +88,11 @@ export async function refreshTokenRequest(): Promise<string | null> {
 
     if (!res.ok) return null;
 
-    const data = await res.json();
-    return data.access_token;
+    if (res.status === 204) return null;
+
+    const text = await res.text();
+    if (!text) return null;
+
+    const data = JSON.parse(text);
+    return typeof data.access_token === "string" ? data.access_token : null;
 }

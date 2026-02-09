@@ -1,75 +1,134 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
     BookOpen,
     Search,
     Code,
     Zap,
+    Shield,
     ChevronRight,
     Copy,
     CheckCircle2,
+    Terminal,
     Layers,
-    FileCode,
+    GitBranch,
     Sparkles,
+    ExternalLink,
+    ChevronDown,
+    AlertCircle,
+    Hash,
 } from "lucide-react";
-import { Button } from "../components/ui/Button.tsx";
-import { Card } from "../components/ui/Card.tsx";
-import { Badge } from "../components/ui/Badge.tsx";
-import { Input } from "../components/ui/Input.tsx";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/Tabs.tsx";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
+import { Input } from "@/components/ui/Input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/Tabs";
 import { LandingHeader } from "@/components/landing/LandingHeader.tsx";
 import Footer from "@/components/ui/Footer.tsx";
 
 const sidebarSections = [
     {
         title: "Введение",
+        icon: BookOpen,
         items: [
-            { id: "what-is-eebook", label: "Что такое eebook?" },
+            { id: "intro", label: "Introduction" },
             { id: "getting-started", label: "Начало работы" },
             { id: "quick-start", label: "Быстрый старт" },
-        ],
-    },
-    {
-        title: "Основы",
-        items: [
-            { id: "portfolios", label: "Портфели" },
-            { id: "assets", label: "Активы" },
-            { id: "transactions", label: "Транзакции" },
-            { id: "analytics", label: "Аналитика" },
-        ],
-    },
-    {
-        title: "API Reference",
-        items: [
-            { id: "api-overview", label: "Обзор API" },
             { id: "authentication", label: "Аутентификация" },
-            { id: "endpoints", label: "Endpoints" },
-            { id: "webhooks", label: "Webhooks" },
         ],
     },
     {
-        title: "Интеграции",
+        title: "Портфели",
+        icon: Layers,
+        expanded: true,
         items: [
-            { id: "brokers", label: "Брокеры" },
-            { id: "import-export", label: "Импорт/Экспорт" },
-            { id: "third-party", label: "Сторонние сервисы" },
+            { id: "get-portfolios", label: "Получить список портфелей", method: "GET" },
+            { id: "create-portfolio", label: "Создать портфель", method: "POST" },
+            { id: "get-portfolio", label: "Получить портфель", method: "GET" },
+            { id: "update-portfolio", label: "Обновить портфель", method: "PUT" },
+            { id: "delete-portfolio", label: "Удалить портфель", method: "DELETE" },
         ],
     },
     {
-        title: "Расширенные возможности",
+        title: "Транзакции",
+        icon: GitBranch,
         items: [
-            { id: "ai-predictions", label: "AI прогнозы" },
-            { id: "custom-metrics", label: "Кастомные метрики" },
-            { id: "automation", label: "Автоматизация" },
+            { id: "get-transactions", label: "Получить транзакции", method: "GET" },
+            { id: "create-transaction", label: "Создать транзакцию", method: "POST" },
+            {
+                id: "import-transactions",
+                label: "Импортировать транзакции",
+                method: "POST",
+            },
+        ],
+    },
+    {
+        title: "Аналитика",
+        icon: Sparkles,
+        items: [
+            { id: "portfolio-stats", label: "Статистика портфеля", method: "GET" },
+            { id: "performance", label: "Производительность", method: "GET" },
+            { id: "risk-metrics", label: "Метрики риска", method: "GET" },
+        ],
+    },
+    {
+        title: "Вебхуки",
+        icon: Zap,
+        items: [
+            { id: "webhooks-overview", label: "Обзор вебхуков" },
+            { id: "setup-webhook", label: "Настройка вебхука", method: "POST" },
+            { id: "webhook-events", label: "События вебхуков" },
         ],
     },
 ];
 
-const codeExamples = {
-    javascript: `// Получение списка портфелей
-const response = await fetch('https://api.eebook.io/v1/portfolios', {
+// Оглавление текущей страницы
+const pageTableOfContents = [
+    { id: "description", label: "Описание" },
+    { id: "authorization", label: "Авторизация" },
+    { id: "query-parameters", label: "Query параметры" },
+    { id: "restrictions", label: "Ограничения" },
+    { id: "request-example", label: "Пример запроса" },
+    { id: "response-example", label: "Пример ответа" },
+];
+
+export default function DocumentationPage() {
+    const [selectedItem, setSelectedItem] = useState("get-portfolios");
+    const [copiedCode, setCopiedCode] = useState(false);
+    const [expandedSections, setExpandedSections] = useState(["Портфели"]);
+    const [selectedLanguage, setSelectedLanguage] = useState("curl");
+    const [activeSection, setActiveSection] = useState("description");
+
+    const handleCopyCode = (code: string) => {
+        navigator.clipboard.writeText(code);
+        setCopiedCode(true);
+        setTimeout(() => setCopiedCode(false), 2000);
+    };
+
+    const toggleSection = (title: string) => {
+        setExpandedSections((prev) =>
+            prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title]
+        );
+    };
+
+    const getMethodColor = (method: string) => {
+        const colors = {
+            GET: "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400",
+            POST: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400",
+            PUT: "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400",
+            DELETE: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400",
+        };
+        return colors[method as keyof typeof colors] || "";
+    };
+
+    const codeExamples = {
+        curl: `curl -X GET "https://api.eebook.io/v1/portfolios" \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -H "Content-Type: application/json"`,
+
+        javascript: `const response = await fetch('https://api.eebook.io/v1/portfolios', {
   headers: {
     'Authorization': 'Bearer YOUR_API_KEY',
     'Content-Type': 'application/json'
@@ -78,8 +137,8 @@ const response = await fetch('https://api.eebook.io/v1/portfolios', {
 
 const portfolios = await response.json();
 console.log(portfolios);`,
-    python: `# Получение списка портфелей
-import requests
+
+        python: `import requests
 
 headers = {
     'Authorization': 'Bearer YOUR_API_KEY',
@@ -93,522 +152,597 @@ response = requests.get(
 
 portfolios = response.json()
 print(portfolios)`,
-    curl: `# Получение списка портфелей
-curl -X GET "https://api.eebook.io/v1/portfolios" \\
-  -H "Authorization: Bearer YOUR_API_KEY" \\
-  -H "Content-Type: application/json"`,
-};
 
-const quickLinks = [
-    {
-        title: "Быстрый старт",
-        description: "Начните работу за 5 минут",
-        icon: Zap,
-        link: "#quick-start",
-    },
-    {
-        title: "API Reference",
-        description: "Полная документация API",
-        icon: Code,
-        link: "#api-overview",
-    },
-    {
-        title: "Примеры",
-        description: "Готовые примеры кода",
-        icon: FileCode,
-        link: "#examples",
-    },
-    {
-        title: "Интеграции",
-        description: "Подключение брокеров",
-        icon: Layers,
-        link: "#brokers",
-    },
-];
+        php: `<?php
+$client = new GuzzleHttp\\Client();
 
-export default function DocumentationPage() {
-    const [activeSection, setActiveSection] = useState("what-is-eebook");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [copiedCode, setCopiedCode] = useState(false);
-    const [activeCodeTab, setActiveCodeTab] =
-        useState<keyof typeof codeExamples>("javascript");
+$response = $client->request('GET', 
+    'https://api.eebook.io/v1/portfolios', [
+    'headers' => [
+        'Authorization' => 'Bearer YOUR_API_KEY',
+        'Content-Type' => 'application/json',
+    ],
+]);
 
-    const handleCopyCode = () => {
-        navigator.clipboard.writeText(codeExamples[activeCodeTab]);
-        setCopiedCode(true);
-        setTimeout(() => setCopiedCode(false), 2000);
+echo $response->getBody();`,
     };
 
+    const responseExample = `{
+  "portfolios": [
+    {
+      "id": "port_1234567890",
+      "name": "Основной портфель",
+      "currency": "RUB",
+      "total_value": 1250000,
+      "daily_change": 2.3,
+      "total_return": 18.5,
+      "created_at": "2024-01-15T10:30:00Z"
+    }
+  ],
+  "total": 3,
+  "page": 1,
+  "per_page": 20
+}`;
+
     return (
-        <section className="min-h-screen bg-white dark:bg-slate-900 ">
+        <div id="docs" className="min-h-screen bg-white dark:bg-slate-950">
             <LandingHeader />
-            <div className="border-b border-slate-200 dark:border-slate-800 pt-25">
-                <div className="container mx-auto px-4 max-w-7xl py-8">
-                    {/* Header */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                    >
+            <div className="flex">
+                {/* Sidebar - Fixed within docs section */}
+                <aside className="w-72 border-r py-20 border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 sticky top-0 h-screen overflow-y-auto">
+                    <div className="p-6">
                         <div className="flex items-center gap-3 mb-6">
-                            <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl">
-                                <BookOpen className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                            <div className="w-10 h-10 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                                <BookOpen className="w-5 h-5 text-white" />
                             </div>
                             <div>
-                                <h1 className="text-slate-900 dark:text-white">
-                                    Документация
-                                </h1>
-                                <p className="text-slate-600 dark:text-slate-400">
-                                    Полное руководство по использованию eebook
+                                <h2 className="font-bold text-slate-900 dark:text-white">
+                                    eebook API
+                                </h2>
+                                <p className="text-xs text-slate-600 dark:text-slate-400">
+                                    v1.0.0
                                 </p>
                             </div>
                         </div>
 
                         {/* Search */}
-                        <div className="relative max-w-2xl">
-                            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                        <div className="relative mb-6">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                             <Input
-                                type="text"
-                                placeholder="Поиск в документации..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="pl-12 h-12 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                placeholder="Поиск..."
+                                className="pl-10 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-sm"
                             />
                         </div>
-                    </motion.div>
-                </div>
-            </div>
 
-            <div className="container mx-auto px-4 max-w-7xl">
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 py-12">
-                    {/* Sidebar */}
-                    <motion.aside
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="lg:col-span-1"
-                    >
-                        <div className="sticky top-24 space-y-8">
-                            {sidebarSections.map((section) => (
-                                <div key={section.title}>
-                                    <h3 className="text-sm text-slate-900 dark:text-white mb-3 px-3">
-                                        {section.title}
-                                    </h3>
-                                    <nav className="space-y-1">
-                                        {section.items.map((item) => (
-                                            <button
-                                                key={item.id}
-                                                onClick={() => setActiveSection(item.id)}
-                                                className={`block w-full text-left px-3 py-2 text-sm rounded-lg transition-all ${
-                                                    activeSection === item.id
-                                                        ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                                                        : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
-                                                }`}
-                                            >
-                                                {item.label}
-                                            </button>
-                                        ))}
-                                    </nav>
-                                </div>
-                            ))}
-                        </div>
-                    </motion.aside>
+                        {/* Navigation */}
+                        <nav className="space-y-1">
+                            {sidebarSections.map((section, sectionIndex) => {
+                                const Icon = section.icon;
+                                const isExpanded = expandedSections.includes(
+                                    section.title
+                                );
 
-                    {/* Main Content */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="lg:col-span-4 space-y-12"
-                    >
-                        {/* What is eebook */}
-                        {activeSection === "what-is-eebook" && (
-                            <div className="space-y-8">
-                                <div>
-                                    <h2 className="text-slate-900 dark:text-white mb-4">
-                                        Что такое eebook?
-                                    </h2>
-                                    <p className="text-slate-600 dark:text-slate-400 text-lg leading-relaxed mb-6">
-                                        eebook — это современный инвестиционный помощник,
-                                        который работает как надстройка над вашими
-                                        брокерами. Мы помогаем управлять портфелями,
-                                        отслеживать динамику активов и получать
-                                        AI-прогнозы в едином интерфейсе.
-                                    </p>
-                                    <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                                        Платформа предоставляет централизованный доступ ко
-                                        всем вашим инвестициям, автоматическую
-                                        синхронизацию с брокерами, продвинутую аналитику и
-                                        интеллектуальные прогнозы на основе машинного
-                                        обучения.
-                                    </p>
-                                </div>
-
-                                {/* Quick Links Grid */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {quickLinks.map((link, index) => {
-                                        const Icon = link.icon;
-                                        return (
-                                            <motion.div
-                                                key={link.title}
-                                                initial={{ opacity: 0, y: 20 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ delay: 0.1 + index * 0.05 }}
-                                            >
-                                                <Card className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 transition-all cursor-pointer group">
-                                                    <div className="flex items-start gap-4">
-                                                        <div className="p-3 bg-emerald-50 dark:bg-emerald-500/10 rounded-xl group-hover:bg-emerald-100 dark:group-hover:bg-emerald-500/20 transition-colors">
-                                                            <Icon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
-                                                        </div>
-                                                        <div className="flex-1">
-                                                            <h3 className="text-slate-900 dark:text-white mb-1">
-                                                                {link.title}
-                                                            </h3>
-                                                            <p className="text-sm text-slate-600 dark:text-slate-400">
-                                                                {link.description}
-                                                            </p>
-                                                        </div>
-                                                        <ChevronRight className="w-5 h-5 text-slate-400 group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors" />
-                                                    </div>
-                                                </Card>
-                                            </motion.div>
-                                        );
-                                    })}
-                                </div>
-
-                                {/* Features */}
-                                <div>
-                                    <h3 className="text-slate-900 dark:text-white mb-4">
-                                        Ключевые возможности
-                                    </h3>
-                                    <div className="space-y-3">
-                                        {[
-                                            "Автоматическая синхронизация с российскими брокерами",
-                                            "Консолидированный портфель из всех счетов",
-                                            "AI-прогнозы доходности и рисков",
-                                            "Расширенная аналитика и метрики",
-                                            "Календарь дивидендов и купонов",
-                                            "REST API для интеграции",
-                                        ].map((feature) => (
-                                            <div
-                                                key={feature}
-                                                className="flex items-start gap-3 text-slate-600 dark:text-slate-400"
-                                            >
-                                                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
-                                                <span>{feature}</span>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {/* Quick Start */}
-                        {activeSection === "quick-start" && (
-                            <div className="space-y-8">
-                                <div>
-                                    <h2 className="text-slate-900 dark:text-white mb-4">
-                                        Быстрый старт
-                                    </h2>
-                                    <p className="text-slate-600 dark:text-slate-400 text-lg">
-                                        Начните работу с eebook за несколько простых шагов
-                                    </p>
-                                </div>
-
-                                {/* Steps */}
-                                <div className="space-y-6">
-                                    {[
-                                        {
-                                            number: "01",
-                                            title: "Создайте аккаунт",
-                                            description:
-                                                "Зарегистрируйтесь на платформе, используя email или OAuth",
-                                            code: null,
-                                        },
-                                        {
-                                            number: "02",
-                                            title: "Подключите брокера",
-                                            description:
-                                                "Добавьте API-ключ вашего брокера для автоматической синхронизации",
-                                            code: `{
-  "broker": "tinkoff",
-  "api_token": "YOUR_BROKER_TOKEN"
-}`,
-                                        },
-                                        {
-                                            number: "03",
-                                            title: "Создайте портфель",
-                                            description:
-                                                "Настройте портфель и начните отслеживать активы",
-                                            code: `POST /api/v1/portfolios
-{
-  "name": "Основной портфель",
-  "description": "Мой первый портфель",
-  "broker_id": "uuid-here"
-}`,
-                                        },
-                                    ].map((step, index) => (
-                                        <motion.div
-                                            key={step.number}
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                            className="relative pl-8 border-l-2 border-slate-200 dark:border-slate-700"
+                                return (
+                                    <div key={sectionIndex}>
+                                        <button
+                                            onClick={() => toggleSection(section.title)}
+                                            className="w-full flex items-center justify-between px-3 py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-all"
                                         >
-                                            <div className="absolute -left-[17px] top-0 w-8 h-8 bg-emerald-600 dark:bg-emerald-500 rounded-full flex items-center justify-center text-white text-sm">
-                                                {step.number}
+                                            <div className="flex items-center gap-2">
+                                                <Icon className="w-4 h-4" />
+                                                <span>{section.title}</span>
                                             </div>
-                                            <div className="pb-8">
-                                                <h3 className="text-slate-900 dark:text-white mb-2">
-                                                    {step.title}
-                                                </h3>
-                                                <p className="text-slate-600 dark:text-slate-400 mb-4">
-                                                    {step.description}
-                                                </p>
-                                                {step.code && (
-                                                    <div className="bg-slate-900 dark:bg-slate-950 rounded-xl p-4 overflow-x-auto">
-                                                        <pre className="text-emerald-400 text-sm">
-                                                            <code>{step.code}</code>
-                                                        </pre>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
+                                            <ChevronDown
+                                                className={`w-4 h-4 transition-transform ${
+                                                    isExpanded ? "rotate-180" : ""
+                                                }`}
+                                            />
+                                        </button>
 
-                                <Card className="p-6 bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-800">
-                                    <div className="flex gap-3">
-                                        <Sparkles className="w-5 h-5 text-emerald-600 dark:text-emerald-400 flex-shrink-0 mt-0.5" />
-                                        <div>
-                                            <h4 className="text-slate-900 dark:text-white mb-2">
-                                                Совет
-                                            </h4>
-                                            <p className="text-sm text-slate-600 dark:text-slate-400">
-                                                Рекомендуем начать с подключения одного
-                                                брокера и создания тестового портфеля,
-                                                чтобы познакомиться с функционалом
-                                                платформы.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Card>
-                            </div>
-                        )}
-
-                        {/* API Overview */}
-                        {activeSection === "api-overview" && (
-                            <div className="space-y-8">
-                                <div>
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <h2 className="text-slate-900 dark:text-white">
-                                            Обзор API
-                                        </h2>
-                                        <Badge className="bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0">
-                                            v1.0
-                                        </Badge>
-                                    </div>
-                                    <p className="text-slate-600 dark:text-slate-400 text-lg">
-                                        RESTful API для программного доступа к вашим
-                                        портфелям и аналитике
-                                    </p>
-                                </div>
-
-                                {/* Base URL */}
-                                <div>
-                                    <h3 className="text-slate-900 dark:text-white mb-3">
-                                        Base URL
-                                    </h3>
-                                    <Card className="p-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
-                                        <div className="flex items-center justify-between">
-                                            <code className="text-emerald-600 dark:text-emerald-400">
-                                                https://api.eebook.io/v1
-                                            </code>
-                                            <Button
-                                                variant="ghost"
-                                                size="sm"
-                                                onClick={handleCopyCode}
-                                            >
-                                                {copiedCode ? (
-                                                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                                                ) : (
-                                                    <Copy className="w-4 h-4" />
-                                                )}
-                                            </Button>
-                                        </div>
-                                    </Card>
-                                </div>
-
-                                {/* Authentication */}
-                                <div>
-                                    <h3 className="text-slate-900 dark:text-white mb-3">
-                                        Аутентификация
-                                    </h3>
-                                    <p className="text-slate-600 dark:text-slate-400 mb-4">
-                                        Все API запросы требуют Bearer токен в заголовке
-                                        Authorization:
-                                    </p>
-                                    <div className="bg-slate-900 dark:bg-slate-950 rounded-xl p-4">
-                                        <code className="text-emerald-400 text-sm">
-                                            Authorization: Bearer YOUR_API_KEY
-                                        </code>
-                                    </div>
-                                </div>
-
-                                {/* Code Example */}
-                                <div>
-                                    <h3 className="text-slate-900 dark:text-white mb-3">
-                                        Пример запроса
-                                    </h3>
-                                    <Tabs
-                                        value={activeCodeTab}
-                                        onValueChange={(v) =>
-                                            setActiveCodeTab(
-                                                v as keyof typeof codeExamples
-                                            )
-                                        }
-                                    >
-                                        <TabsList className="mb-4">
-                                            <TabsTrigger value="javascript">
-                                                JavaScript
-                                            </TabsTrigger>
-                                            <TabsTrigger value="python">
-                                                Python
-                                            </TabsTrigger>
-                                            <TabsTrigger value="curl">cURL</TabsTrigger>
-                                        </TabsList>
-                                        <TabsContent value={activeCodeTab}>
-                                            <div className="bg-slate-900 dark:bg-slate-950 rounded-xl p-6 relative group">
-                                                <pre className="text-emerald-400 text-sm overflow-x-auto">
-                                                    <code>
-                                                        {codeExamples[activeCodeTab]}
-                                                    </code>
-                                                </pre>
-                                                <Button
-                                                    size="sm"
-                                                    variant="ghost"
-                                                    className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity text-white hover:bg-white/10"
-                                                    onClick={handleCopyCode}
+                                        <AnimatePresence>
+                                            {isExpanded && (
+                                                <motion.div
+                                                    initial={{ height: 0, opacity: 0 }}
+                                                    animate={{
+                                                        height: "auto",
+                                                        opacity: 1,
+                                                    }}
+                                                    exit={{ height: 0, opacity: 0 }}
+                                                    transition={{ duration: 0.2 }}
+                                                    className="overflow-hidden"
                                                 >
-                                                    {copiedCode ? (
-                                                        <CheckCircle2 className="w-4 h-4" />
-                                                    ) : (
-                                                        <Copy className="w-4 h-4" />
-                                                    )}
-                                                </Button>
-                                            </div>
-                                        </TabsContent>
+                                                    <div className="ml-6 mt-1 space-y-1">
+                                                        {section.items.map(
+                                                            (item, itemIndex) => (
+                                                                <button
+                                                                    key={itemIndex}
+                                                                    onClick={() =>
+                                                                        setSelectedItem(
+                                                                            item.id
+                                                                        )
+                                                                    }
+                                                                    className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-lg transition-all ${
+                                                                        selectedItem ===
+                                                                        item.id
+                                                                            ? "bg-emerald-600 text-white"
+                                                                            : "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                                                    }`}
+                                                                >
+                                                                    <span className="text-left flex-1">
+                                                                        {item.label}
+                                                                    </span>
+                                                                    {item.method && (
+                                                                        <Badge
+                                                                            className={`text-xs px-1.5 py-0 border-0 ml-2 ${
+                                                                                selectedItem ===
+                                                                                item.id
+                                                                                    ? "bg-white/20 text-white"
+                                                                                    : getMethodColor(
+                                                                                          item.method
+                                                                                      )
+                                                                            }`}
+                                                                        >
+                                                                            {item.method}
+                                                                        </Badge>
+                                                                    )}
+                                                                </button>
+                                                            )
+                                                        )}
+                                                    </div>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </div>
+                                );
+                            })}
+                        </nav>
+                    </div>
+                </aside>
+
+                {/* Main Content - with left margin for sidebar */}
+                <main className="flex-1">
+                    <div className="flex justify-center">
+                        {/* Documentation Content */}
+                        <div className="flex-1 p-12 py-30 max-w-4xl mx-auto">
+                            <motion.div
+                                key={selectedItem}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                {/* Header */}
+                                <div className="mb-8" id="top">
+                                    <Badge className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-0 mb-4">
+                                        Портфели
+                                    </Badge>
+                                    <h1 className="text-4xl font-bold text-slate-900 dark:text-white mb-4">
+                                        Получить список портфелей
+                                    </h1>
+                                    <p className="text-slate-600 dark:text-slate-400 text-lg">
+                                        Возвращает список всех портфелей пользователя с
+                                        базовой информацией о каждом.
+                                    </p>
+                                </div>
+
+                                {/* Environment Tabs */}
+                                <div className="mb-6">
+                                    <Tabs defaultValue="production" className="w-full">
+                                        <TabsList className="bg-slate-100 dark:bg-slate-800">
+                                            <TabsTrigger value="production">
+                                                Production
+                                            </TabsTrigger>
+                                            <TabsTrigger value="sandbox">
+                                                Sandbox
+                                            </TabsTrigger>
+                                        </TabsList>
                                     </Tabs>
                                 </div>
 
-                                {/* Rate Limits */}
-                                <div>
-                                    <h3 className="text-slate-900 dark:text-white mb-3">
-                                        Ограничения
-                                    </h3>
-                                    <div className="grid gap-3">
-                                        {[
-                                            { plan: "Free", limit: "100 req/hour" },
-                                            { plan: "Pro", limit: "1,000 req/hour" },
-                                            { plan: "Enterprise", limit: "Custom" },
-                                        ].map((item) => (
-                                            <Card
-                                                key={item.plan}
-                                                className="p-4 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
-                                            >
-                                                <div className="flex items-center justify-between">
-                                                    <span className="text-slate-900 dark:text-white">
-                                                        {item.plan}
-                                                    </span>
-                                                    <Badge variant="secondary">
-                                                        {item.limit}
-                                                    </Badge>
-                                                </div>
-                                            </Card>
-                                        ))}
+                                {/* Endpoint */}
+                                <Card className="p-6 bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl mb-10">
+                                    <div className="flex items-center gap-3">
+                                        <Badge className="bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 border-0 font-mono text-xs px-3 py-1">
+                                            GET
+                                        </Badge>
+                                        <code className="text-sm font-mono text-slate-900 dark:text-white">
+                                            https://api.eebook.io/v1/portfolios
+                                        </code>
                                     </div>
-                                </div>
-                            </div>
-                        )}
+                                </Card>
 
-                        {/* Brokers Integration */}
-                        {activeSection === "brokers" && (
-                            <div className="space-y-8">
-                                <div>
-                                    <h2 className="text-slate-900 dark:text-white mb-4">
-                                        Подключение брокеров
+                                {/* Description */}
+                                <div className="mb-10" id="description">
+                                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                        Описание
+                                        <a
+                                            href="#description"
+                                            className="text-slate-400 hover:text-emerald-600"
+                                        >
+                                            <Hash className="w-5 h-5" />
+                                        </a>
                                     </h2>
-                                    <p className="text-slate-600 dark:text-slate-400 text-lg">
-                                        eebook поддерживает автоматическую синхронизацию с
-                                        крупнейшими российскими брокерами
+                                    <p className="text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+                                        Возвращает результат запроса для метода{" "}
+                                        <code className="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded text-sm font-mono text-emerald-600 dark:text-emerald-400">
+                                            Получить список портфелей
+                                        </code>
+                                        . Результат создания запроса для данного метода
+                                        появляется в течение двух дней.
+                                    </p>
+                                    <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                                        Чтобы использовать метод, нужно{" "}
+                                        <a
+                                            href="#"
+                                            className="text-emerald-600 dark:text-emerald-400 hover:underline font-medium"
+                                        >
+                                            получить доступ
+                                        </a>{" "}
+                                        к API. Добавление и получение информации о
+                                        портфелях доступно всем пользователям с активной
+                                        подпиской.
                                     </p>
                                 </div>
 
-                                <div className="grid md:grid-cols-2 gap-4">
-                                    {[
-                                        {
-                                            name: "Т-Инвестиции",
-                                            status: "available",
-                                            emoji: "🏦",
-                                        },
-                                        {
-                                            name: "Сбербанк Инвестор",
-                                            status: "available",
-                                            emoji: "🟢",
-                                        },
-                                        {
-                                            name: "ВТБ Мои Инвестиции",
-                                            status: "available",
-                                            emoji: "🔵",
-                                        },
-                                        {
-                                            name: "Альфа-Инвестиции",
-                                            status: "available",
-                                            emoji: "🔴",
-                                        },
-                                        {
-                                            name: "БКС Брокер",
-                                            status: "soon",
-                                            emoji: "⚪",
-                                        },
-                                        {
-                                            name: "Открытие Брокер",
-                                            status: "soon",
-                                            emoji: "🟠",
-                                        },
-                                    ].map((broker) => (
-                                        <Card
-                                            key={broker.name}
-                                            className="p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700"
+                                {/* Authorization */}
+                                <div className="mb-10" id="authorization">
+                                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                        Авторизация
+                                        <a
+                                            href="#authorization"
+                                            className="text-slate-400 hover:text-emerald-600"
                                         >
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-3">
-                                                    <span className="text-2xl">
-                                                        {broker.emoji}
-                                                    </span>
-                                                    <span className="text-slate-900 dark:text-white">
-                                                        {broker.name}
-                                                    </span>
+                                            <Hash className="w-5 h-5" />
+                                        </a>
+                                    </h2>
+                                    <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-5">
+                                        <div className="flex gap-3">
+                                            <Shield className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                                            <div>
+                                                <p className="text-sm font-semibold text-blue-900 dark:text-blue-100 mb-1">
+                                                    Security
+                                                </p>
+                                                <p className="text-sm text-blue-800 dark:text-blue-200">
+                                                    <a
+                                                        href="#"
+                                                        className="underline hover:text-blue-600 font-medium"
+                                                    >
+                                                        Bearer API Token
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Query Parameters */}
+                                <div className="mb-10" id="query-parameters">
+                                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                        Query параметры
+                                        <a
+                                            href="#query-parameters"
+                                            className="text-slate-400 hover:text-emerald-600"
+                                        >
+                                            <Hash className="w-5 h-5" />
+                                        </a>
+                                    </h2>
+                                    <div className="space-y-4">
+                                        {[
+                                            {
+                                                name: "page",
+                                                type: "integer",
+                                                optional: true,
+                                                description:
+                                                    "Номер страницы для пагинации. По умолчанию: 1",
+                                            },
+                                            {
+                                                name: "per_page",
+                                                type: "integer",
+                                                optional: true,
+                                                description:
+                                                    "Количество элементов на странице. По умолчанию: 20, максимум: 100",
+                                            },
+                                            {
+                                                name: "sort",
+                                                type: "string",
+                                                optional: true,
+                                                description: "Сортировка результатов",
+                                                options: [
+                                                    {
+                                                        value: "created_at",
+                                                        label: "по дате создания",
+                                                    },
+                                                    {
+                                                        value: "name",
+                                                        label: "по названию",
+                                                    },
+                                                    {
+                                                        value: "value",
+                                                        label: "по стоимости",
+                                                    },
+                                                ],
+                                            },
+                                        ].map((param, idx) => (
+                                            <div
+                                                key={idx}
+                                                className="border border-slate-200 dark:border-slate-800 rounded-xl overflow-hidden"
+                                            >
+                                                <div className="px-5 py-4 bg-slate-50 dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                        <code className="text-sm font-mono font-semibold text-slate-900 dark:text-white">
+                                                            {param.name}
+                                                        </code>
+                                                        <Badge className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-0 text-xs">
+                                                            {param.type}
+                                                        </Badge>
+                                                        {param.optional && (
+                                                            <Badge className="bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border-0 text-xs">
+                                                                optional
+                                                            </Badge>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <Badge
-                                                    className={
-                                                        broker.status === "available"
-                                                            ? "bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border-0"
-                                                            : "bg-amber-100 dark:bg-amber-500/10 text-amber-700 dark:text-amber-400 border-0"
-                                                    }
-                                                >
-                                                    {broker.status === "available"
-                                                        ? "Доступно"
-                                                        : "Скоро"}
+                                                <div className="px-5 py-4">
+                                                    <p className="text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                                        {param.description}
+                                                    </p>
+                                                    {param.options && (
+                                                        <ul className="list-disc list-inside space-y-1 text-sm text-slate-600 dark:text-slate-400 ml-2 mt-3">
+                                                            {param.options.map(
+                                                                (option, optIdx) => (
+                                                                    <li key={optIdx}>
+                                                                        <code className="text-xs font-mono bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded">
+                                                                            {option.value}
+                                                                        </code>{" "}
+                                                                        — {option.label}
+                                                                    </li>
+                                                                )
+                                                            )}
+                                                        </ul>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Restrictions */}
+                                <div className="mb-10" id="restrictions">
+                                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                        Ограничения
+                                        <a
+                                            href="#restrictions"
+                                            className="text-slate-400 hover:text-emerald-600"
+                                        >
+                                            <Hash className="w-5 h-5" />
+                                        </a>
+                                    </h2>
+                                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-5">
+                                        <div className="flex gap-3">
+                                            <AlertCircle className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" />
+                                            <div className="text-sm text-amber-900 dark:text-amber-100">
+                                                <p>
+                                                    <strong>1 запрос в секунду.</strong>{" "}
+                                                    При превышении лимита API вернёт
+                                                    ошибку{" "}
+                                                    <code className="bg-amber-100 dark:bg-amber-800 px-2 py-0.5 rounded font-mono">
+                                                        429 Too Many Requests
+                                                    </code>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Request Example */}
+                                <div className="mb-10" id="request-example">
+                                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                        Пример запроса
+                                        <a
+                                            href="#request-example"
+                                            className="text-slate-400 hover:text-emerald-600"
+                                        >
+                                            <Hash className="w-5 h-5" />
+                                        </a>
+                                    </h2>
+
+                                    {/* Language Tabs */}
+                                    <div className="mb-4">
+                                        <Tabs
+                                            value={selectedLanguage}
+                                            onValueChange={setSelectedLanguage}
+                                        >
+                                            <TabsList className="bg-slate-100 dark:bg-slate-800">
+                                                <TabsTrigger value="curl">
+                                                    cURL
+                                                </TabsTrigger>
+                                                <TabsTrigger value="javascript">
+                                                    JavaScript
+                                                </TabsTrigger>
+                                                <TabsTrigger value="python">
+                                                    Python
+                                                </TabsTrigger>
+                                                <TabsTrigger value="php">PHP</TabsTrigger>
+                                            </TabsList>
+                                        </Tabs>
+                                    </div>
+
+                                    <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+                                        <div className="flex items-center justify-between px-5 py-3 border-b border-slate-800">
+                                            <div className="flex items-center gap-2">
+                                                <Terminal className="w-4 h-4 text-slate-400" />
+                                                <span className="text-sm text-slate-300">
+                                                    Request
+                                                </span>
+                                            </div>
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                    handleCopyCode(
+                                                        codeExamples[
+                                                            selectedLanguage as keyof typeof codeExamples
+                                                        ]
+                                                    )
+                                                }
+                                                className="text-slate-400 hover:text-white hover:bg-slate-800 h-8"
+                                            >
+                                                {copiedCode ? (
+                                                    <>
+                                                        <CheckCircle2 className="w-4 h-4 mr-2" />
+                                                        Скопировано
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Copy className="w-4 h-4 mr-2" />
+                                                        Копировать
+                                                    </>
+                                                )}
+                                            </Button>
+                                        </div>
+                                        <pre className="p-5 overflow-x-auto">
+                                            <code className="text-sm text-slate-300 font-mono leading-relaxed">
+                                                {
+                                                    codeExamples[
+                                                        selectedLanguage as keyof typeof codeExamples
+                                                    ]
+                                                }
+                                            </code>
+                                        </pre>
+                                    </div>
+                                </div>
+
+                                {/* Response Example */}
+                                <div className="mb-10" id="response-example">
+                                    <h2 className="text-2xl font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-3">
+                                        Пример ответа
+                                        <a
+                                            href="#response-example"
+                                            className="text-slate-400 hover:text-emerald-600"
+                                        >
+                                            <Hash className="w-5 h-5" />
+                                        </a>
+                                    </h2>
+
+                                    <Tabs defaultValue="200" className="mb-4">
+                                        <TabsList className="bg-slate-100 dark:bg-slate-800">
+                                            <TabsTrigger value="200">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                                                    200
+                                                </div>
+                                            </TabsTrigger>
+                                            <TabsTrigger value="400">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 bg-amber-500 rounded-full"></div>
+                                                    400
+                                                </div>
+                                            </TabsTrigger>
+                                            <TabsTrigger value="401">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                                    401
+                                                </div>
+                                            </TabsTrigger>
+                                            <TabsTrigger value="429">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                                                    429
+                                                </div>
+                                            </TabsTrigger>
+                                        </TabsList>
+                                    </Tabs>
+
+                                    <div className="bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+                                        <div className="flex items-center justify-between px-5 py-3 border-b border-slate-800">
+                                            <div className="flex items-center gap-2">
+                                                <Code className="w-4 h-4 text-slate-400" />
+                                                <span className="text-sm text-slate-300">
+                                                    Content type
+                                                </span>
+                                                <Badge className="bg-slate-800 text-slate-300 border-slate-700 text-xs ml-2">
+                                                    application/json
                                                 </Badge>
                                             </div>
-                                        </Card>
-                                    ))}
+                                            <Button
+                                                variant="ghost"
+                                                size="sm"
+                                                onClick={() =>
+                                                    handleCopyCode(responseExample)
+                                                }
+                                                className="text-slate-400 hover:text-white hover:bg-slate-800 h-8"
+                                            >
+                                                <Copy className="w-4 h-4" />
+                                            </Button>
+                                        </div>
+                                        <pre className="p-5 overflow-x-auto">
+                                            <code className="text-sm text-slate-300 font-mono leading-relaxed">
+                                                {responseExample}
+                                            </code>
+                                        </pre>
+                                    </div>
                                 </div>
-                            </div>
-                        )}
-                    </motion.div>
-                </div>
+
+                                {/* Help Box */}
+                                <div className="p-6 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl">
+                                    <div className="flex gap-4">
+                                        <Sparkles className="w-6 h-6 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+                                        <div>
+                                            <h4 className="text-base font-semibold text-blue-900 dark:text-blue-100 mb-2">
+                                                Нужна помощь?
+                                            </h4>
+                                            <p className="text-sm text-blue-800 dark:text-blue-200 mb-4">
+                                                Посмотрите дополнительные примеры в нашем
+                                                GitHub репозитории или свяжитесь с
+                                                поддержкой.
+                                            </p>
+                                            <div className="flex gap-3">
+                                                <Button
+                                                    variant="outline"
+                                                    size="sm"
+                                                    className="border-blue-600 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-800"
+                                                >
+                                                    <ExternalLink className="w-4 h-4 mr-2" />
+                                                    Открыть примеры
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+
+                        {/* Table of Contents - Right Sidebar */}
+                        <aside className="w-64 py-30 border-l border-slate-200 dark:border-slate-800 p-6 sticky top-0 h-screen overflow-y-auto hidden xl:block">
+                            <h3 className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4">
+                                На этой странице
+                            </h3>
+                            <nav className="space-y-2">
+                                {pageTableOfContents.map((item) => (
+                                    <a
+                                        key={item.id}
+                                        href={`#${item.id}`}
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            setActiveSection(item.id);
+                                            document
+                                                .getElementById(item.id)
+                                                ?.scrollIntoView({ behavior: "smooth" });
+                                        }}
+                                        className={`block text-sm py-1.5 px-3 rounded-lg transition-all ${
+                                            activeSection === item.id
+                                                ? "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 font-medium"
+                                                : "text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
+                                        }`}
+                                    >
+                                        {item.label}
+                                    </a>
+                                ))}
+                            </nav>
+                        </aside>
+                    </div>
+                </main>
             </div>
             <Footer />
-        </section>
+        </div>
     );
 }

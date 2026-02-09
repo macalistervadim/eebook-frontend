@@ -27,6 +27,7 @@ import PasswordResetPage from "@/containers/PasswordResetPage.tsx";
 import ChangePasswordPage from "@/containers/ChangePassword.tsx";
 import CreatePortfolioPage from "@/containers/CreatePortfolioPage.tsx";
 import ProfilePage from "@/containers/ProfilePage.tsx";
+import NotificationsPage from "@/containers/NotificationsPage.tsx";
 
 export default function App() {
     return (
@@ -49,6 +50,14 @@ export default function App() {
                 element={
                     <ProtectedRoute>
                         <PortfolioDashboard />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/notifications"
+                element={
+                    <ProtectedRoute>
+                        <NotificationsPage />
                     </ProtectedRoute>
                 }
             />

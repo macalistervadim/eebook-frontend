@@ -6,19 +6,19 @@ import {
     Mail,
     ArrowRight,
     CheckCircle2,
+    Lock,
     Eye,
     EyeOff,
     ArrowLeft,
     Shield,
     Key,
+    XCircle,
 } from "lucide-react";
-import { Card } from "@/components/ui/Card.tsx";
-import { Input } from "@/components/ui/Input.tsx";
-import { Button } from "@/components/ui/Button.tsx";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
 import { LandingHeader } from "@/components/landing/LandingHeader.tsx";
 import Footer from "@/components/ui/Footer.tsx";
-import { useNavigate } from "react-router-dom";
-import { Label } from "@/components/ui/Label.tsx";
 
 export default function PasswordResetPage() {
     const [step, setStep] = useState<"email" | "code" | "newPassword" | "success">(
@@ -35,7 +35,6 @@ export default function PasswordResetPage() {
     const handleEmailSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        // Simulate API call
         setTimeout(() => {
             setIsLoading(false);
             setStep("code");
@@ -66,7 +65,6 @@ export default function PasswordResetPage() {
             newCode[index] = value;
             setCode(newCode);
 
-            // Auto-focus next input
             if (value && index < 5) {
                 const nextInput = document.getElementById(`code-${index + 1}`);
                 nextInput?.focus();
@@ -105,25 +103,23 @@ export default function PasswordResetPage() {
         return "Надежный";
     };
 
-    const navigate = useNavigate();
-
     return (
-        <section className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950  px-4">
+        <section className="bg-gradient-to-br from-gray-50 via-emerald-50/30 to-gray-100 dark:from-gray-950 dark:via-emerald-950/20 dark:to-gray-900">
             <LandingHeader />
-            <div className="w-full max-w-md mt-40 mb-20 ">
+
+            <div className="max-w-md py-50 mx-auto px-6 relative z-10">
                 {/* Logo */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-8"
-                >
-                    <h1 className="text-3xl bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent mb-2">
-                        eebook
-                    </h1>
-                    <p className="text-slate-600 dark:text-slate-400">
+                <div className="text-center mb-8">
+                    <h2 className="text-emerald-600 dark:text-emerald-400 mb-2">
                         Восстановление пароля
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400">
+                        {step === "email" && "Введите ваш email"}
+                        {step === "code" && "Проверьте почту"}
+                        {step === "newPassword" && "Создайте новый пароль"}
+                        {step === "success" && "Пароль изменен!"}
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Progress Steps */}
                 <div className="flex items-center justify-center gap-2 mb-8">
@@ -140,7 +136,7 @@ export default function PasswordResetPage() {
                                                 "success",
                                             ].indexOf(step) > index
                                           ? "bg-emerald-600"
-                                          : "bg-slate-300 dark:bg-slate-700"
+                                          : "bg-gray-300 dark:bg-gray-700"
                                 }`}
                             />
                             {index < 3 && (
@@ -153,7 +149,7 @@ export default function PasswordResetPage() {
                                             "success",
                                         ].indexOf(step) > index
                                             ? "bg-emerald-600"
-                                            : "bg-slate-300 dark:bg-slate-700"
+                                            : "bg-gray-300 dark:bg-gray-700"
                                     }`}
                                 />
                             )}
@@ -161,49 +157,56 @@ export default function PasswordResetPage() {
                     ))}
                 </div>
 
-                <AnimatePresence mode="wait">
-                    {/* Step 1: Email */}
-                    {step === "email" && (
-                        <motion.div
-                            key="email"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                        >
-                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 dark:border-gray-800/50 p-8">
+                    <AnimatePresence mode="wait">
+                        {/* Step 1: Email */}
+                        {step === "email" && (
+                            <motion.div
+                                key="email"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                            >
                                 <div className="flex items-center justify-center w-16 h-16 bg-emerald-100 dark:bg-emerald-500/10 rounded-2xl mx-auto mb-6">
                                     <Mail className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
                                 </div>
 
-                                <h2 className="text-2xl text-slate-900 dark:text-white text-center mb-2">
+                                <h3 className="text-xl text-center mb-6 text-gray-900 dark:text-white">
                                     Забыли пароль?
-                                </h2>
-                                <p className="text-slate-600 dark:text-slate-400 text-center mb-8">
-                                    Введите email для восстановления доступа
-                                </p>
+                                </h3>
 
-                                <form onSubmit={handleEmailSubmit} className="space-y-6">
+                                <form onSubmit={handleEmailSubmit} className="space-y-5">
                                     <div>
-                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                        <Label
+                                            htmlFor="reset-email"
+                                            className="text-gray-700 dark:text-gray-300 mb-2 block"
+                                        >
                                             Email
                                         </Label>
-                                        <Input
-                                            type="email"
-                                            placeholder="ivan@example.com"
-                                            value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
-                                            required
-                                            className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
-                                        />
+                                        <div className="relative">
+                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                                            <Input
+                                                id="reset-email"
+                                                type="email"
+                                                placeholder="your@email.com"
+                                                value={email}
+                                                onChange={(e) => setEmail(e.target.value)}
+                                                required
+                                                className="pl-11 h-12 rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50 focus:border-emerald-500 dark:focus:border-emerald-500 focus:ring-emerald-500/20"
+                                            />
+                                        </div>
                                     </div>
 
                                     <Button
                                         type="submit"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
-                                        disabled={isLoading}
+                                        disabled={isLoading || !email}
+                                        className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-500/30 transition-all disabled:opacity-50"
                                     >
                                         {isLoading ? (
-                                            "Отправка..."
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                Отправка...
+                                            </div>
                                         ) : (
                                             <>
                                                 Отправить код
@@ -215,42 +218,40 @@ export default function PasswordResetPage() {
                                     <div className="text-center">
                                         <a
                                             href="#login"
-                                            className="text-emerald-600 dark:text-emerald-400 hover:underline flex items-center justify-center gap-2"
+                                            className="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 transition-colors flex items-center justify-center gap-2"
                                         >
                                             <ArrowLeft className="w-4 h-4" />
                                             Вернуться ко входу
                                         </a>
                                     </div>
                                 </form>
-                            </Card>
-                        </motion.div>
-                    )}
+                            </motion.div>
+                        )}
 
-                    {/* Step 2: Verification Code */}
-                    {step === "code" && (
-                        <motion.div
-                            key="code"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                        >
-                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        {/* Step 2: Verification Code */}
+                        {step === "code" && (
+                            <motion.div
+                                key="code"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                            >
                                 <div className="flex items-center justify-center w-16 h-16 bg-blue-100 dark:bg-blue-500/10 rounded-2xl mx-auto mb-6">
                                     <Shield className="w-8 h-8 text-blue-600 dark:text-blue-400" />
                                 </div>
 
-                                <h2 className="text-2xl text-slate-900 dark:text-white text-center mb-2">
+                                <h3 className="text-xl text-center mb-2 text-gray-900 dark:text-white">
                                     Проверьте почту
-                                </h2>
-                                <p className="text-slate-600 dark:text-slate-400 text-center mb-8">
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-center mb-8 text-sm">
                                     Мы отправили код на <strong>{email}</strong>
                                 </p>
 
                                 <form onSubmit={handleCodeSubmit} className="space-y-6">
                                     <div>
-                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-3 text-center">
+                                        <label className="block text-sm text-gray-700 dark:text-gray-300 mb-3 text-center">
                                             Введите 6-значный код
-                                        </Label>
+                                        </label>
                                         <div className="flex gap-2 justify-center">
                                             {code.map((digit, index) => (
                                                 <input
@@ -268,7 +269,7 @@ export default function PasswordResetPage() {
                                                     onKeyDown={(e) =>
                                                         handleCodeKeyDown(index, e)
                                                     }
-                                                    className="w-12 h-14 text-center text-2xl rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-emerald-500 dark:focus:border-emerald-500 focus:outline-none transition-colors"
+                                                    className="w-12 h-14 text-center text-2xl rounded-xl border-2 border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:border-emerald-500 dark:focus:border-emerald-500 focus:outline-none transition-colors"
                                                 />
                                             ))}
                                         </div>
@@ -276,11 +277,14 @@ export default function PasswordResetPage() {
 
                                     <Button
                                         type="submit"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                        className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-500/30"
                                         disabled={isLoading || code.some((d) => !d)}
                                     >
                                         {isLoading ? (
-                                            "Проверка..."
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                Проверка...
+                                            </div>
                                         ) : (
                                             <>
                                                 Подтвердить
@@ -289,46 +293,45 @@ export default function PasswordResetPage() {
                                         )}
                                     </Button>
 
-                                    <div className="text-center text-sm text-slate-600 dark:text-slate-400">
+                                    <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                                         Не получили код?{" "}
                                         <button className="text-emerald-600 dark:text-emerald-400 hover:underline">
                                             Отправить снова
                                         </button>
                                     </div>
                                 </form>
-                            </Card>
-                        </motion.div>
-                    )}
+                            </motion.div>
+                        )}
 
-                    {/* Step 3: New Password */}
-                    {step === "newPassword" && (
-                        <motion.div
-                            key="newPassword"
-                            initial={{ opacity: 0, x: 20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            exit={{ opacity: 0, x: -20 }}
-                        >
-                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700">
+                        {/* Step 3: New Password */}
+                        {step === "newPassword" && (
+                            <motion.div
+                                key="newPassword"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                            >
                                 <div className="flex items-center justify-center w-16 h-16 bg-purple-100 dark:bg-purple-500/10 rounded-2xl mx-auto mb-6">
                                     <Key className="w-8 h-8 text-purple-600 dark:text-purple-400" />
                                 </div>
 
-                                <h2 className="text-2xl text-slate-900 dark:text-white text-center mb-2">
+                                <h3 className="text-xl text-center mb-2 text-gray-900 dark:text-white">
                                     Новый пароль
-                                </h2>
-                                <p className="text-slate-600 dark:text-slate-400 text-center mb-8">
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-center mb-8 text-sm">
                                     Создайте надежный пароль для вашего аккаунта
                                 </p>
 
                                 <form
                                     onSubmit={handlePasswordSubmit}
-                                    className="space-y-6"
+                                    className="space-y-5"
                                 >
                                     <div>
-                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                        <Label className="text-gray-700 dark:text-gray-300 mb-2 block">
                                             Новый пароль
                                         </Label>
                                         <div className="relative">
+                                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                             <Input
                                                 type={showPassword ? "text" : "password"}
                                                 placeholder="Минимум 8 символов"
@@ -337,14 +340,14 @@ export default function PasswordResetPage() {
                                                     setPassword(e.target.value)
                                                 }
                                                 required
-                                                className="pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                                className="pl-11 pr-11 h-12 rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50"
                                             />
                                             <button
                                                 type="button"
                                                 onClick={() =>
                                                     setShowPassword(!showPassword)
                                                 }
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                                             >
                                                 {showPassword ? (
                                                     <EyeOff className="w-5 h-5" />
@@ -357,14 +360,14 @@ export default function PasswordResetPage() {
                                         {password && (
                                             <div className="mt-3">
                                                 <div className="flex items-center justify-between mb-2">
-                                                    <span className="text-xs text-slate-600 dark:text-slate-400">
+                                                    <span className="text-xs text-gray-600 dark:text-gray-400">
                                                         Надежность пароля
                                                     </span>
-                                                    <span className="text-xs text-slate-600 dark:text-slate-400">
+                                                    <span className="text-xs text-gray-600 dark:text-gray-400">
                                                         {getPasswordStrengthText()}
                                                     </span>
                                                 </div>
-                                                <div className="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+                                                <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
                                                     <div
                                                         className={`h-full transition-all ${getPasswordStrengthColor()}`}
                                                         style={{
@@ -377,10 +380,11 @@ export default function PasswordResetPage() {
                                     </div>
 
                                     <div>
-                                        <Label className="block text-sm text-slate-700 dark:text-slate-300 mb-2">
+                                        <Label className="text-gray-700 dark:text-gray-300 mb-2 block">
                                             Подтвердите пароль
                                         </Label>
                                         <div className="relative">
+                                            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                                             <Input
                                                 type={
                                                     showConfirmPassword
@@ -393,7 +397,7 @@ export default function PasswordResetPage() {
                                                     setConfirmPassword(e.target.value)
                                                 }
                                                 required
-                                                className="pr-12 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700"
+                                                className="pl-11 pr-11 h-12 rounded-xl border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800/50"
                                             />
                                             <button
                                                 type="button"
@@ -402,7 +406,7 @@ export default function PasswordResetPage() {
                                                         !showConfirmPassword
                                                     )
                                                 }
-                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                                             >
                                                 {showConfirmPassword ? (
                                                     <EyeOff className="w-5 h-5" />
@@ -413,7 +417,8 @@ export default function PasswordResetPage() {
                                         </div>
                                         {confirmPassword &&
                                             password !== confirmPassword && (
-                                                <p className="text-sm text-red-600 dark:text-red-400 mt-2">
+                                                <p className="text-sm text-red-600 dark:text-red-400 mt-2 flex items-center gap-1">
+                                                    <XCircle className="w-4 h-4" />
                                                     Пароли не совпадают
                                                 </p>
                                             )}
@@ -421,7 +426,7 @@ export default function PasswordResetPage() {
 
                                     <Button
                                         type="submit"
-                                        className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                        className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-500/30"
                                         disabled={
                                             isLoading ||
                                             !password ||
@@ -431,7 +436,10 @@ export default function PasswordResetPage() {
                                         }
                                     >
                                         {isLoading ? (
-                                            "Сохранение..."
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                                Сохранение...
+                                            </div>
                                         ) : (
                                             <>
                                                 Сохранить пароль
@@ -440,19 +448,18 @@ export default function PasswordResetPage() {
                                         )}
                                     </Button>
                                 </form>
-                            </Card>
-                        </motion.div>
-                    )}
+                            </motion.div>
+                        )}
 
-                    {/* Step 4: Success */}
-                    {step === "success" && (
-                        <motion.div
-                            key="success"
-                            initial={{ opacity: 0, scale: 0.9 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            exit={{ opacity: 0, scale: 0.9 }}
-                        >
-                            <Card className="p-8 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-center">
+                        {/* Step 4: Success */}
+                        {step === "success" && (
+                            <motion.div
+                                key="success"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="text-center"
+                            >
                                 <motion.div
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
@@ -462,24 +469,24 @@ export default function PasswordResetPage() {
                                     <CheckCircle2 className="w-10 h-10 text-emerald-600 dark:text-emerald-400" />
                                 </motion.div>
 
-                                <h2 className="text-2xl text-slate-900 dark:text-white mb-2">
+                                <h3 className="text-2xl text-gray-900 dark:text-white mb-2">
                                     Пароль изменен!
-                                </h2>
-                                <p className="text-slate-600 dark:text-slate-400 mb-8">
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400 mb-8">
                                     Теперь вы можете войти с новым паролем
                                 </p>
 
                                 <Button
-                                    onClick={() => navigate("/login")}
-                                    className="w-full bg-emerald-600 hover:bg-emerald-700 h-12"
+                                    onClick={() => (window.location.href = "#login")}
+                                    className="w-full h-12 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white rounded-xl shadow-lg shadow-emerald-500/30"
                                 >
                                     Войти в аккаунт
                                     <ArrowRight className="w-4 h-4 ml-2" />
                                 </Button>
-                            </Card>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
             <Footer />
         </section>

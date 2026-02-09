@@ -1,14 +1,44 @@
 import { Button } from "@/components/ui/Button.tsx";
-import { Edit, Eye, MoreVertical } from "lucide-react";
+import {
+    Archive,
+    Copy,
+    Download,
+    Edit,
+    Eye,
+    MoreVertical,
+    Share2,
+    Trash2,
+} from "lucide-react";
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import type { JSX } from "react";
+import { type JSX } from "react";
 import type { Portfolio } from "@/types/portfolios/portfolio.ts";
+import { AnimatePresence, motion } from "motion/react";
+import { apiDeletePortfolio } from "@/components/portfolios/apiDeletePortfolio.ts";
 
 type PortfoliosGridProps = {
     portfolio: Portfolio;
+    openMenuId: string | null;
+    setOpenMenuId: (id: string | null) => void;
 };
 
-export const PortfoliosGrid = ({ portfolio }: PortfoliosGridProps): JSX.Element => {
+export const PortfoliosGrid = ({
+    portfolio,
+    openMenuId,
+    setOpenMenuId,
+}: PortfoliosGridProps): JSX.Element => {
+    const handleMenuToggle = (id: string) => {
+        setOpenMenuId(openMenuId === id ? null : id);
+    };
+
+    const handleDeleteBtn = async (id: string) => {
+        try {
+            await apiDeletePortfolio(id);
+            setOpenMenuId(null);
+        } catch (err) {
+            console.error("Delete failed", err);
+        }
+    };
+
     return (
         <>
             <div className="border rounded-xl p-6 bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all">
@@ -20,9 +50,60 @@ export const PortfoliosGrid = ({ portfolio }: PortfoliosGridProps): JSX.Element 
                             </h3>
                         </div>
                     </div>
-                    <Button type="button" variant="ghost" className="rounded-xl">
-                        <MoreVertical className="w-4 h-4" />
-                    </Button>
+                    <div className="relative">
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="rounded-xl"
+                            onClick={() => handleMenuToggle(portfolio.id)}
+                        >
+                            <MoreVertical className="w-4 h-4" />
+                        </Button>
+
+                        {/* Dropdown Menu */}
+                        <AnimatePresence>
+                            {openMenuId === portfolio.id && (
+                                <motion.div
+                                    key="menu"
+                                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                                    transition={{ duration: 0.15 }}
+                                    className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden"
+                                    style={{
+                                        zIndex: 100,
+                                    }}
+                                >
+                                    <div className="py-2">
+                                        <button className="w-full px-4 py-2.5 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center gap-3 transition-colors">
+                                            <Copy className="w-4 h-4" />
+                                            Дублировать
+                                        </button>
+                                        <button className="w-full px-4 py-2.5 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center gap-3 transition-colors">
+                                            <Share2 className="w-4 h-4" />
+                                            Поделиться
+                                        </button>
+                                        <button className="w-full px-4 py-2.5 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center gap-3 transition-colors">
+                                            <Download className="w-4 h-4" />
+                                            Экспорт
+                                        </button>
+                                        <button className="w-full px-4 py-2.5 text-left text-sm text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50 flex items-center gap-3 transition-colors">
+                                            <Archive className="w-4 h-4" />
+                                            Архивировать
+                                        </button>
+                                        <div className="h-px bg-slate-200 dark:bg-slate-700 my-2" />
+                                        <button
+                                            className="w-full px-4 py-2.5 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 flex items-center gap-3 transition-colors"
+                                            onClick={() => handleDeleteBtn(portfolio.id)}
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                            Удалить
+                                        </button>
+                                    </div>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+                    </div>
                 </div>
 
                 {/* Chart */}
